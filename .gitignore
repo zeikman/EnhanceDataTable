@@ -1,0 +1,13 @@
+/jqwidgets*
+/jquery*
+/bootstrap*
+/jszip*
+/cheatsheet*
+zeikman*
+index-*
+images/
+*-old*
+*-backup*
+demo-*
+src/app.css
+src/guest-complaint.php
