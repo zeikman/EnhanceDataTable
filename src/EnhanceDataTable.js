@@ -12,6 +12,9 @@ class EnhanceDataTable
   #_id;
 
   /** @private */
+  #_default_thead;
+
+  /** @private */
   #_view_status = 'table';
 
   /** @private */
@@ -45,6 +48,8 @@ class EnhanceDataTable
     three_states_sort: true,
     show_row_number: true,
     show_checkbox: false,
+    show_reload_button: false,
+    show_toggle_view_button: false,
 
     // same with DataTable property //
 
@@ -68,13 +73,22 @@ class EnhanceDataTable
     },
 
     // custom layout structure
-    /* dom: `<'row top-paging'<'col-sm-5'<'dataTables_paging_info'il>><'col-sm-7'p>>
-          <'row'<'col-sm-6'<'dataTables_custom_search'f>><'col-sm-6'<'dt_cv-row'B>>>
+    /*/
+    dom: `<'row top-paging'<'col-sm-5'<'dataTables_paging_info'il>><'col-sm-7'p>>
+          <'row'<'col-sm-6'<'dataTables-custom-search'f>><'col-sm-6'<'dt_cv-row'B>>>
           <'row'<'col-sm-12'tr>>
-          <'row'<'col-sm-5'<'dataTables_paging_info'il>><'col-sm-7'p>>`, */
+          <'row'<'col-sm-5'<'dataTables_paging_info'il>><'col-sm-7'p>>`,
+    //*/
+
+    // Bootstrap 5 default
+    /*/
+    dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
+          <'row'<'col-sm-12'tr>>
+          <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>`,
+    //*/
 
     // buttons config
-    buttons: [
+    /* buttons: [
       {
         extend        : 'colvis',
         text          : 'Toggle Column',
@@ -85,7 +99,8 @@ class EnhanceDataTable
       },
       {
         extend        : 'collection',
-        text          : 'Action <i class="fas fa-chevron-down fa-fw"></i>',
+        // text          : 'Action <i class="fas fa-chevron-down fa-fw"></i>',
+        text          : 'Action',
         titleAttr     : 'Select Action',
         align         : 'button-right',
         buttons       : [
@@ -112,13 +127,14 @@ class EnhanceDataTable
           },
         ]
       },
-    ],
+    ], */
 
   };
 
   /** @private */
   #_initDataTable()
   {
+    this.#_retainDefaultTheadStructure();
     this.#_setupRowCallback();
     this.#_setupInitComplete();
     this.#_setupCheckboxColumn();
@@ -142,6 +158,14 @@ class EnhanceDataTable
   }
 
   /** @private */
+  #_retainDefaultTheadStructure()
+  {
+    this.#_default_thead = $(`${this.#_id} thead`).clone();
+
+    // console.log(this.#_default_thead)
+  }
+
+  /** @private */
   #_setupRowCallback()
   {
     const self = this;
@@ -150,7 +174,9 @@ class EnhanceDataTable
 
     // store user defined rowCallback
     if (this.#_props.rowCallback && typeof this.#_props.rowCallback == 'function')
+    {
       userDefinedRowCallback = this.#_props.rowCallback;
+    }
 
     delete this.#_props.rowCallback;
 
@@ -163,26 +189,137 @@ class EnhanceDataTable
       // console.log(displayIndex)
       // console.log(dataIndex)
 
-      // handle reload during card view
-      if ($(wrapper).hasClass('card'))
+      // handle reload content during card view
+      if ($(wrapper).hasClass('dt-card'))
       {
-        var labels = [];
-
-        $(`${self.#_id} thead th`).each(function ()
-        {
-          labels.push($(this).text());
-        });
+        const labels = self.#_getColumnWithoutColspan();
 
         $('td', row).each(function (column, td)
         {
           if ($(td).find('label').length == 0)
-            $(`<label class='colHeader'>${labels[column]}</label>`).prependTo($(this));
+          {
+            $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo($(this));
+          }
         });
       }
 
       userDefinedRowCallback(row, data, displayNum, displayIndex, dataIndex);
 
     };
+  }
+
+  /**
+   * Get Array of column text without colspan.
+   *
+   * @returns Array of column text.
+   */
+  #_getColumnWithoutColspan(use_default_thead = false)
+  {
+    const self = this;
+
+    // NOTE: maximum handle up to two rowspan
+    let theadRows = $(`${this.#_id} thead tr`);
+    let labels = [];
+
+    if (use_default_thead)
+    {
+      theadRows = $(this.#_default_thead).find('tr');
+      // console.log(theadRows)
+
+      labels = this.#_combineColspanColumn(theadRows, [ '#' ], use_default_thead);
+    }
+    else
+    {
+      if (theadRows.length == 1)
+      {
+        $(`${self.#_id} thead th`).each(function ()
+        {
+          labels.push($(this).text());
+        });
+      }
+
+      if (theadRows.length == 2)
+      {
+        labels = this.#_combineColspanColumn(theadRows);
+      }
+    }
+
+    return labels;
+  }
+
+  /**
+   * Combine colspan columns into one row.
+   *
+   * @param {Array} theadRows   thead tr in array.
+   *
+   * @returns {Array} Array of th element without colspan.
+   */
+  #_combineColspanColumn(theadRows, row_result = [], use_default_thead)
+  {
+    let row_1 = [];
+    let row_2 = [];
+    // let row_result = [];
+
+    theadRows.each((index, tr) => {
+      if (index == 0)
+      {
+        $(tr).children().each((cIndex, th) => row_1.push(th));
+      }
+
+      if (index == 1)
+      {
+        $(tr).children().each((cIndex, th) => row_2.push(th));
+      }
+    });
+
+    // console.log(row_1)
+    // console.log(row_2)
+
+    if (use_default_thead)
+    {
+      row_1.forEach((th, index) => {
+        const colspan = $(th).attr('colspan');
+        // console.log(th)
+        // console.log(colspan)
+
+        if (colspan > 0)
+        {
+          for (let i = 0; i < colspan; i++)
+          {
+            const row_2_th = row_2.shift();
+
+            row_result.push($(row_2_th).text());
+          }
+        }
+        else
+        {
+          row_result.push($(th).text());
+        }
+      });
+    }
+    else
+    {
+      row_1.forEach((th, index) => {
+        const colspan = $(th).attr('colspan');
+
+        if (colspan == 1)
+        {
+          row_result.push($(th).text());
+        }
+        else
+        {
+          for (let i = 0; i < colspan; i++)
+          {
+            const row_2_th = row_2.shift();
+
+            row_result.push($(row_2_th).text());
+          }
+        }
+      });
+    }
+
+    // console.log(row_result)
+    return row_result;
   }
 
   /** @private */
@@ -194,7 +331,9 @@ class EnhanceDataTable
 
     // store user defined initComplete
     if (this.#_props.initComplete && typeof this.#_props.initComplete == 'function')
+    {
       userDefinedInitComplete = this.#_props.initComplete;
+    }
 
     delete this.#_props.initComplete;
 
@@ -203,29 +342,68 @@ class EnhanceDataTable
     {
       // console.log('initComplete') // DEBUG
 
-      // reload button
+      // setup reload button
+      self.#_setupButtonReload();
+
+      // setup toggle table-card view button
+      self.#_setupButtonToggleCardView();
+
+      // Input search ESC-key event
+      self.#_setupInputSearchEscEvent();
+
+      // run user defined initComplete
+      userDefinedInitComplete(settings, json);
+
+    };
+  }
+
+  /**
+   * Render reload button
+   *
+   * @private
+   */
+  #_setupButtonReload()
+  {
+    const self = this;
+    const wrapper = `${this.#_id}_wrapper`;
+
+    if (this.#_props.show_reload_button)
+    {
       $(`${wrapper} .dt-buttons.btn-group`).prepend(
-        `<button id="dt_reload" class="btn btn-default" title="Reload Data">
+        `<button id="${self.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="Reload Data">
           <i class="fas fa-sync text-green"></i>
         </button>`
       );
 
-      $(wrapper).on('click', '#dt_reload', self.refresh.bind(
+      $(wrapper).on('click', `${self.#_id}_dt_reload`, self.refresh.bind(
         self,
         null/* callback */,
         true/* resetPaging */
       ));
+    }
+  }
 
-      // toggle table-card view button
+  /**
+   * Render toggle table/card view button
+   *
+   * @private
+   */
+  #_setupButtonToggleCardView()
+  {
+    const self = this;
+    const wrapper = `${this.#_id}_wrapper`;
+
+    if (this.#_props.show_toggle_view_button)
+    {
       $(`${wrapper} .dt-buttons.btn-group`).append(
-        `<button id="dt_cv" class="btn btn-primary" title="Toggle View">
+        `<button id="${self.#_id.slice(1)}_dt_cardview" class="btn _btn-default dt-toggle-view-button" title="Toggle View">
           <i class="fas fa-table"></i>
           <i class="fas fa-arrows-h fa-fw"></i>
           <i class="fas fa-id-card"></i>
         </button>`
       );
 
-      $(wrapper).on('click', '#dt_cv', function ()
+      $(wrapper).on('click', `${self.#_id}_dt_cardview`, function ()
       {
         // hide in card view, but can re-open using column toggle
         const toggle_columns_visibility =
@@ -233,25 +411,20 @@ class EnhanceDataTable
             ? self.#_props.column_hide_in_card
             : [];
 
-        if ($(wrapper).hasClass('card'))
+        if ($(wrapper).hasClass('dt-card'))
         {
-          // turn into table view
+          // when turn into table view
           self.#_datatable
             .columns(toggle_columns_visibility)
             .visible(true);
 
-          $(`${wrapper} .colHeader`).remove();
+          $(`${wrapper} .cardview-col-header`).remove();
 
         }
         else
         {
-          // turn into card view
-          var labels = [];
-
-          $(`${self.#_id} thead th`).each(function ()
-          {
-            labels.push($(this).text());
-          });
+          // when turn into card view
+          const labels = self.#_getColumnWithoutColspan();
 
           $(`${self.#_id} tbody tr`).each(function ()
           {
@@ -259,7 +432,7 @@ class EnhanceDataTable
               .find('td')
               .each(function (column)
               {
-                $(`<label class='colHeader'>${labels[column]}</label>`).prependTo(
+                $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo(
                   $(this)
                 );
               });
@@ -270,50 +443,54 @@ class EnhanceDataTable
             .visible(false);
         }
 
-        $(wrapper).toggleClass('card');
+        $(wrapper).toggleClass('dt-card');
 
-        self.#_view_status = $(wrapper).hasClass('card')
+        self.#_view_status = $(wrapper).hasClass('dt-card')
           ? 'card'
           : 'table';
 
-        if ($(wrapper).hasClass('card'))
+        if ($(wrapper).hasClass('dt-card'))
         {
           $(wrapper).addClass('card-view');
           $(wrapper).removeClass('table-view');
-
-          $(wrapper)
-            .find('.dt-buttons.btn-group .btn')
-            .addClass('btn-lg');
-
-          $(wrapper)
-            .find('.dataTables_custom_search input[type="search"]')
-            .removeClass('input-sm');
         }
         else
         {
           $(wrapper).addClass('table-view');
           $(wrapper).removeClass('card-view');
-
-          $(wrapper)
-            .find('.dt-buttons.btn-group .btn')
-            .removeClass('btn-lg');
-
-          $(wrapper)
-            .find('.dataTables_custom_search input[type="search"]')
-            .addClass('input-sm');
         }
 
+        // Emit toggle table-card event
+        const toggleView = new CustomEvent('toggleView', {
+          detail: {
+            view: self.#_view_status,
+          },
+        });
+
+        $(self.#_id)[0].dispatchEvent(toggleView);
+
       });
+    }
+  }
 
-      $(`${wrapper} .dataTables_filter input[type="search"]`).on('keyup', function(e) {
-        // ESC
-        if (e.which == 27)
-          self.#_datatable.search('').draw();
-      });
+  /**
+   * Setup input search ESC-key event
+   *
+   * @private
+   */
+  #_setupInputSearchEscEvent()
+  {
+    const self = this;
+    const wrapper = `${this.#_id}_wrapper`;
 
-      userDefinedInitComplete(settings, json);
-
-    };
+    $(`${wrapper} .dataTables_filter input[type="search"]`).on('keyup', function(e)
+    {
+      // ESC to clear
+      if (e.which == 27)
+      {
+        self.#_datatable.search('').draw();
+      }
+    });
   }
 
   /**
@@ -325,11 +502,30 @@ class EnhanceDataTable
     {
       const hasIndexColumn = this.#_props.columns.find((column) => column.data == 'rowNumber');
 
-      if (!hasIndexColumn) {
-        // Auto append row number DOM
-        const indexColumn = `<th>#</th>`;
+      if (!hasIndexColumn)
+      {
+        // Find maximum rowspan
+        let maxRowSpan = 1;
+        // let attrRowSpan = '';
 
-        $(`${this.#_id} thead tr`).prepend($(indexColumn));
+        $(`${this.#_id} thead th`).each((index, th) => {
+          const thRowSpan = $(th).attr('rowspan');
+
+          if (thRowSpan > maxRowSpan)
+          {
+            maxRowSpan = thRowSpan;
+          }
+        });
+
+        // if (maxRowSpan > 0)
+        //   attrRowSpan = `rowspan="${maxRowSpan}"`;;
+        // console.log(attrRowSpan)
+        // attrRowSpan = '';
+
+        // Auto append row number DOM
+        const indexColumn = `<th rowspan="${maxRowSpan}">#</th>`;
+
+        $(`${this.#_id} thead tr:first-child`).prepend($(indexColumn));
 
         // Auto append row number column data
         this.#_props.columns.unshift({
@@ -385,7 +581,7 @@ class EnhanceDataTable
           }
         });
 
-        $(`${this.#_id} thead tr`).prepend(checkboxColumnElement);
+        $(`${this.#_id} thead tr:first-child`).prepend(checkboxColumnElement);
 
         // Auto append checkbox column data
         this.#_props.columns.unshift({
@@ -413,7 +609,7 @@ class EnhanceDataTable
    * https://datatables.net/examples/api/counter_columns.html
    * @private
    */
-  #_renderRowNumber()
+  #_renderRowNumberEvent()
   {
     const self = this;
     const wrapper = `${self.#_id}_wrapper`;
@@ -427,11 +623,11 @@ class EnhanceDataTable
         self.#_datatable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell)
         {
           // handle reload during card view
-          if ($(wrapper).hasClass('card'))
+          if ($(wrapper).hasClass('dt-card'))
           {
-            var first_column_text = $(`${self.#_id} thead th:first`).text();
+            const first_column_text = $(`${self.#_id} thead th:first`).text();
 
-            this.data(`<label class='colHeader'>${first_column_text}</label>${(i++).toString()}`);
+            this.data(`<label class='cardview-col-header'>${first_column_text}</label>${(i++).toString()}`);
           }
           else
           {
@@ -479,6 +675,77 @@ class EnhanceDataTable
     });
   }
 
+  /**
+   * Card view column header control
+   */
+  #_columnVisibilityEvent()
+  {
+    const self = this;
+    const wrapper = `${self.#_id}_wrapper`;
+
+    this.#_datatable.on('column-visibility.dt', function(e, settings, column, state)
+    {
+      if ($(wrapper).hasClass('dt-card'))
+      {
+        if (state)
+        {
+          /* self.#_datatable.rows().every(function (rowIdx, tableLoop, rowLoop)
+          {
+            const rowNode = this.node();
+
+            $(rowNode).find('td').each();
+          }); */
+
+          var run = false;
+          run = true;
+
+          if (run)
+          {
+            self.#_datatable.cells(null, column).every(function (cell)
+            {
+              // add 'cardview-col-header' if not exist
+              if ($(this.node()).find('.cardview-col-header').length == 0)
+              {
+                let original_content = this.data() == null || this.data() == undefined
+                  ? ''
+                  : this.data();
+
+                let nth_column_text = $(`${self.#_id} thead th:nth-child(${column})`).text();
+
+                // NOTE: maximum handle up to two rowspan
+                const theadRows = $(`${self.#_id} thead tr`);
+
+                if (theadRows.length == 2)
+                {
+                  const labels = self.#_getColumnWithoutColspan(true/* use_default_thead */);
+
+                  nth_column_text = labels[column];
+                  // console.log(labels)
+                  // console.log(column)
+                }
+
+                if (nth_column_text == undefined)
+                {
+                  nth_column_text = 'Error Column';
+                }
+
+                /*/
+                // console.log(this.column().visible())
+                // console.log(this.data())
+                console.log(column)
+                console.log(nth_column_text)
+                // console.log(original_content)
+                //*/
+
+                this.data(`<label class='cardview-col-header'>${nth_column_text}</label>${original_content}`);
+              }
+            });
+          }
+        }
+      }
+    });
+  }
+
   // NOTE: Constructor ========== ========== ========== ========== ========== ========== ========== ==========
 
   constructor()
@@ -489,10 +756,14 @@ class EnhanceDataTable
     if (typeof args === 'object')
     {
       if (!args.id)
+      {
         return console.error("[EnhanceDataTable] Error: Property 'id' is required !");
+      }
 
       if (!args.columns)
+      {
         return console.error("[EnhanceDataTable] Error: Property 'columns' is required !");
+      }
 
       this.#_id = args.id;
 
@@ -515,7 +786,8 @@ class EnhanceDataTable
     //*/
 
     this.#_initDataTable();
-    this.#_renderRowNumber();
+    this.#_renderRowNumberEvent();
+    this.#_columnVisibilityEvent();
   }
   // end of constructor
 
@@ -573,9 +845,13 @@ class EnhanceDataTable
     if (hasAjax)
     {
       if (autoRefresh)
+      {
         this.#_datatable.ajax.url(url).load(callback, resetPaging);
+      }
       else
+      {
         this.#_datatable.ajax.url(url);
+      }
     }
   }
 
@@ -633,12 +909,12 @@ class EnhanceDataTable
    */
   toggleView()
   {
-    // let length = $(`${this.#_id}_wrapper #dt_cv`).length; // DEBUG
+    // let length = $(`${this.#_id}_wrapper #dt_cardview`).length; // DEBUG
     // console.log(`toggleView > ${this.#_id}_wrapper: ${length}`) // DEBUG
 
     const previousView = this.#_view_status;
 
-    $(`${this.#_id}_wrapper #dt_cv`).trigger('click');
+    $(`${this.#_id}_wrapper .dt-toggle-view-button`).trigger('click');
 
     return {
       previousView: previousView,
@@ -662,7 +938,9 @@ class EnhanceDataTable
     let rules = {};
 
     if (mode == 'filtered')
+    {
       rules = { search: 'applied' };
+    }
 
     const dtRows      = this.#_datatable.rows(rules);
     const dtRowsData  = this.#_datatable.rows().data();
@@ -712,6 +990,10 @@ class EnhanceDataTable
     if (hasAjax)
     {
       this.#_datatable.ajax.reload(callback, resetPaging);
+    }
+    else
+    {
+      console.log("reload button clicked");
     }
   }
 

@@ -1,24 +1,24 @@
 /** jQuery DataTable - Card View */
-.card .dataTable {
+.dt-card .dataTable {
   border-right-width: 1px !important;
   display: block;
 }
 
-.card .dataTable thead,
-.card .dataTable tfoot {
+.dt-card .dataTable thead,
+.dt-card .dataTable tfoot {
   display: none;
 }
 
-.card .dataTable tbody {
+.dt-card .dataTable tbody {
   display: flex;
   flex-wrap: wrap;
 }
 
-.card .dataTable tbody tr:hover {
+.dt-card .dataTable tbody tr:hover {
   background-color: #f5f5f5;
 }
 
-.card .dataTable tbody tr {
+.dt-card .dataTable tbody tr {
   border: 1px solid #bfbfbf;
   border-radius: 0.5em;
   box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
@@ -27,54 +27,54 @@
   margin: 0.5em;
 }
 
-.card .dataTable tbody tr td {
+.dt-card .dataTable tbody tr td {
   display: flex;
 }
 
-.card .dataTable tbody tr td.text-center {
+.dt-card .dataTable tbody tr td.text-center {
   text-align: left !important;
 }
 
-.card .table-condensed > tbody > tr > td {
+.dt-card .table-condensed > tbody > tr > td {
   padding: 0px 5px;
 }
 
-.card.mobile-view .dataTables_custom_search {
+/* .dt-card.mobile-view .dataTables-custom-search {
   margin-bottom: 0.5em;
   width: 100%;
 }
 
-.card.mobile-view .dataTables_custom_search label,
-.card.mobile-view .dataTables_custom_search input {
+.dt-card.mobile-view .dataTables-custom-search label,
+.dt-card.mobile-view .dataTables-custom-search input {
   width: 100%;;
-}
+} */
 
-.card.mobile-view .dataTables_paging_info {
+/* .dt-card.mobile-view .dataTables_paging_info {
   justify-content: center;
   margin-bottom: 0.5em;
-}
+} */
 
-.card.mobile-view .top-paging {
+/* .dt-card.mobile-view .top-paging {
   display: block;
 }
 
 .top-paging {
   display: none;
-}
+} */
 
-.dt_cv-row {
+/* .dt_cardview-row {
   float: right;
 }
 
-.dt_cv-row .dt-buttons {
+.dt_cardview-row .dt-buttons {
   margin-left: 10px;
 }
 
-.dt_cv-row .btn {
+.dt_cardview-row .btn {
   padding: 4px 10px 4px 10px;
-}
+} */
 
-.colHeader {
+.cardview-col-header {
   /* min-width: 11rem; */
   margin-right: 5px;
   width: 11rem;
@@ -88,16 +88,16 @@
   min-width: 200px;
 }
 
-.dataTables_custom_search {
+/* .dataTables-custom-search {
   float: left;
 }
 
-.dataTables_custom_search input[type="search"] {
+.dataTables-custom-search input[type="search"] {
   border-radius: 3px;
   margin-left: 0 !important;
-}
+} */
 
-.dataTables_paging_info {
+/* .dataTables_paging_info {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -116,14 +116,14 @@
 
 .dataTables_paging_info select {
   margin: 0 5px;
-}
+} */
 
-.dataTables_paging_divider {
+/* .dataTables_paging_divider {
   align-self: stretch;
   border-radius: 5px;
   border: 2px solid gray;
   margin: 0 5px !important;
-}
+} */
 
 /** Bootstrap 5 */
 /* .table.rounded thead tr:first-child th:first-child {
