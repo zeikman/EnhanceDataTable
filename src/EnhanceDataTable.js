@@ -48,8 +48,6 @@ class EnhanceDataTable
     three_states_sort: true,
     show_row_number: true,
     show_checkbox: false,
-    // show_reload_button: false,
-    // show_toggle_view_button: false,
 
     // same with DataTable property //
 
@@ -347,19 +345,17 @@ class EnhanceDataTable
       if (self.#_props.buttons)
       {
         self.#_props.buttons.forEach((button, index) => {
-          console.log($(`${wrapper} .dt-buttons`).children().length)
-
           if (typeof button == 'string')
           {
             if (button == 'reload')
             {
-              console.log(`render reload at position: ${index}`)
+              // setup reload button
               self.#_setupButtonReload(index);
             }
 
             if (button == 'cardview')
             {
-              console.log(`render toggle view at position: ${index}`)
+              // setup toggle table-card view button
               self.#_setupButtonToggleCardView(index);
             }
           }
@@ -369,17 +365,7 @@ class EnhanceDataTable
             //
           }
         });
-        // console.log($(`${wrapper} .dt-buttons`).children().length)
-        // $(`${wrapper} .dt-buttons`).children().forEach((child, index) => {
-        //   console.log(child)
-        // });
       }
-
-      // setup reload button
-      // self.#_setupButtonReload();
-
-      // setup toggle table-card view button
-      // self.#_setupButtonToggleCardView();
 
       // Input search ESC-key event
       self.#_setupInputSearchEscEvent();
@@ -422,10 +408,6 @@ class EnhanceDataTable
       null/* callback */,
       true/* resetPaging */
     ));
-
-    // if (this.#_props.show_reload_button)
-    // {
-    // }
   }
 
   /**
@@ -526,10 +508,6 @@ class EnhanceDataTable
       $(self.#_id)[0].dispatchEvent(toggleView);
 
     });
-
-    // if (this.#_props.show_toggle_view_button)
-    // {
-    // }
   }
 
   /**
@@ -717,7 +695,10 @@ class EnhanceDataTable
                * restore order
                *  https://datatables.net/plug-ins/api/order.neutral()
                */
-              self.#_datatable.order.neutral().draw();
+              self.#_datatable
+                .order
+                .neutral()
+                .draw();
 
               // th.attr('data-sort-next', true);
               th.attr('data-sort-next', null);
@@ -1052,7 +1033,13 @@ class EnhanceDataTable
     }
     else
     {
-      console.log("reload button clicked");
+      if (this.#_datatable.rows().data().length > 0)
+      {
+        this.#_datatable
+          .order
+          .neutral()
+          .draw();
+      }
     }
   }
 
