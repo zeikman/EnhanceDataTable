@@ -237,6 +237,7 @@
           <p>Todo List:</p>
           <ul>
             <li>boostrap 5 checkbox</li>
+            <li>Custom button within 'buttons'</li>
           </ul>
         </div>
 
@@ -505,9 +506,9 @@
          */
         id: '#DataTable_Custom',
 
-        show_reload_button: true,
+        // show_reload_button: true, // NOTE: deprecated
 
-        show_toggle_view_button: true,
+        // show_toggle_view_button: true, // NOTE: deprecated
 
         /**
          * DataTable original property
@@ -559,7 +560,15 @@
               <'row'<'col-sm-5'<'dt-custom-paging'il>><'col-sm-7'p>>`,
 
         buttons: [
-          // 'copy'
+          'reload',
+          {
+            extend  : 'colvis',
+            columns : ':not(.column-row-number)',
+            postfixButtons: [ 'colvisRestore' ],
+          },
+          'cardview',
+          // 'copy',
+          // 'pdf',
         ],
 
         initComplete: function(settings, json) {

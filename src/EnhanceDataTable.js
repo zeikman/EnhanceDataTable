@@ -48,8 +48,8 @@ class EnhanceDataTable
     three_states_sort: true,
     show_row_number: true,
     show_checkbox: false,
-    show_reload_button: false,
-    show_toggle_view_button: false,
+    // show_reload_button: false,
+    // show_toggle_view_button: false,
 
     // same with DataTable property //
 
@@ -342,11 +342,44 @@ class EnhanceDataTable
     {
       // console.log('initComplete') // DEBUG
 
+      const wrapper = `${self.#_id}_wrapper`;
+
+      if (self.#_props.buttons)
+      {
+        self.#_props.buttons.forEach((button, index) => {
+          console.log($(`${wrapper} .dt-buttons`).children().length)
+
+          if (typeof button == 'string')
+          {
+            if (button == 'reload')
+            {
+              console.log(`render reload at position: ${index}`)
+              self.#_setupButtonReload(index);
+            }
+
+            if (button == 'cardview')
+            {
+              console.log(`render toggle view at position: ${index}`)
+              self.#_setupButtonToggleCardView(index);
+            }
+          }
+
+          if (typeof button == 'object')
+          {
+            //
+          }
+        });
+        // console.log($(`${wrapper} .dt-buttons`).children().length)
+        // $(`${wrapper} .dt-buttons`).children().forEach((child, index) => {
+        //   console.log(child)
+        // });
+      }
+
       // setup reload button
-      self.#_setupButtonReload();
+      // self.#_setupButtonReload();
 
       // setup toggle table-card view button
-      self.#_setupButtonToggleCardView();
+      // self.#_setupButtonToggleCardView();
 
       // Input search ESC-key event
       self.#_setupInputSearchEscEvent();
@@ -362,25 +395,37 @@ class EnhanceDataTable
    *
    * @private
    */
-  #_setupButtonReload()
+  #_setupButtonReload(insertAtPosition)
   {
     const self = this;
     const wrapper = `${this.#_id}_wrapper`;
 
-    if (this.#_props.show_reload_button)
+    if (insertAtPosition == 0)
     {
       $(`${wrapper} .dt-buttons.btn-group`).prepend(
         `<button id="${self.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="Reload Data">
           <i class="fas fa-sync text-green"></i>
         </button>`
       );
-
-      $(wrapper).on('click', `${self.#_id}_dt_reload`, self.refresh.bind(
-        self,
-        null/* callback */,
-        true/* resetPaging */
-      ));
     }
+    else
+    {
+      $(
+        `<button id="${self.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="Reload Data">
+          <i class="fas fa-sync text-green"></i>
+        </button>`
+      ).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
+    }
+
+    $(wrapper).on('click', `${self.#_id}_dt_reload`, self.refresh.bind(
+      self,
+      null/* callback */,
+      true/* resetPaging */
+    ));
+
+    // if (this.#_props.show_reload_button)
+    // {
+    // }
   }
 
   /**
@@ -388,89 +433,103 @@ class EnhanceDataTable
    *
    * @private
    */
-  #_setupButtonToggleCardView()
+  #_setupButtonToggleCardView(insertAtPosition)
   {
     const self = this;
     const wrapper = `${this.#_id}_wrapper`;
 
-    if (this.#_props.show_toggle_view_button)
+    if (insertAtPosition == 0)
     {
-      $(`${wrapper} .dt-buttons.btn-group`).append(
+      $(`${wrapper} .dt-buttons.btn-group`).prepend(
         `<button id="${self.#_id.slice(1)}_dt_cardview" class="btn _btn-default dt-toggle-view-button" title="Toggle View">
           <i class="fas fa-table"></i>
           <i class="fas fa-arrows-h fa-fw"></i>
           <i class="fas fa-id-card"></i>
         </button>`
       );
+    }
+    else
+    {
+      $(
+        `<button id="${self.#_id.slice(1)}_dt_cardview" class="btn _btn-default dt-toggle-view-button" title="Toggle View">
+          <i class="fas fa-table"></i>
+          <i class="fas fa-arrows-h fa-fw"></i>
+          <i class="fas fa-id-card"></i>
+        </button>`
+      ).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
+    }
 
-      $(wrapper).on('click', `${self.#_id}_dt_cardview`, function ()
+    $(wrapper).on('click', `${self.#_id}_dt_cardview`, function ()
+    {
+      // hide in card view, but can re-open using column toggle
+      const toggle_columns_visibility =
+        self.#_props.column_hide_in_card && typeof self.#_props.column_hide_in_card == 'object'
+          ? self.#_props.column_hide_in_card
+          : [];
+
+      if ($(wrapper).hasClass('dt-card'))
       {
-        // hide in card view, but can re-open using column toggle
-        const toggle_columns_visibility =
-          self.#_props.column_hide_in_card && typeof self.#_props.column_hide_in_card == 'object'
-            ? self.#_props.column_hide_in_card
-            : [];
+        // when turn into table view
+        self.#_datatable
+          .columns(toggle_columns_visibility)
+          .visible(true);
 
-        if ($(wrapper).hasClass('dt-card'))
+        $(`${wrapper} .cardview-col-header`).remove();
+
+      }
+      else
+      {
+        // when turn into card view
+        const labels = self.#_getColumnWithoutColspan();
+
+        $(`${self.#_id} tbody tr`).each(function ()
         {
-          // when turn into table view
-          self.#_datatable
-            .columns(toggle_columns_visibility)
-            .visible(true);
-
-          $(`${wrapper} .cardview-col-header`).remove();
-
-        }
-        else
-        {
-          // when turn into card view
-          const labels = self.#_getColumnWithoutColspan();
-
-          $(`${self.#_id} tbody tr`).each(function ()
-          {
-            $(this)
-              .find('td')
-              .each(function (column)
-              {
-                $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo(
-                  $(this)
-                );
-              });
-          });
-
-          self.#_datatable
-            .columns(toggle_columns_visibility)
-            .visible(false);
-        }
-
-        $(wrapper).toggleClass('dt-card');
-
-        self.#_view_status = $(wrapper).hasClass('dt-card')
-          ? 'card'
-          : 'table';
-
-        if ($(wrapper).hasClass('dt-card'))
-        {
-          $(wrapper).addClass('card-view');
-          $(wrapper).removeClass('table-view');
-        }
-        else
-        {
-          $(wrapper).addClass('table-view');
-          $(wrapper).removeClass('card-view');
-        }
-
-        // Emit toggle table-card event
-        const toggleView = new CustomEvent('toggleView', {
-          detail: {
-            view: self.#_view_status,
-          },
+          $(this)
+            .find('td')
+            .each(function (column)
+            {
+              $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo(
+                $(this)
+              );
+            });
         });
 
-        $(self.#_id)[0].dispatchEvent(toggleView);
+        self.#_datatable
+          .columns(toggle_columns_visibility)
+          .visible(false);
+      }
 
+      $(wrapper).toggleClass('dt-card');
+
+      self.#_view_status = $(wrapper).hasClass('dt-card')
+        ? 'card'
+        : 'table';
+
+      if ($(wrapper).hasClass('dt-card'))
+      {
+        $(wrapper).addClass('card-view');
+        $(wrapper).removeClass('table-view');
+      }
+      else
+      {
+        $(wrapper).addClass('table-view');
+        $(wrapper).removeClass('card-view');
+      }
+
+      // Emit toggle table-card event
+      const toggleView = new CustomEvent('toggleView', {
+        detail: {
+          view: self.#_view_status,
+        },
       });
-    }
+
+      $(self.#_id)[0].dispatchEvent(toggleView);
+
+    });
+
+    // if (this.#_props.show_toggle_view_button)
+    // {
+    // }
   }
 
   /**
@@ -523,7 +582,7 @@ class EnhanceDataTable
         // attrRowSpan = '';
 
         // Auto append row number DOM
-        const indexColumn = `<th rowspan="${maxRowSpan}">#</th>`;
+        const indexColumn = `<th rowspan="${maxRowSpan}" class="column-row-number">#</th>`;
 
         $(`${this.#_id} thead tr:first-child`).prepend($(indexColumn));
 
@@ -533,7 +592,7 @@ class EnhanceDataTable
           searchable: false,
           orderable : false,
           sortable  : false,
-          className : 'noVis',
+          className : 'column-row-number',
           width     : 30,
           // render    : function (data, type, row, meta)
           // {
