@@ -215,6 +215,11 @@
             </tfoot> -->
           </table>
 
+          <div class="text-end">
+            <button type="button" id="btn_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
+            <button type="button" id="btn_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
+          </div>
+
           <hr />
 
           <h5>Custom Layout - Bootstrap 5</h5>
@@ -233,15 +238,38 @@
               </tr>
             </thead>
           </table>
+
+          <div class="text-end">
+            <button type="button" id="btn_update_data" class="btn btn-primary">Update Data</button>
+          </div>
         </div>
 
         <hr />
 
         <div>
-          <p>Todo List:</p>
+          <p>Milestone:</p>
           <ul>
-            <li>boostrap 5 checkbox</li>
-            <li>Custom button within 'buttons'</li>
+            <li>Build checkbox into native method</li>
+          </ul>
+        </div>
+
+        <div>
+          <p>Available Methods:</p>
+          <ul>
+            <li>getDataTable</li>
+            <li>getAjaxUrl</li>
+            <li>setAjaxUrl</li>
+            <li>getView</li>
+            <li>setView</li>
+            <li>toggleView</li>
+            <li>getRows</li>
+            <li>getRowData</li>
+            <li>getSelectedRowIds</li>
+            <li>getSelectedRowDatas</li>
+            <li>refresh</li>
+            <li>on</li>
+            <li>search</li>
+            <li>updateData</li>
           </ul>
         </div>
 
@@ -498,6 +526,14 @@
       test = $DataTable;
       dt = $DataTable.getDataTable();
 
+      $('#btn_getselectedrowdatas').on('click', function(e) {
+        console.log($DataTable.getSelectedRowDatas());
+      });
+
+      $('#btn_getselectedrowids').on('click', function(e) {
+        console.log($DataTable.getSelectedRowIds());
+      });
+
       /**
        * ========== ========== ========== ========== ========== ==========
        *
@@ -578,13 +614,50 @@
         },
       });
 
-      //*/
-      $DataTable_Custom
-        .getDataTable()
-        .rows
-        .add(data)
-        .draw();
-      //*/
+      test_custom = $DataTable_Custom;
+      dt_custom = $DataTable_Custom.getDataTable();
+
+      $DataTable_Custom.updateData(data);
+
+      /**
+       * Returns a random number between min (inclusive) and max (exclusive)
+       */
+      function getRandomArbitrary(min, max) {
+          return Math.random() * (max - min) + min;
+      }
+
+      /**
+       * Returns a random integer between min (inclusive) and max (inclusive).
+       * The value is no lower than min (or the next integer greater than min
+       * if min isn't an integer) and no greater than max (or the next integer
+       * lower than max if max isn't an integer).
+       * Using Math.round() will give you a non-uniform distribution!
+       */
+      function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      $('#btn_update_data').on('click', function(e) {
+        const updateData = [];
+
+        for (let i = 0; i < getRandomInt(10, 100); i++) {
+          updateData.push({
+            // NOTE: must provide 'rowNumber' if 'show_row_number = true'
+            rowNumber : '',
+            checkbox  : false,
+            id        : i + 1,
+            column1   : `data ${getRandomArbitrary(0, 100)}`,
+            column2   : `data ${getRandomArbitrary(0, 100)}`,
+            column3   : `data ${getRandomArbitrary(0, 100)}`,
+            column4   : `data ${getRandomArbitrary(0, 100)}`,
+            column5   : `data ${getRandomArbitrary(0, 100)}`,
+          });
+        }
+
+        $DataTable_Custom.updateData(updateData);
+      });
 
     });
   </script>

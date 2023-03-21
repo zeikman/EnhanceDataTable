@@ -1009,6 +1009,40 @@ class EnhanceDataTable
   }
 
   /**
+   * Get ID of selected rows.
+   *
+   * @returns {Array} Array of seleceted row ID.
+   */
+  getSelectedRowIds()
+  {
+    const ids = [];
+    const selectedData = this.#_datatable.rows('.selected').data();
+
+    for (let index = 0; index < selectedData.length; index++) {
+      ids.push(selectedData[index].id);
+    }
+
+    return ids;
+  }
+
+  /**
+   * Get data of selected rows.
+   *
+   * @returns {Array} Array of selected row data.
+   */
+  getSelectedRowDatas()
+  {
+    const datas = [];
+    const selectedData = this.#_datatable.rows('.selected').data();
+
+    for (let index = 0; index < selectedData.length; index++) {
+      datas.push(selectedData[index]);
+    }
+
+    return datas;
+  }
+
+  /**
    * Reload DataTable data from Ajax data source.
    *
    * @param {Function}  callback      Function which is executed when the data has been reloaded and the table fully redrawn.
@@ -1072,6 +1106,28 @@ class EnhanceDataTable
   search(input = '')
   {
     this.#_datatable.search(input).draw();
+  }
+
+  /**
+   * Update Data.
+   *
+   * @param {Object[]} data
+   */
+  updateData(data)
+  {
+    this.#_datatable
+      .order
+      .neutral()
+      .draw();
+
+    this.#_datatable
+      .clear()
+      .draw();
+
+    this.#_datatable
+      .rows
+      .add(data)
+      .draw();
   }
 
 }
