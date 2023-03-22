@@ -254,6 +254,14 @@
         </div>
 
         <div>
+          <p>New Properties:</p>
+          <ul>
+            <li>buttons: ['reload', 'cardview']</li>
+            <li>column_hide_in_card</li>
+          </ul>
+        </div>
+
+        <div>
           <p>Available Methods:</p>
           <ul>
             <li>getDataTable</li>
@@ -577,12 +585,12 @@
           {
             data: 'column2',
             width: '20%',
-            visible: false,
+            // visible: false,
           },
           {
             data: 'column3',
             width: '20%',
-            visible: false,
+            // visible: false,
           },
           {
             data: 'column4',
@@ -593,18 +601,58 @@
           },
         ],
 
+        // column_hide_in_card: [
+        //   2, // Column2
+        //   3, // Column3
+        // ],
+
         dom: `<'row'<'col-sm-6'<'dt-custom-search'f>><'col-sm-6'<'dt-custom-buttons'B>>>
               <'row'<'col-sm-12'tr>>
               <'row'<'col-sm-5'<'dt-custom-paging'il>><'col-sm-7'p>>`,
 
         buttons: [
-          'reload',
+          // custom button
+          /*/
           {
-            extend  : 'colvis',
-            columns : ':not(.column-row-number)',
+            text: 'custom button',
+            action: function(e, dt, node, config)
+            {
+              console.log(e)
+              console.log(dt)
+              console.log(node)
+              console.log(config)
+            }
+          },
+          //*/
+
+          /*/
+          'reload',
+          /*/
+          {
+            extend: 'reload',
+            // text: 'Reload',
+            // titleAttr: 'Reload',
+            // icon: '<i class="fa-solid fa-check"></i>',
+          },
+          //*/
+          {
+            extend    : 'colvis',
+            text      : 'Toggle Column',
+            titleAttr : 'Show/Hide Column',
+            columns   : ':not(.column-row-number)',
+            align     : 'button-right',
             postfixButtons: [ 'colvisRestore' ],
           },
+          /*/
           'cardview',
+          /*/
+          {
+            extend: 'cardview',
+            // text: 'Card View',
+            // titleAttr: 'Toggle Table/Card',
+            // icon: '<i class="fa-solid fa-check"></i>',
+          },
+          //*/
           // 'copy',
           // 'pdf',
         ],

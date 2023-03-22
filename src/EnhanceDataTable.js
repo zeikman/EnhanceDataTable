@@ -15,19 +15,15 @@ class EnhanceDataTable
   #_default_thead;
 
   /** @private */
+  #_default_buttons;
+
+  /** @private */
   #_view_status = 'table';
 
   /** @private */
   #_export_config = {
-    // filename      : 'Pending Complaint List',
-    // title         : 'Pending Complaint List',
-    // messageTop    : 'Complaint - Pending',
     exportOptions : {
       columns: ':visible',
-      // modifier: {
-      //   // print only the current DataTable page
-      //   page: 'current',
-      // }
     }
   };
 
@@ -43,13 +39,13 @@ class EnhanceDataTable
    * @private
    */
   #_props = {
-    // EnhanceDataTable property
+    // EnhanceDataTable properties
     column_hide_in_card: [],
     three_states_sort: true,
     show_row_number: true,
     show_checkbox: false,
 
-    // same with DataTable property //
+    // DataTable original properties //
 
     // enable ENTER search
     search: {
@@ -85,48 +81,6 @@ class EnhanceDataTable
           <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>`,
     //*/
 
-    // buttons config
-    /* buttons: [
-      {
-        extend        : 'colvis',
-        text          : 'Toggle Column',
-        titleAttr     : 'Show/Hide Column',
-        columns       : ':not(.noVis)',
-        align         : 'button-right',
-        postfixButtons: [ 'colvisRestore' ],
-      },
-      {
-        extend        : 'collection',
-        // text          : 'Action <i class="fas fa-chevron-down fa-fw"></i>',
-        text          : 'Action',
-        titleAttr     : 'Select Action',
-        align         : 'button-right',
-        buttons       : [
-          // 'copy',
-          {
-            extend    : 'print',
-            autoPrint : false,
-            ...this.#_export_config,
-          },
-          {
-            extend    : 'csv',
-            text      : 'Export to CSV',
-            ...this.#_export_config,
-          },
-          {
-            extend    : 'excel',
-            text      : 'Export to Excel',
-            ...this.#_export_config,
-          },
-          {
-            extend    : 'pdf',
-            text      : 'Print to PDF',
-            ...this.#_export_config,
-          },
-        ]
-      },
-    ], */
-
   };
 
   /**
@@ -137,7 +91,9 @@ class EnhanceDataTable
   #_initDataTable()
   {
     this.#_retainDefaultTheadStructure();
+    this.#_retainDefaultButtons();
     this.#_setupRowCallback();
+    this.#_setupDrawCallback();
     this.#_setupInitComplete();
     this.#_setupCheckboxColumn();
     this.#_setupRowNumber();
@@ -167,9 +123,68 @@ class EnhanceDataTable
   #_retainDefaultTheadStructure()
   {
     this.#_default_thead = $(`${this.#_id} thead`).clone();
-
-    // console.log(this.#_default_thead)
   }
+
+  #_retainDefaultButtons()
+  {
+    if (this.#_props.hasOwnProperty('buttons'))
+    {
+      const new_buttons = [];
+
+      this.#_default_buttons = [...this.#_props.buttons];
+
+      this.#_props.buttons.forEach((button, index) => {
+        if (typeof button == 'string')
+        {
+          if (button != 'reload' && button != 'cardview')
+          {
+            new_buttons.push(button);
+          }
+        }
+
+        if (typeof button == 'object')
+        {
+          if (button.hasOwnProperty('extend'))
+          {
+            if (button.extend != 'reload' && button.extend != 'cardview')
+            {
+              new_buttons.push(button);
+            }
+          }
+        }
+      });
+
+      this.#_props.buttons = new_buttons;
+    }
+  }
+
+  /*/
+  #_cloneObject(src, method = 'jquery')
+  {
+    switch (method)
+    {
+      case 'jsoncopy':
+        return JSON.parse(JSON.stringify(src));
+
+      case 'objectassign':
+        return Object.assign({}, src);
+
+      case 'iteration':
+        var target = {};
+        for (var prop in src)
+        {
+          if (src.hasOwnProperty(prop))
+          {
+            target[prop] = src[prop];
+          }
+        }
+        return target;
+
+      default: // jquery - deep copy
+        return $.extend(true, {}, src);
+    }
+  }
+  //*/
 
   /**
    * Setup internal rowCallback.
@@ -179,16 +194,17 @@ class EnhanceDataTable
   #_setupRowCallback()
   {
     const self = this;
-    const wrapper = `${self.#_id}_wrapper`;
+    const wrapper = `${this.#_id}_wrapper`;
+
     let userDefinedRowCallback = function () {};
 
     // store user defined rowCallback
     if (this.#_props.rowCallback && typeof this.#_props.rowCallback == 'function')
     {
       userDefinedRowCallback = this.#_props.rowCallback;
-    }
 
-    delete this.#_props.rowCallback;
+      delete this.#_props.rowCallback;
+    }
 
     this.#_props.rowCallback = function (row, data, displayNum, displayIndex, dataIndex)
     {
@@ -208,6 +224,7 @@ class EnhanceDataTable
         {
           if ($(td).find('label').length == 0)
           {
+            // console.log('cardview-col-header > DEBUG-1'); // DEBUG
             $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo($(this));
           }
         });
@@ -216,6 +233,37 @@ class EnhanceDataTable
       userDefinedRowCallback(row, data, displayNum, displayIndex, dataIndex);
 
     };
+  }
+
+  /**
+   * Setup internal rowCallback
+   *
+   * @private
+   */
+  #_setupDrawCallback()
+  {
+    const self = this;
+    const wrapper = `${this.#_id}_wrapper`;
+
+    let userDefinedDrawCallback = function () {};
+
+    // store user defined drawCallback
+    if (this.#_props.drawCallback && typeof this.#_props.drawCallback == 'function')
+    {
+      userDefinedDrawCallback = this.#_props.drawCallback;
+
+      delete this.#_props.drawCallback;
+    }
+
+    this.#_props.drawCallback = function (settings)
+    {
+      if (self.#_view_status == 'table')
+      {
+        $(`${wrapper} .cardview-col-header`).remove();
+      }
+
+      userDefinedDrawCallback(settings);
+    }
   }
 
   /**
@@ -340,27 +388,27 @@ class EnhanceDataTable
   #_setupInitComplete()
   {
     const self = this;
-    const wrapper = `${self.#_id}_wrapper`;
+
     let userDefinedInitComplete = function () {};
 
     // store user defined initComplete
     if (this.#_props.initComplete && typeof this.#_props.initComplete == 'function')
     {
       userDefinedInitComplete = this.#_props.initComplete;
-    }
 
-    delete this.#_props.initComplete;
+      delete this.#_props.initComplete;
+    }
 
     // internal must run initComplate > generate table-card view toggle
     this.#_props.initComplete = function (settings, json)
     {
       // console.log('initComplete') // DEBUG
 
-      const wrapper = `${self.#_id}_wrapper`;
+      const buttons = self.#_default_buttons;
 
-      if (self.#_props.buttons)
+      if (buttons)
       {
-        self.#_props.buttons.forEach((button, index) => {
+        buttons.forEach((button, index) => {
           if (typeof button == 'string')
           {
             if (button == 'reload')
@@ -378,8 +426,24 @@ class EnhanceDataTable
 
           if (typeof button == 'object')
           {
-            //
+            if (button.hasOwnProperty('extend'))
+            {
+              switch (button.extend)
+              {
+                case 'reload':
+                  self.#_setupButtonReload(index, button);
+                  break;
+
+                case 'cardview':
+                  self.#_setupButtonToggleCardView(index, button);
+                  break;
+
+                default:
+                  break;
+              }
+            }
           }
+
         });
       }
 
@@ -397,30 +461,34 @@ class EnhanceDataTable
    *
    * @private
    */
-  #_setupButtonReload(insertAtPosition)
+  #_setupButtonReload(insertAtPosition, properties)
   {
-    const self = this;
     const wrapper = `${this.#_id}_wrapper`;
+    const props = _.merge(
+      {
+        text      : '',
+        titleAttr : 'Reload Data',
+        icon      : '<i class="fa-solid fa-sync"></i>',
+      },
+      properties
+    );
+
+    const button_syntax =
+      `<button id="${this.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="${props.titleAttr}">
+        ${props.icon} ${props.text}
+      </button>`;
 
     if (insertAtPosition == 0)
     {
-      $(`${wrapper} .dt-buttons.btn-group`).prepend(
-        `<button id="${self.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="Reload Data">
-          <i class="fas fa-sync text-green"></i>
-        </button>`
-      );
+      $(`${wrapper} .dt-buttons.btn-group`).prepend(button_syntax);
     }
     else
     {
-      $(
-        `<button id="${self.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="Reload Data">
-          <i class="fas fa-sync text-green"></i>
-        </button>`
-      ).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
+      $(button_syntax).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
     }
 
-    $(wrapper).on('click', `${self.#_id}_dt_reload`, self.refresh.bind(
-      self,
+    $(wrapper).on('click', `${this.#_id}_dt_reload`, this.refresh.bind(
+      this,
       null/* callback */,
       true/* resetPaging */
     ));
@@ -431,36 +499,36 @@ class EnhanceDataTable
    *
    * @private
    */
-  #_setupButtonToggleCardView(insertAtPosition)
+  #_setupButtonToggleCardView(insertAtPosition, properties)
   {
-    const self = this;
     const wrapper = `${this.#_id}_wrapper`;
+    const props = _.merge(
+      {
+        text      : '',
+        titleAttr : 'Toggle View',
+        icon      :
+          `<i class="fas fa-table"></i>
+          <i class="fas fa-arrows-h fa-fw"></i>
+          <i class="fas fa-id-card"></i>`,
+      },
+      properties
+    );
+
+    const button_syntax =
+      `<button id="${this.#_id.slice(1)}_dt_cardview" class="btn dt-toggle-view-button" title="${props.titleAttr}">
+        ${props.icon} ${props.text}
+      </button>`;
 
     if (insertAtPosition == 0)
     {
-      $(`${wrapper} .dt-buttons.btn-group`).prepend(
-        `<button id="${self.#_id.slice(1)}_dt_cardview" class="btn _btn-default dt-toggle-view-button" title="Toggle View">
-          <i class="fas fa-table"></i>
-          <i class="fas fa-arrows-h fa-fw"></i>
-          <i class="fas fa-id-card"></i>
-        </button>`
-      );
+      $(`${wrapper} .dt-buttons.btn-group`).prepend(button_syntax);
     }
     else
     {
-      $(
-        `<button id="${self.#_id.slice(1)}_dt_cardview" class="btn _btn-default dt-toggle-view-button" title="Toggle View">
-          <i class="fas fa-table"></i>
-          <i class="fas fa-arrows-h fa-fw"></i>
-          <i class="fas fa-id-card"></i>
-        </button>`
-      ).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
+      $(button_syntax).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
     }
 
-    $(wrapper).on('click', `${self.#_id}_dt_cardview`, function ()
-    {
-      self.#_toggleView();
-    });
+    $(wrapper).on('click', `${this.#_id}_dt_cardview`, this.#_toggleView.bind(this));
   }
 
   /**
@@ -478,12 +546,16 @@ class EnhanceDataTable
         ? this.#_props.column_hide_in_card
         : [];
 
+    let show_toggle_columns = false;
+    let hide_toggle_columns = false;
+
     if ($(wrapper).hasClass('dt-card'))
     {
-      // when turn into table view
-      this.#_datatable
-        .columns(toggle_columns_visibility)
-        .visible(true);
+      if (toggle_columns_visibility.length > 0)
+      {
+        // when turn into table view
+        show_toggle_columns = true;
+      }
 
       $(`${wrapper} .cardview-col-header`).remove();
 
@@ -499,15 +571,15 @@ class EnhanceDataTable
           .find('td')
           .each(function (column)
           {
-            $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo(
-              $(this)
-            );
+            // console.log('cardview-col-header > DEBUG-2'); // DEBUG
+            $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo($(this));
           });
       });
 
-      this.#_datatable
-        .columns(toggle_columns_visibility)
-        .visible(false);
+      if (toggle_columns_visibility.length > 0)
+      {
+        hide_toggle_columns = true;
+      }
     }
 
     $(wrapper).toggleClass('dt-card');
@@ -525,6 +597,22 @@ class EnhanceDataTable
     {
       $(wrapper).addClass('table-view');
       $(wrapper).removeClass('card-view');
+    }
+
+    if (show_toggle_columns)
+    {
+      this.#_datatable
+        .columns(toggle_columns_visibility)
+        .visible(true);
+
+      $(`${wrapper} .cardview-col-header`).remove();
+    }
+
+    if (hide_toggle_columns)
+    {
+      this.#_datatable
+        .columns(toggle_columns_visibility)
+        .visible(false);
     }
 
     // Emit toggle table-card event
@@ -547,7 +635,7 @@ class EnhanceDataTable
     const self = this;
     const wrapper = `${this.#_id}_wrapper`;
 
-    $(`${wrapper} .dataTables_filter input[type="search"]`).on('keyup', function(e)
+    $(`${wrapper} .dataTables_filter input[type="search"]`).on('keyup', function (e)
     {
       // ESC to clear
       if (e.which == 27)
@@ -678,7 +766,7 @@ class EnhanceDataTable
   #_renderRowNumberEvent()
   {
     const self = this;
-    const wrapper = `${self.#_id}_wrapper`;
+    const wrapper = `${this.#_id}_wrapper`;
 
     this.#_datatable.on('order.dt search.dt', function (e)
     {
@@ -693,6 +781,7 @@ class EnhanceDataTable
           {
             const first_column_text = $(`${self.#_id} thead th:first`).text();
 
+            // console.log('cardview-col-header > DEBUG-3'); // DEBUG
             this.data(`<label class='cardview-col-header'>${first_column_text}</label>${(i++).toString()}`);
           }
           else
@@ -750,9 +839,9 @@ class EnhanceDataTable
   #_columnVisibilityEvent()
   {
     const self = this;
-    const wrapper = `${self.#_id}_wrapper`;
+    const wrapper = `${this.#_id}_wrapper`;
 
-    this.#_datatable.on('column-visibility.dt', function(e, settings, column, state)
+    this.#_datatable.on('column-visibility.dt', function (e, settings, column, state)
     {
       if ($(wrapper).hasClass('dt-card'))
       {
@@ -765,6 +854,7 @@ class EnhanceDataTable
             $(rowNode).find('td').each();
           }); */
 
+          // DEBUG
           var run = false;
           run = true;
 
@@ -798,12 +888,27 @@ class EnhanceDataTable
                   nth_column_text = 'Error Column';
                 }
 
+                /*/
+                // console.log('cardview-col-header > DEBUG-4'); // DEBUG
                 let changedData = `<label class='cardview-col-header'>${nth_column_text}</label>${original_content}`;
+                //*/
+
+                let changedData = original_content;
 
                 // do not perform data changing when data type is not string
                 if (typeof this.data() == 'object')
                 {
                   changedData = this.data();
+                }
+                else
+                {
+                  const original_content_text = original_content.toString();
+
+                  if (original_content_text.indexOf('cardview-col-header') == 0-1)
+                  {
+                    // console.log('cardview-col-header > DEBUG-4'); // DEBUG
+                    changedData = `<label class='cardview-col-header'>${nth_column_text}</label>${original_content}`;
+                  }
                 }
 
                 /*/
@@ -1055,7 +1160,8 @@ class EnhanceDataTable
     const ids = [];
     const selectedData = this.#_datatable.rows('.selected').data();
 
-    for (let index = 0; index < selectedData.length; index++) {
+    for (let index = 0; index < selectedData.length; index++)
+    {
       ids.push(selectedData[index].id);
     }
 
@@ -1072,7 +1178,8 @@ class EnhanceDataTable
     const datas = [];
     const selectedData = this.#_datatable.rows('.selected').data();
 
-    for (let index = 0; index < selectedData.length; index++) {
+    for (let index = 0; index < selectedData.length; index++)
+    {
       datas.push(selectedData[index]);
     }
 
