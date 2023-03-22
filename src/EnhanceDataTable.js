@@ -129,7 +129,11 @@ class EnhanceDataTable
 
   };
 
-  /** @private */
+  /**
+   * Init DataTable.
+   *
+   * @private
+   */
   #_initDataTable()
   {
     this.#_retainDefaultTheadStructure();
@@ -155,7 +159,11 @@ class EnhanceDataTable
     }
   }
 
-  /** @private */
+  /**
+   * Retain original thead structure.
+   *
+   * @private
+   */
   #_retainDefaultTheadStructure()
   {
     this.#_default_thead = $(`${this.#_id} thead`).clone();
@@ -163,7 +171,11 @@ class EnhanceDataTable
     // console.log(this.#_default_thead)
   }
 
-  /** @private */
+  /**
+   * Setup internal rowCallback.
+   *
+   * @private
+   */
   #_setupRowCallback()
   {
     const self = this;
@@ -320,7 +332,11 @@ class EnhanceDataTable
     return row_result;
   }
 
-  /** @private */
+  /**
+   * Setup internal initComplete.
+   *
+   * @private
+   */
   #_setupInitComplete()
   {
     const self = this;
@@ -443,75 +459,86 @@ class EnhanceDataTable
 
     $(wrapper).on('click', `${self.#_id}_dt_cardview`, function ()
     {
-      // hide in card view, but can re-open using column toggle
-      const toggle_columns_visibility =
-        self.#_props.column_hide_in_card && typeof self.#_props.column_hide_in_card == 'object'
-          ? self.#_props.column_hide_in_card
-          : [];
-
-      if ($(wrapper).hasClass('dt-card'))
-      {
-        // when turn into table view
-        self.#_datatable
-          .columns(toggle_columns_visibility)
-          .visible(true);
-
-        $(`${wrapper} .cardview-col-header`).remove();
-
-      }
-      else
-      {
-        // when turn into card view
-        const labels = self.#_getColumnWithoutColspan();
-
-        $(`${self.#_id} tbody tr`).each(function ()
-        {
-          $(this)
-            .find('td')
-            .each(function (column)
-            {
-              $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo(
-                $(this)
-              );
-            });
-        });
-
-        self.#_datatable
-          .columns(toggle_columns_visibility)
-          .visible(false);
-      }
-
-      $(wrapper).toggleClass('dt-card');
-
-      self.#_view_status = $(wrapper).hasClass('dt-card')
-        ? 'card'
-        : 'table';
-
-      if ($(wrapper).hasClass('dt-card'))
-      {
-        $(wrapper).addClass('card-view');
-        $(wrapper).removeClass('table-view');
-      }
-      else
-      {
-        $(wrapper).addClass('table-view');
-        $(wrapper).removeClass('card-view');
-      }
-
-      // Emit toggle table-card event
-      const toggleView = new CustomEvent('toggleView', {
-        detail: {
-          view: self.#_view_status,
-        },
-      });
-
-      $(self.#_id)[0].dispatchEvent(toggleView);
-
+      self.#_toggleView();
     });
   }
 
   /**
-   * Setup input search ESC-key event
+   * Toggle between table and card view.
+   *
+   * @private
+   */
+  #_toggleView()
+  {
+    const wrapper = `${this.#_id}_wrapper`;
+
+    // hide in card view, but can re-open using column toggle
+    const toggle_columns_visibility =
+      this.#_props.column_hide_in_card && typeof this.#_props.column_hide_in_card == 'object'
+        ? this.#_props.column_hide_in_card
+        : [];
+
+    if ($(wrapper).hasClass('dt-card'))
+    {
+      // when turn into table view
+      this.#_datatable
+        .columns(toggle_columns_visibility)
+        .visible(true);
+
+      $(`${wrapper} .cardview-col-header`).remove();
+
+    }
+    else
+    {
+      // when turn into card view
+      const labels = this.#_getColumnWithoutColspan();
+
+      $(`${this.#_id} tbody tr`).each(function ()
+      {
+        $(this)
+          .find('td')
+          .each(function (column)
+          {
+            $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo(
+              $(this)
+            );
+          });
+      });
+
+      this.#_datatable
+        .columns(toggle_columns_visibility)
+        .visible(false);
+    }
+
+    $(wrapper).toggleClass('dt-card');
+
+    this.#_view_status = $(wrapper).hasClass('dt-card')
+      ? 'card'
+      : 'table';
+
+    if ($(wrapper).hasClass('dt-card'))
+    {
+      $(wrapper).addClass('card-view');
+      $(wrapper).removeClass('table-view');
+    }
+    else
+    {
+      $(wrapper).addClass('table-view');
+      $(wrapper).removeClass('card-view');
+    }
+
+    // Emit toggle table-card event
+    const toggleView = new CustomEvent('toggleView', {
+      detail: {
+        view: this.#_view_status,
+      },
+    });
+
+    $(this.#_id)[0].dispatchEvent(toggleView);
+  }
+
+  /**
+   * Setup input search ESC-key event.
    *
    * @private
    */
@@ -525,12 +552,16 @@ class EnhanceDataTable
       // ESC to clear
       if (e.which == 27)
       {
-        self.#_datatable.search('').draw();
+        self.#_datatable
+          .search('')
+          .draw();
       }
     });
   }
 
   /**
+   * Setup row number column.
+   *
    * @private
    */
   #_setupRowNumber()
@@ -543,7 +574,6 @@ class EnhanceDataTable
       {
         // Find maximum rowspan
         let maxRowSpan = 1;
-        // let attrRowSpan = '';
 
         $(`${this.#_id} thead th`).each((index, th) => {
           const thRowSpan = $(th).attr('rowspan');
@@ -553,11 +583,6 @@ class EnhanceDataTable
             maxRowSpan = thRowSpan;
           }
         });
-
-        // if (maxRowSpan > 0)
-        //   attrRowSpan = `rowspan="${maxRowSpan}"`;;
-        // console.log(attrRowSpan)
-        // attrRowSpan = '';
 
         // Auto append row number DOM
         const indexColumn = `<th rowspan="${maxRowSpan}" class="column-row-number">#</th>`;
@@ -585,6 +610,8 @@ class EnhanceDataTable
   }
 
   /**
+   * Setup checkbox column.
+   *
    * @private
    */
   #_setupCheckboxColumn()
@@ -642,9 +669,11 @@ class EnhanceDataTable
   }
 
   /**
-   * Render row index
-   * https://datatables.net/examples/api/counter_columns.html
+   * Render row index.
+   *
    * @private
+   *
+   * @see [counter_columns]{@link https://datatables.net/examples/api/counter_columns.html} - https://datatables.net/examples/api/counter_columns.html
    */
   #_renderRowNumberEvent()
   {
@@ -769,6 +798,14 @@ class EnhanceDataTable
                   nth_column_text = 'Error Column';
                 }
 
+                let changedData = `<label class='cardview-col-header'>${nth_column_text}</label>${original_content}`;
+
+                // do not perform data changing when data type is not string
+                if (typeof this.data() == 'object')
+                {
+                  changedData = this.data();
+                }
+
                 /*/
                 // console.log(this.column().visible())
                 // console.log(this.data())
@@ -777,7 +814,7 @@ class EnhanceDataTable
                 // console.log(original_content)
                 //*/
 
-                this.data(`<label class='cardview-col-header'>${nth_column_text}</label>${original_content}`);
+                this.data(changedData);
               }
             });
           }
@@ -954,7 +991,7 @@ class EnhanceDataTable
 
     const previousView = this.#_view_status;
 
-    $(`${this.#_id}_wrapper .dt-toggle-view-button`).trigger('click');
+    this.#_toggleView();
 
     return {
       previousView: previousView,
