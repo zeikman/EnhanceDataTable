@@ -405,6 +405,14 @@ class EnhanceDataTable
       // console.log('initComplete') // DEBUG
 
       const buttons = self.#_default_buttons;
+      // console.log(buttons)
+
+      /**
+       * TODO:
+       *  - need to enhance insert position
+       *  - failed to render first manual button cause position running on second manual button
+       */
+      let fail_to_render_position_handler = 0;
 
       if (buttons)
       {
@@ -431,10 +439,12 @@ class EnhanceDataTable
               switch (button.extend)
               {
                 case 'reload':
+                  // console.log('extend reload')
                   self.#_setupButtonReload(index, button);
                   break;
 
                 case 'cardview':
+                  // console.log('extend cardview')
                   self.#_setupButtonToggleCardView(index, button);
                   break;
 
@@ -507,9 +517,9 @@ class EnhanceDataTable
         text      : '',
         titleAttr : 'Toggle View',
         icon      :
-          `<i class="fas fa-table"></i>
-          <i class="fas fa-arrows-h fa-fw"></i>
-          <i class="fas fa-id-card"></i>`,
+          `<i class="fa-solid fa-table"></i>
+          <i class="fa-solid fa-arrows-h fa-fw"></i>
+          <i class="fa-solid fa-id-card"></i>`,
       },
       properties
     );
@@ -813,10 +823,7 @@ class EnhanceDataTable
                * restore order
                *  https://datatables.net/plug-ins/api/order.neutral()
                */
-              self.#_datatable
-                .order
-                .neutral()
-                .draw();
+              self.resetOrder();
 
               // th.attr('data-sort-next', true);
               th.attr('data-sort-next', null);
@@ -1192,8 +1199,6 @@ class EnhanceDataTable
    * @param {Function}  callback      Function which is executed when the data has been reloaded and the table fully redrawn.
    * @param {Boolean}   resetPaging   Reset or hold the current paging position.
    *
-   * @returns None.
-   *
    * @example
    * const dt = new EnhanceDataTable();
    * dt.refresh();
@@ -1213,10 +1218,7 @@ class EnhanceDataTable
     {
       if (this.#_datatable.rows().data().length > 0)
       {
-        this.#_datatable
-          .order
-          .neutral()
-          .draw();
+        this.resetOrder();
       }
     }
   }
@@ -1227,8 +1229,6 @@ class EnhanceDataTable
    * @param {String}    event     Event name.
    * @param {String}    selector  Descendants of the selected elements.
    * @param {Function}  callback  Callback function.
-   *
-   * @returns None.
    *
    * @example
    * const dt = new EnhanceDataTable();
@@ -1259,18 +1259,34 @@ class EnhanceDataTable
    */
   updateData(data)
   {
-    this.#_datatable
-      .order
-      .neutral()
-      .draw();
+    this.resetOrder();
 
-    this.#_datatable
-      .clear()
-      .draw();
+    this.clearData();
 
     this.#_datatable
       .rows
       .add(data)
+      .draw();
+  }
+
+  /**
+   * Clear Data.
+   */
+  clearData()
+  {
+    this.#_datatable
+      .clear()
+      .draw();
+  }
+
+  /**
+   * Restore the order in which data was read into a DataTable.
+   */
+  resetOrder()
+  {
+    this.#_datatable
+      .order
+      .neutral()
       .draw();
   }
 

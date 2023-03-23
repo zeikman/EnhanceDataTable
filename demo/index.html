@@ -81,6 +81,10 @@
       white-space: nowrap;
       -webkit-overflow-scrolling: touch;
     }
+
+    #DataTable_Simple tr:last-child td {
+      border-bottom-width: 0px;
+    }
   </style>
 
 
@@ -242,42 +246,77 @@
           <div class="text-end">
             <button type="button" id="btn_update_data" class="btn btn-primary">Update Data</button>
           </div>
+
+          <hr />
+
+          <h5>Simple Layout - Bootstrap 5</h5>
+          <div class="card">
+            <table id="DataTable_Simple" class="table" style="margin: 0 !important;">
+              <thead class="table-light">
+                <tr>
+                  <th>Column1</th>
+                  <th>Column2</th>
+                  <th>Column3</th>
+                  <th>Column4</th>
+                  <th>Column5</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+
         </div>
 
         <hr />
 
         <div>
+          <p>Issue:</p>
+          <ol>
+            <li>New button 'extend' position running when first manual button failed to render, 23 Mar 2023</li>
+          </ol>
+        </div>
+
+        <div>
           <p>Milestone:</p>
           <ul>
-            <li>Build checkbox into native method</li>
+            <li>-</li>
           </ul>
         </div>
 
         <div>
           <p>New Properties:</p>
           <ul>
-            <li>buttons: ['reload', 'cardview']</li>
-            <li>column_hide_in_card</li>
+            <li>
+              buttons: [
+                'reload',
+                'cardview'
+              ]
+            </li>
+            <li>column_hide_in_card = []</li>
+            <li>three_states_sort = true</li>
+            <li>show_row_number = true</li>
+            <li>show_checkbox = false</li>
           </ul>
         </div>
 
         <div>
           <p>Available Methods:</p>
           <ul>
-            <li>getDataTable</li>
-            <li>getAjaxUrl</li>
-            <li>setAjaxUrl</li>
+            <li>getDataTable()</li>
+            <li>getAjaxUrl()</li>
+            <li>setAjaxUrl(url, autoRefresh = true, callback = null, resetPaging = true)</li>
             <li>getView</li>
-            <li>setView</li>
+            <li>setView(view = 'table')</li>
             <li>toggleView</li>
-            <li>getRows</li>
-            <li>getRowData</li>
+            <li>getRows(mode = 'all')</li>
+            <li>getRowData(rowIndex)</li>
             <li>getSelectedRowIds</li>
             <li>getSelectedRowDatas</li>
-            <li>refresh</li>
-            <li>on</li>
-            <li>search</li>
-            <li>updateData</li>
+            <li>refresh(callback = null, resetPaging = true)</li>
+            <li>on(event, selector, callback)</li>
+            <li>search(input = '')</li>
+            <li>updateData(data)</li>
+            <li>clearData</li>
+            <li>resetOrder</li>
           </ul>
         </div>
 
@@ -585,12 +624,12 @@
           {
             data: 'column2',
             width: '20%',
-            // visible: false,
+            visible: false,
           },
           {
             data: 'column3',
             width: '20%',
-            // visible: false,
+            visible: false,
           },
           {
             data: 'column4',
@@ -705,6 +744,40 @@
         }
 
         $DataTable_Custom.updateData(updateData);
+      });
+
+      /**
+       * ========== ========== ========== ========== ========== ==========
+       *
+       * Simple Layout
+       */
+
+      const $DataTable_Simple = new EnhanceDataTable({
+        id: '#DataTable_Simple',
+        autoWidth: false,
+        order: [],
+        columns: [
+          {
+            data: 'column1',
+            width: '20%',
+          },
+          {
+            data: 'column2',
+            width: '20%',
+          },
+          {
+            data: 'column3',
+            width: '20%',
+          },
+          {
+            data: 'column4',
+            width: '20%',
+          },
+          {
+            data: 'column5',
+          },
+        ],
+        dom: 'rt',
       });
 
     });
