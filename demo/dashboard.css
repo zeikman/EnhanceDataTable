@@ -136,3 +136,32 @@ body {
 .dt-custom-buttons {
   float: right;
 }
+
+/*
+ * Simple Layout
+ */
+
+#DataTable_Simple_wrapper .page-item {
+  margin: 0 5px;
+}
+
+#DataTable_Simple_wrapper .page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0px;
+  border-radius: 50%;
+  color: lightslategray;
+  height: 40px;
+  width: 40px;
+  padding: 0px;
+}
+
+#DataTable_Simple_wrapper .active > .page-link {
+  color: var(--bs-pagination-active-color);
+}
+
+#DataTable_Simple_wrapper .disabled > .page-link {
+  background-color: unset;
+}

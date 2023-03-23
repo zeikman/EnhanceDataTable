@@ -250,7 +250,7 @@
           <hr />
 
           <h5>Simple Layout - Bootstrap 5</h5>
-          <div class="card">
+          <div class="card table-responsive">
             <table id="DataTable_Simple" class="table" style="margin: 0 !important;">
               <thead class="table-light">
                 <tr>
@@ -278,7 +278,7 @@
         <div>
           <p>Milestone:</p>
           <ul>
-            <li>-</li>
+            <li>Merge Checkbox behaviour as native</li>
           </ul>
         </div>
 
@@ -754,31 +754,49 @@
 
       const $DataTable_Simple = new EnhanceDataTable({
         id: '#DataTable_Simple',
+        show_row_number: false,
+        show_checkbox: true,
         autoWidth: false,
         order: [],
+        language: {
+          lengthMenu: 'Items per page _MENU_',
+          paginate: {
+            previous: '<i class="fa-solid fa-arrow-left"></i>',
+            next    : '<i class="fa-solid fa-arrow-right"></i>',
+          }
+        },
         columns: [
           {
             data: 'column1',
+            sortable: false,
             width: '20%',
           },
           {
             data: 'column2',
+            sortable: false,
             width: '20%',
           },
           {
             data: 'column3',
+            sortable: false,
             width: '20%',
           },
           {
             data: 'column4',
+            sortable: false,
             width: '20%',
           },
           {
             data: 'column5',
+            sortable: false,
           },
         ],
-        dom: 'rt',
+        dom: `<'row'<'col-sm-12'tr>>
+              <'row'<'col-sm-12 col-md-8 border'p><'col-sm-12 col-md-4 pe-2 border'<'h-100 d-flex align-items-center justify-content-end'l>>>`,
+        // dom: 'rt<"bottom"lp><"clear">',
       });
+
+      $DataTable_Simple.updateData(data);
 
     });
   </script>
