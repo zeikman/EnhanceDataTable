@@ -67,5 +67,13 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
       <td>updateData</td>
       <td>-</td>
     </tr>
+    <tr>
+      <td>clearData</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>resetOrder</td>
+      <td>-</td>
+    </tr>
   </tbody>
 </table>
