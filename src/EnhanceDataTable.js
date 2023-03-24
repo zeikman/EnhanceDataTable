@@ -40,10 +40,10 @@ class EnhanceDataTable
    */
   #_props = {
     // EnhanceDataTable properties
-    column_hide_in_card: [],
-    three_states_sort: true,
-    show_row_number: true,
-    show_checkbox: false,
+    column_hide_in_card : [],
+    three_states_sort   : true,
+    show_row_number     : true,
+    show_checkbox       : false,
 
     // DataTable original properties //
 
@@ -158,7 +158,13 @@ class EnhanceDataTable
     }
   }
 
-  /*/
+  /**
+   *  Deep clone object.
+   *
+   * @param {Object}  src     Source object.
+   * @param {String}  method  Clone method.
+   * @returns
+   */
   #_cloneObject(src, method = 'jquery')
   {
     switch (method)
@@ -170,8 +176,9 @@ class EnhanceDataTable
         return Object.assign({}, src);
 
       case 'iteration':
-        var target = {};
-        for (var prop in src)
+        let target = {};
+
+        for (let prop in src)
         {
           if (src.hasOwnProperty(prop))
           {
@@ -184,7 +191,6 @@ class EnhanceDataTable
         return $.extend(true, {}, src);
     }
   }
-  //*/
 
   /**
    * Setup internal rowCallback.
@@ -228,6 +234,14 @@ class EnhanceDataTable
             $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo($(this));
           }
         });
+      }
+
+      // handle checkbox render
+      if (self.#_props.show_checkbox)
+      {
+        $('input[type="checkbox"]', row).attr('checked', data.checkbox
+          ? true
+          : false);
       }
 
       userDefinedRowCallback(row, data, displayNum, displayIndex, dataIndex);
@@ -405,7 +419,6 @@ class EnhanceDataTable
       // console.log('initComplete') // DEBUG
 
       const buttons = self.#_default_buttons;
-      // console.log(buttons)
 
       /**
        * TODO:
@@ -414,6 +427,7 @@ class EnhanceDataTable
        */
       let fail_to_render_position_handler = 0;
 
+      // Setup manual buttons (reload | cardview)
       if (buttons)
       {
         buttons.forEach((button, index) => {
@@ -457,8 +471,14 @@ class EnhanceDataTable
         });
       }
 
+      // Setup checkbox event
+      if (self.#_props.show_checkbox)
+      {
+        self.#_setupCheckboxEvent(settings, json);
+      }
+
       // Input search ESC-key event
-      self.#_setupInputSearchEscEvent();
+      self.#_setupInputSearchEscEvent(settings, json);
 
       // run user defined initComplete
       userDefinedInitComplete(settings, json);
@@ -635,12 +655,70 @@ class EnhanceDataTable
     $(this.#_id)[0].dispatchEvent(toggleView);
   }
 
+  #_setupCheckboxEvent(settings, json)
+  {
+    // console.log('#_setupCheckboxEvent'); // DEBUG
+
+    const self = this;
+    const showRowNumber = this.#_props.show_row_number;
+    const checkboxColumnPosition = showRowNumber
+      ? 1
+      : 0;
+
+    // checkbox header event
+    $(this.#_id).on('click', '.column-checkbox-header input[type="checkbox"]', function(e) {
+      if (this.checked) {
+        self.#_datatable
+          .rows()
+          .select();
+
+        self.#_datatable.cells(null, checkboxColumnPosition).every(function (cell)
+        {
+          this.data(true);
+        });
+
+        $(`${self.#_id} tbody td .column-checkbox`).attr('checked', true);
+
+      } else {
+        self.#_datatable.rows().deselect();
+
+        self.#_datatable.cells(null, checkboxColumnPosition).every(function (cell)
+        {
+          this.data(false);
+        });
+
+        $(`${self.#_id} tbody td .column-checkbox`).attr('checked', false);
+      }
+    });
+
+    // row checkbox event
+    $(self.#_id).on('change', '.column-checkbox', function(e) {
+      const totalRows = self.#_datatable.data().length;
+      const selectedRows = self.#_datatable.rows('.selected').data().length;
+
+      if (this.checked)
+      {
+        if (selectedRows == totalRows)
+          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', false);
+        else
+          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', true);
+      }
+      else
+      {
+        if (selectedRows == 0)
+          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', false);
+        else
+          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', true);
+      }
+    });
+  }
+
   /**
    * Setup input search ESC-key event.
    *
    * @private
    */
-  #_setupInputSearchEscEvent()
+  #_setupInputSearchEscEvent(settings, json)
   {
     const self = this;
     const wrapper = `${this.#_id}_wrapper`;
@@ -686,6 +764,11 @@ class EnhanceDataTable
         const indexColumn = `<th rowspan="${maxRowSpan}" class="column-row-number">#</th>`;
 
         $(`${this.#_id} thead tr:first-child`).prepend($(indexColumn));
+
+        if ($(`${this.#_id} tfoot tr:first-child`).length > 0)
+        {
+          $(`${this.#_id} tfoot tr:first-child`).prepend($(indexColumn));
+        }
 
         // Auto append row number column data
         this.#_props.columns.unshift({
@@ -756,13 +839,40 @@ class EnhanceDataTable
           render    : function (data, type, row, meta)
           {
             return `<input type="checkbox" class="form-check-input column-checkbox" />`;
-            // console.log(data)
-            // console.log(type)
-            // console.log(row)
-            // console.log(meta)
           }
         });
       }
+
+      // Config 'select' property
+      const showRowNumber = this.#_props.show_row_number;
+
+      let default_select_prop = {
+        style: 'multiple', // api | single | multi | os | multi-shift
+      };
+
+      if (showRowNumber)
+      {
+        default_select_prop.selector = 'td:nth-child(2) input[type="checkbox"]';
+      }
+      else
+      {
+        default_select_prop.selector = 'td:first-child  input[type="checkbox"]';
+      }
+
+      const hasSelectProperty = this.#_props.hasOwnProperty('select');
+
+      if (hasSelectProperty)
+      {
+        this.#_props.select = _.merge(
+          default_select_prop,
+          this.#_props.select
+        );
+      }
+      else
+      {
+        this.#_props.select = default_select_prop;
+      }
+
     }
   }
 
@@ -812,8 +922,8 @@ class EnhanceDataTable
            */
           if (self.#_datatable.settings().order().length === 1)
           {
-            var order = self.#_datatable.settings().order()[0];
-            var th = $(`${self.#_id} th:eq(${order[0]})`);
+            let order = self.#_datatable.settings().order()[0];
+            let th = $(`${self.#_id} th:eq(${order[0]})`);
 
             if (th.attr('data-sort-next') === 'false')
             {
@@ -982,7 +1092,7 @@ class EnhanceDataTable
     // https://betterprogramming.pub/how-to-merge-deeply-nested-objects-in-javascript-27e12107480e
     this.#_props = _.merge(
       this.#_props,
-      args,
+      args
     );
     //*/
 

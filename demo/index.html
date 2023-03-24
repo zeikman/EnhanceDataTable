@@ -253,7 +253,7 @@
           <div class="card table-responsive">
             <table id="DataTable_Simple" class="table" style="margin: 0 !important;">
               <thead class="table-light">
-                <tr>
+                <tr class="text-secondary">
                   <th>Column1</th>
                   <th>Column2</th>
                   <th>Column3</th>
@@ -272,13 +272,14 @@
           <p>Issue:</p>
           <ol>
             <li>New button 'extend' position running when first manual button failed to render, 23 Mar 2023</li>
+            <li>Cardview sometimes render Date-Format failed due to data changed with .cardview-col-header included, 24 Mar 2023</li>
           </ol>
         </div>
 
         <div>
           <p>Milestone:</p>
           <ul>
-            <li>Merge Checkbox behaviour as native</li>
+            <li>-</li>
           </ul>
         </div>
 
@@ -295,6 +296,13 @@
             <li>three_states_sort = true</li>
             <li>show_row_number = true</li>
             <li>show_checkbox = false</li>
+          </ul>
+        </div>
+
+        <div>
+          <p>New Events:</p>
+          <ul>
+            <li>toggleView => function(e) { e.detail.view }</li>
           </ul>
         </div>
 
@@ -369,20 +377,22 @@
          * DataTable original property
          */
         autoWidth: false,
+
         // no default sorting
         order: [],
+
         // NOTE: test lodash merge - https://lodash.com/
         language: {
           // searchPlaceholder: 'test',
-          paginate: {
-            // feather
-            // previous: '<i data-feather="arrow-left"></i>',
-            // fontawesome
-            previous: '<i class="fa-solid fa-arrow-left"></i>',
-            next    : '<i class="fa-solid fa-arrow-right"></i>',
-            // previous: '<i class="fa-solid fa-chevron-left"></i>',
-            // next    : '<i class="fa-solid fa-chevron-right"></i>',
-          }
+          // paginate: {
+          //   // feather
+          //   // previous: '<i data-feather="arrow-left"></i>',
+          //   // fontawesome
+          //   previous: '<i class="fa-solid fa-arrow-left"></i>',
+          //   next    : '<i class="fa-solid fa-arrow-right"></i>',
+          //   // previous: '<i class="fa-solid fa-chevron-left"></i>',
+          //   // next    : '<i class="fa-solid fa-chevron-right"></i>',
+          // }
         },
         lengthMenu:
           /*/
@@ -645,9 +655,24 @@
         //   3, // Column3
         // ],
 
-        dom: `<'row'<'col-sm-6'<'dt-custom-search'f>><'col-sm-6'<'dt-custom-buttons'B>>>
-              <'row'<'col-sm-12'tr>>
-              <'row'<'col-sm-5'<'dt-custom-paging'il>><'col-sm-7'p>>`,
+        dom:
+          `<'row'
+            <'col-sm-6'
+              <'dt-custom-search'f>
+            >
+            <'col-sm-6'
+              <'dt-custom-buttons'B>
+            >
+          >
+          <'row'
+            <'col-sm-12'tr>
+          >
+          <'row'
+            <'col-sm-5'
+              <'dt-custom-paging'il>
+            >
+            <'col-sm-7'p>
+          >`,
 
         buttons: [
           // custom button
@@ -758,6 +783,10 @@
         show_checkbox: true,
         autoWidth: false,
         order: [],
+        // select: {
+        //   // style: 'api',
+        //   // selector: 'td:nth-child(3)',
+        // },
         language: {
           lengthMenu: 'Items per page _MENU_',
           paginate: {
@@ -791,10 +820,21 @@
             sortable: false,
           },
         ],
-        dom: `<'row'<'col-sm-12'tr>>
-              <'row'<'col-sm-12 col-md-8 border'p><'col-sm-12 col-md-4 pe-2 border'<'h-100 d-flex align-items-center justify-content-end'l>>>`,
+        dom:
+          `<'row'
+            <'col-sm-12'tr>
+          >
+          <'row'
+            <'col-sm-12 col-md-8 border'p>
+            <'col-sm-12 col-md-4 pe-2 border'
+              <'h-100 d-flex align-items-center justify-content-end'l>
+            >
+          >`,
         // dom: 'rt<"bottom"lp><"clear">',
       });
+
+      test_simple = $DataTable_Simple;
+      dt_simple = $DataTable_Simple.getDataTable();
 
       $DataTable_Simple.updateData(data);
 
