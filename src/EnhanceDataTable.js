@@ -911,7 +911,7 @@ class EnhanceDataTable
                 {
                   const original_content_text = original_content.toString();
 
-                  if (original_content_text.indexOf('cardview-col-header') == 0-1)
+                  if (original_content_text.indexOf('cardview-col-header') == -1)
                   {
                     // console.log('cardview-col-header > DEBUG-4'); // DEBUG
                     changedData = `<label class='cardview-col-header'>${nth_column_text}</label>${original_content}`;
@@ -929,6 +929,18 @@ class EnhanceDataTable
                 this.data(changedData);
               }
             });
+          }
+        }
+      }
+      else
+      {
+        if (state)
+        {
+          const cardviewColHeader =  $(`${wrapper} .cardview-col-header`);
+
+          if (cardviewColHeader.length > 0)
+          {
+            cardviewColHeader.remove();
           }
         }
       }
