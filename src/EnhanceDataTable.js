@@ -1,3 +1,184 @@
+/** Custom button - reload */
+$.fn.dataTable.ext.buttons.reload = {
+  text      : '<i class="fa-solid fa-sync"></i>',
+  titleAttr : 'Reload Data',
+  className : 'buttons-reload',
+  action: function(e, dt, node, config)
+  {
+    // console.log(e)
+    // console.log(dt)
+    // console.log(node)
+    // console.log(config)
+
+    if (dt.ajax.url())
+    {
+      this.ajax.reload();
+    }
+    else
+    {
+      if (dt.rows().data().length)
+      {
+        this.order
+          .neutral()
+          .draw();
+      }
+    }
+  }
+};
+
+/** Custom button - reload */
+$.fn.dataTable.ext.buttons.cardview = {
+  text:
+    `<i class="fa-solid fa-table"></i>
+    <i class="fa-solid fa-arrows-h fa-fw"></i>
+    <i class="fa-solid fa-id-card"></i>`,
+  titleAttr : 'Toggle View',
+  className : 'buttons-cardview',
+  action: function(e, dt, node, config)
+  {
+    // console.log(e)
+    // console.log(dt)
+    // console.log(node)
+    // console.log(config)
+
+    const tableNodeId = `#${dt.table().node().id}`;
+    const wrapperNodeId = `${tableNodeId}_wrapper`;
+    const column_hide_in_card = $(dt.table().node()).data('card-hide-col');
+    const $dt = $(tableNodeId);
+
+    // hide in card view, but can re-open using column toggle
+    const toggle_columns_visibility =
+      column_hide_in_card && typeof column_hide_in_card == 'object'
+        ? column_hide_in_card
+        : [];
+
+    let show_toggle_columns = false;
+    let hide_toggle_columns = false;
+
+    if ($(wrapperNodeId).hasClass('dt-card'))
+    {
+      if (toggle_columns_visibility.length > 0)
+      {
+        // when turn into table view
+        show_toggle_columns = true;
+      }
+
+      $(`${wrapperNodeId} .cardview-col-header`).remove();
+
+    }
+    else
+    {
+      // when turn into card view
+      const theadRows = $(`${tableNodeId} thead tr`);
+
+      if (theadRows.length == 1)
+      {
+        $(`${tableNodeId} thead th`).each(function ()
+        {
+          labels.push($(this).text());
+        });
+      }
+
+      if (theadRows.length == 2)
+      {
+        let row_1 = [];
+        let row_2 = [];
+        let row_result = [];
+
+        theadRows.each((index, tr) => {
+          if (index == 0)
+          {
+            $(tr).children().each((cIndex, th) => row_1.push(th));
+          }
+
+          if (index == 1)
+          {
+            $(tr).children().each((cIndex, th) => row_2.push(th));
+          }
+        });
+
+        row_1.forEach((th, index) => {
+          const colspan = $(th).attr('colspan');
+
+          if (colspan == 1)
+          {
+            row_result.push($(th).text());
+          }
+          else
+          {
+            for (let i = 0; i < colspan; i++)
+            {
+              const row_2_th = row_2.shift();
+
+              row_result.push($(row_2_th).text());
+            }
+          }
+        });
+
+        labels = row_result;
+      }
+
+      $(`${tableNodeId} tbody tr`).each(function ()
+      {
+        $(this)
+          .find('td')
+          .each(function (column)
+          {
+            // console.log('cardview-col-header > DEBUG-2'); // DEBUG
+            $(`<label class='cardview-col-header'>${labels[column]}</label>`).prependTo($(this));
+          });
+      });
+
+      if (toggle_columns_visibility.length > 0)
+      {
+        hide_toggle_columns = true;
+      }
+    }
+
+    $(wrapperNodeId).toggleClass('dt-card');
+
+    $dt.data('view-status', $(wrapperNodeId).hasClass('dt-card')
+      ? 'card'
+      : 'table');
+
+    if ($(wrapperNodeId).hasClass('dt-card'))
+    {
+      $(wrapperNodeId).addClass('card-view');
+      $(wrapperNodeId).removeClass('table-view');
+    }
+    else
+    {
+      $(wrapperNodeId).addClass('table-view');
+      $(wrapperNodeId).removeClass('card-view');
+    }
+
+    if (show_toggle_columns)
+    {
+      dt.columns(toggle_columns_visibility)
+        .visible(true);
+
+      $(`${wrapperNodeId} .cardview-col-header`).remove();
+    }
+
+    if (hide_toggle_columns)
+    {
+      dt.columns(toggle_columns_visibility)
+        .visible(false);
+    }
+
+    // Emit toggle table-card event
+    const toggleView = new CustomEvent('toggleView', {
+      detail: {
+        view: $dt.data('view-status'),
+      },
+    });
+
+    dt.table()
+      .node()
+      .dispatchEvent(toggleView);
+  }
+};
+
 /** En enhanced version of jQuery DataTable with various useful built-in methods and functionalities. */
 class EnhanceDataTable
 {
@@ -16,9 +197,6 @@ class EnhanceDataTable
 
   /** @private */
   #_default_buttons;
-
-  /** @private */
-  #_view_status = 'table';
 
   /** @private */
   #_export_config = {
@@ -91,12 +269,19 @@ class EnhanceDataTable
   #_initDataTable()
   {
     this.#_retainDefaultTheadStructure();
-    this.#_retainDefaultButtons();
     this.#_setupRowCallback();
     this.#_setupDrawCallback();
     this.#_setupInitComplete();
     this.#_setupCheckboxColumn();
     this.#_setupRowNumber();
+
+    // setup default DataTableNode[data-]
+    $(this.#_id).data('view-status', 'table');
+
+    if (this.#_props.hasOwnProperty('column_hide_in_card'))
+    {
+      $(this.#_id).data('card-hide-col', this.#_props.column_hide_in_card);
+    }
 
     const datatable_id = this.#_id;
 
@@ -123,39 +308,6 @@ class EnhanceDataTable
   #_retainDefaultTheadStructure()
   {
     this.#_default_thead = $(`${this.#_id} thead`).clone();
-  }
-
-  #_retainDefaultButtons()
-  {
-    if (this.#_props.hasOwnProperty('buttons'))
-    {
-      const new_buttons = [];
-
-      this.#_default_buttons = [...this.#_props.buttons];
-
-      this.#_props.buttons.forEach((button, index) => {
-        if (typeof button == 'string')
-        {
-          if (button != 'reload' && button != 'cardview')
-          {
-            new_buttons.push(button);
-          }
-        }
-
-        if (typeof button == 'object')
-        {
-          if (button.hasOwnProperty('extend'))
-          {
-            if (button.extend != 'reload' && button.extend != 'cardview')
-            {
-              new_buttons.push(button);
-            }
-          }
-        }
-      });
-
-      this.#_props.buttons = new_buttons;
-    }
   }
 
   /**
@@ -271,10 +423,14 @@ class EnhanceDataTable
 
     this.#_props.drawCallback = function (settings)
     {
-      if (self.#_view_status == 'table')
+      if ($(self.#_id).data('view-status') == 'table')
       {
         $(`${wrapper} .cardview-col-header`).remove();
       }
+      // if (self.#_datatable && self.#_datatable.table().node().data('view-status') == 'table')
+      // {
+      //   $(`${wrapper} .cardview-col-header`).remove();
+      // }
 
       userDefinedDrawCallback(settings);
     }
@@ -418,59 +574,6 @@ class EnhanceDataTable
     {
       // console.log('initComplete') // DEBUG
 
-      const buttons = self.#_default_buttons;
-
-      /**
-       * TODO:
-       *  - need to enhance insert position
-       *  - failed to render first manual button cause position running on second manual button
-       */
-      let fail_to_render_position_handler = 0;
-
-      // Setup manual buttons (reload | cardview)
-      if (buttons)
-      {
-        buttons.forEach((button, index) => {
-          if (typeof button == 'string')
-          {
-            if (button == 'reload')
-            {
-              // setup reload button
-              self.#_setupButtonReload(index);
-            }
-
-            if (button == 'cardview')
-            {
-              // setup toggle table-card view button
-              self.#_setupButtonToggleCardView(index);
-            }
-          }
-
-          if (typeof button == 'object')
-          {
-            if (button.hasOwnProperty('extend'))
-            {
-              switch (button.extend)
-              {
-                case 'reload':
-                  // console.log('extend reload')
-                  self.#_setupButtonReload(index, button);
-                  break;
-
-                case 'cardview':
-                  // console.log('extend cardview')
-                  self.#_setupButtonToggleCardView(index, button);
-                  break;
-
-                default:
-                  break;
-              }
-            }
-          }
-
-        });
-      }
-
       // Setup checkbox event
       if (self.#_props.show_checkbox)
       {
@@ -487,81 +590,6 @@ class EnhanceDataTable
   }
 
   /**
-   * Render reload button
-   *
-   * @private
-   */
-  #_setupButtonReload(insertAtPosition, properties)
-  {
-    const wrapper = `${this.#_id}_wrapper`;
-    const props = _.merge(
-      {
-        text      : '',
-        titleAttr : 'Reload Data',
-        icon      : '<i class="fa-solid fa-sync"></i>',
-      },
-      properties
-    );
-
-    const button_syntax =
-      `<button id="${this.#_id.slice(1)}_dt_reload" class="btn dt-reload-button" title="${props.titleAttr}">
-        ${props.icon} ${props.text}
-      </button>`;
-
-    if (insertAtPosition == 0)
-    {
-      $(`${wrapper} .dt-buttons.btn-group`).prepend(button_syntax);
-    }
-    else
-    {
-      $(button_syntax).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
-    }
-
-    $(wrapper).on('click', `${this.#_id}_dt_reload`, this.refresh.bind(
-      this,
-      null/* callback */,
-      true/* resetPaging */
-    ));
-  }
-
-  /**
-   * Render toggle table/card view button
-   *
-   * @private
-   */
-  #_setupButtonToggleCardView(insertAtPosition, properties)
-  {
-    const wrapper = `${this.#_id}_wrapper`;
-    const props = _.merge(
-      {
-        text      : '',
-        titleAttr : 'Toggle View',
-        icon      :
-          `<i class="fa-solid fa-table"></i>
-          <i class="fa-solid fa-arrows-h fa-fw"></i>
-          <i class="fa-solid fa-id-card"></i>`,
-      },
-      properties
-    );
-
-    const button_syntax =
-      `<button id="${this.#_id.slice(1)}_dt_cardview" class="btn dt-toggle-view-button" title="${props.titleAttr}">
-        ${props.icon} ${props.text}
-      </button>`;
-
-    if (insertAtPosition == 0)
-    {
-      $(`${wrapper} .dt-buttons.btn-group`).prepend(button_syntax);
-    }
-    else
-    {
-      $(button_syntax).insertAfter(`${wrapper} .dt-buttons > :nth-child(${insertAtPosition})`);
-    }
-
-    $(wrapper).on('click', `${this.#_id}_dt_cardview`, this.#_toggleView.bind(this));
-  }
-
-  /**
    * Toggle between table and card view.
    *
    * @private
@@ -569,11 +597,12 @@ class EnhanceDataTable
   #_toggleView()
   {
     const wrapper = `${this.#_id}_wrapper`;
+    const column_hide_in_card = $(this.#_id).data('card-hide-col');
 
     // hide in card view, but can re-open using column toggle
     const toggle_columns_visibility =
-      this.#_props.column_hide_in_card && typeof this.#_props.column_hide_in_card == 'object'
-        ? this.#_props.column_hide_in_card
+      column_hide_in_card && typeof column_hide_in_card == 'object'
+        ? column_hide_in_card
         : [];
 
     let show_toggle_columns = false;
@@ -614,9 +643,9 @@ class EnhanceDataTable
 
     $(wrapper).toggleClass('dt-card');
 
-    this.#_view_status = $(wrapper).hasClass('dt-card')
+    $(this.#_id).data('view-status', $(wrapper).hasClass('dt-card')
       ? 'card'
-      : 'table';
+      : 'table');
 
     if ($(wrapper).hasClass('dt-card'))
     {
@@ -648,11 +677,14 @@ class EnhanceDataTable
     // Emit toggle table-card event
     const toggleView = new CustomEvent('toggleView', {
       detail: {
-        view: this.#_view_status,
+        view: $(this.#_id).data('view-status'),
       },
     });
 
-    $(this.#_id)[0].dispatchEvent(toggleView);
+    this.#_datatable
+      .table()
+      .node()
+      .dispatchEvent(toggleView);
   }
 
   #_setupCheckboxEvent(settings, json)
@@ -666,8 +698,10 @@ class EnhanceDataTable
       : 0;
 
     // checkbox header event
-    $(this.#_id).on('click', '.column-checkbox-header input[type="checkbox"]', function(e) {
-      if (this.checked) {
+    $(this.#_id).on('click', '.column-checkbox-header input[type="checkbox"]', function(e)
+    {
+      if (this.checked)
+      {
         self.#_datatable
           .rows()
           .select();
@@ -692,7 +726,8 @@ class EnhanceDataTable
     });
 
     // row checkbox event
-    $(self.#_id).on('change', '.column-checkbox', function(e) {
+    $(self.#_id).on('change', '.column-checkbox', function(e)
+    {
       const totalRows = self.#_datatable.data().length;
       const selectedRows = self.#_datatable.rows('.selected').data().length;
 
@@ -922,8 +957,23 @@ class EnhanceDataTable
            */
           if (self.#_datatable.settings().order().length === 1)
           {
+            const visibleColumns = self.#_datatable.settings().columns().visible();
+            const columnMapping = {};
+            let countMapping = 0;
+
+            visibleColumns.each((visibility, index) => {
+              if (visibility)
+              {
+                columnMapping[index] = countMapping++;
+              }
+            });
+
             let order = self.#_datatable.settings().order()[0];
-            let th = $(`${self.#_id} th:eq(${order[0]})`);
+            let th = $(`${self.#_id} th:eq(${columnMapping[order[0]]})`);
+
+            // console.log(order)
+            // console.log(th)
+            // console.log(th.attr('data-sort-next'))
 
             if (th.attr('data-sort-next') === 'false')
             {
@@ -934,6 +984,7 @@ class EnhanceDataTable
                *  https://datatables.net/plug-ins/api/order.neutral()
                */
               self.resetOrder();
+              // alert('3rd state reset') // DEBUG
 
               // th.attr('data-sort-next', true);
               th.attr('data-sort-next', null);
@@ -1177,7 +1228,7 @@ class EnhanceDataTable
    */
   getView()
   {
-    return this.#_view_status;
+    return $(this.#_id).data('view-status');
   }
 
   /**
@@ -1198,7 +1249,7 @@ class EnhanceDataTable
         view == 'table'
         || view == 'card'
       )
-      && this.#_view_status != view
+      && $(this.#_id).data('view-status') != view
     )
     {
       this.toggleView();
@@ -1223,13 +1274,13 @@ class EnhanceDataTable
     // let length = $(`${this.#_id}_wrapper #dt_cardview`).length; // DEBUG
     // console.log(`toggleView > ${this.#_id}_wrapper: ${length}`) // DEBUG
 
-    const previousView = this.#_view_status;
+    const previousView = $(this.#_id).data('view-status');
 
     this.#_toggleView();
 
     return {
       previousView: previousView,
-      view        : this.#_view_status,
+      view        : $(this.#_id).data('view-status'),
     };
   }
 

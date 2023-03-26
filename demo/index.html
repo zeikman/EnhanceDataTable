@@ -81,10 +81,6 @@
       white-space: nowrap;
       -webkit-overflow-scrolling: touch;
     }
-
-    #DataTable_Simple tr:last-child td {
-      border-bottom-width: 0px;
-    }
   </style>
 
 
@@ -271,8 +267,16 @@
         <div>
           <p>Issue:</p>
           <ol>
-            <li>New button 'extend' position running when first manual button failed to render, 23 Mar 2023</li>
+            <li>
+              <div class="text-decoration-line-through">
+                New button 'extend' position running when first manual button failed to render, 23 Mar 2023
+              </div>
+              <div>
+                <i>Custom button re-wrote into proper buttons extend way</i>
+              </div>
+            </li>
             <li>Cardview sometimes render Date-Format failed due to data changed with .cardview-col-header included, 24 Mar 2023</li>
+            <li>Column default invisible, 3 stated sorting failed on last column, 26 Mar 2023</li>
           </ol>
         </div>
 
@@ -650,10 +654,10 @@
           },
         ],
 
-        // column_hide_in_card: [
-        //   2, // Column2
-        //   3, // Column3
-        // ],
+        column_hide_in_card: [
+          2, // Column2
+          3, // Column3
+        ],
 
         dom:
           `<'row'
@@ -693,10 +697,9 @@
           'reload',
           /*/
           {
-            extend: 'reload',
-            // text: 'Reload',
-            // titleAttr: 'Reload',
-            // icon: '<i class="fa-solid fa-check"></i>',
+            extend    : 'reload',
+            // text      : 'Reload',
+            titleAttr : 'Reload',
           },
           //*/
           {
@@ -711,10 +714,9 @@
           'cardview',
           /*/
           {
-            extend: 'cardview',
-            // text: 'Card View',
-            // titleAttr: 'Toggle Table/Card',
-            // icon: '<i class="fa-solid fa-check"></i>',
+            extend    : 'cardview',
+            // text      : 'Card View',
+            titleAttr : 'Toggle Table/Card',
           },
           //*/
           // 'copy',
@@ -722,12 +724,16 @@
         ],
 
         initComplete: function(settings, json) {
-          $('.dt-reload-button, .dt-toggle-view-button').addClass('btn-secondary');
+          /* $('.dt-reload-button, .dt-toggle-view-button').addClass('btn-secondary'); */
         },
       });
 
       test_custom = $DataTable_Custom;
       dt_custom = $DataTable_Custom.getDataTable();
+
+      $DataTable_Custom.on('toggleView', (e) => {
+        console.log(e.detail.view)
+      });
 
       $DataTable_Custom.updateData(data);
 
@@ -824,10 +830,13 @@
           `<'row'
             <'col-sm-12'tr>
           >
-          <'row'
-            <'col-sm-12 col-md-8 border'p>
-            <'col-sm-12 col-md-4 pe-2 border'
-              <'h-100 d-flex align-items-center justify-content-end'l>
+          <'row mt-2 mb-3'
+            <'col-sm-12 col-md-2 _border'>
+            <'col-sm-12 col-md-8 _border'
+              <'text-center'p>
+            >
+            <'col-sm-12 col-md-2 pe-2 _border'
+              <'h-100 d-flex align-items-center justify-content-end me-2'l>
             >
           >`,
         // dom: 'rt<"bottom"lp><"clear">',

@@ -162,6 +162,18 @@ body {
   color: var(--bs-pagination-active-color);
 }
 
-#DataTable_Simple_wrapper .disabled > .page-link {
+#DataTable_Simple_wrapper .disabled {
+  cursor: not-allowed;
+}
+
+/* #DataTable_Simple_wrapper .disabled > .page-link {
   background-color: unset;
+} */
+
+#DataTable_Simple_wrapper .pagination {
+  justify-content: center;
+}
+
+#DataTable_Simple tr:last-child td {
+  border-bottom-width: 0px;
 }
