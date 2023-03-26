@@ -134,21 +134,33 @@
           </h6>
           <ul>
             <li>dataTable</li>
-            <li>getAjaxUrl</li>
-            <li>setAjaxUrl</li>
-            <li>getVie</li>
-            <li>setView</li>
-            <li>toggleVie</li>
-            <li>getRows</li>
-            <li>getRowData</li>
-            <li>getSelectedRowId</li>
-            <li>getSelectedRowData</li>
-            <li>refresh</li>
-            <li>on</li>
-            <li>search</li>
-            <li>updateData</li>
-            <li>clearDat</li>
-            <li>resetOrde</li>
+            <li>getAjaxUrl()</li>
+            <li>setAjaxUrl()</li>
+            <li>getVie()</li>
+            <li>setView()</li>
+            <li>toggleVie()</li>
+            <li>getRows()</li>
+            <li>getRowData()</li>
+            <li>getSelectedRowId()</li>
+            <li>getSelectedRowData()</li>
+            <li>refresh()</li>
+            <li>on()</li>
+            <li>search()</li>
+            <li>updateData()</li>
+            <li>clearData()</li>
+            <li>resetOrder()</li>
+            <li>select()</li>
+            <li>deselect()</li>
+          </ul>
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted text-uppercase">
+            <span>Event</span>
+            <a class="link-secondary" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle" class="align-text-bottom"></span>
+            </a>
+          </h6>
+          <ul>
+            <li>toggleView => function(e) { e.detail.view }</li>
           </ul>
 
           <!-- <ul class="nav flex-column">
@@ -303,11 +315,11 @@
                 </tr>
               </thead>
             </table>
+          </div>
 
-            <div class="text-end border p-2 mt-2">
-              <button type="button" id="btn_simple_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
-              <button type="button" id="btn_simple_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
-            </div>
+          <div class="text-end border p-2 mt-2">
+            <button type="button" id="btn_simple_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
+            <button type="button" id="btn_simple_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
           </div>
 
         </div>
@@ -341,52 +353,6 @@
           <p>Milestone:</p>
           <ul>
             <li>-</li>
-          </ul>
-        </div>
-
-        <div>
-          <p>New Properties:</p>
-          <ul>
-            <li>
-              buttons: [
-                'reload',
-                'cardview'
-              ]
-            </li>
-            <li>column_hide_in_card = []</li>
-            <li>three_states_sort = true</li>
-            <li>show_row_number = true</li>
-            <li>show_checkbox = false</li>
-          </ul>
-        </div>
-
-        <div>
-          <p>New Events:</p>
-          <ul>
-            <li>toggleView => function(e) { e.detail.view }</li>
-          </ul>
-        </div>
-
-        <div>
-          <p>Available Methods:</p>
-          <ul>
-            <!-- <li>getDataTable()</li> -->
-            <li>dataTable &gt; get DataTable</li>
-            <li>getAjaxUrl()</li>
-            <li>setAjaxUrl(url, autoRefresh = true, callback = null, resetPaging = true)</li>
-            <li>getView</li>
-            <li>setView(view = 'table')</li>
-            <li>toggleView</li>
-            <li>getRows(mode = 'all')</li>
-            <li>getRowData(rowIndex)</li>
-            <li>getSelectedRowIds</li>
-            <li>getSelectedRowDatas</li>
-            <li>refresh(callback = null, resetPaging = true)</li>
-            <li>on(event, selector, callback)</li>
-            <li>search(input = '')</li>
-            <li>updateData(data)</li>
-            <li>clearData</li>
-            <li>resetOrder</li>
           </ul>
         </div>
 

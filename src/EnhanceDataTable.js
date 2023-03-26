@@ -5,11 +5,6 @@ $.fn.dataTable.ext.buttons.reload = {
   className : 'buttons-reload',
   action: function (e, dt, node, config)
   {
-    // console.log(e)
-    // console.log(dt)
-    // console.log(node)
-    // console.log(config)
-
     if (dt.ajax.url())
     {
       this.ajax.reload();
@@ -18,9 +13,7 @@ $.fn.dataTable.ext.buttons.reload = {
     {
       if (dt.rows().data().length)
       {
-        this.order
-          .neutral()
-          .draw();
+        this.order.neutral().draw();
       }
     }
   }
@@ -32,19 +25,14 @@ $.fn.dataTable.ext.buttons.cardview = {
     `<i class="fa-solid fa-table"></i>
     <i class="fa-solid fa-arrows-h fa-fw"></i>
     <i class="fa-solid fa-id-card"></i>`,
-  titleAttr : 'Toggle View',
-  className : 'buttons-cardview',
+  titleAttr: 'Toggle View',
+  className: 'buttons-cardview',
   action: function (e, dt, node, config)
   {
-    // console.log(e)
-    // console.log(dt)
-    // console.log(node)
-    // console.log(config)
-
-    const tableNodeId = `#${dt.table().node().id}`;
-    const wrapperNodeId = `${tableNodeId}_wrapper`;
+    const tableNodeId         = `#${dt.table().node().id}`;
+    const wrapperNodeId       = `${tableNodeId}_wrapper`;
     const column_hide_in_card = $(dt.table().node()).data('card-hide-col');
-    const $dt = $(tableNodeId);
+    const $dt                 = $(tableNodeId);
 
     // hide in card view, but can re-open using column toggle
     const toggle_columns_visibility =
@@ -57,14 +45,13 @@ $.fn.dataTable.ext.buttons.cardview = {
 
     if ($(wrapperNodeId).hasClass('dt-card'))
     {
+      // when turn into table view
       if (toggle_columns_visibility.length > 0)
       {
-        // when turn into table view
         show_toggle_columns = true;
       }
 
       $(`${wrapperNodeId} .cardview-col-header`).remove();
-
     }
     else
     {
@@ -198,22 +185,6 @@ class EnhanceDataTable
   /** @private */
   #_default_thead;
 
-  /** @private */
-  #_default_buttons;
-
-  /** @private */
-  #_export_config = {
-    exportOptions : {
-      columns: ':visible',
-    }
-  };
-
-  /** @private */
-  #_zproplist = [];
-
-  /** @private */
-  #_zprop = {};
-
   /**
    * Default properties
    *
@@ -295,6 +266,7 @@ class EnhanceDataTable
 
       this.#_datatable = $(datatable_id).DataTable(props);
 
+      // Gets DataTable object.
       this.dataTable = this.#_datatable;
 
       $(wrapper).addClass('table-view');
@@ -371,13 +343,6 @@ class EnhanceDataTable
 
     this.#_props.rowCallback = function (row, data, displayNum, displayIndex, dataIndex)
     {
-      // console.error('------------------------------')
-      // console.log(row)
-      // console.log(data)
-      // console.log(displayNum)
-      // console.log(displayIndex)
-      // console.log(dataIndex)
-
       // handle reload content during card view
       if ($(wrapper).hasClass('dt-card'))
       {
@@ -402,7 +367,6 @@ class EnhanceDataTable
       }
 
       userDefinedRowCallback(row, data, displayNum, displayIndex, dataIndex);
-
     };
   }
 
@@ -432,10 +396,6 @@ class EnhanceDataTable
       {
         $(`${wrapper} .cardview-col-header`).remove();
       }
-      // if (self.#_datatable && self.#_datatable.table().node().data('view-status') == 'table')
-      // {
-      //   $(`${wrapper} .cardview-col-header`).remove();
-      // }
 
       userDefinedDrawCallback(settings);
     }
@@ -457,7 +417,6 @@ class EnhanceDataTable
     if (use_default_thead)
     {
       theadRows = $(this.#_default_thead).find('tr');
-      // console.log(theadRows)
 
       labels = this.#_combineColspanColumn(theadRows, [ '#' ], use_default_thead);
     }
@@ -491,7 +450,6 @@ class EnhanceDataTable
   {
     let row_1 = [];
     let row_2 = [];
-    // let row_result = [];
 
     theadRows.each((index, tr) => {
       if (index == 0)
@@ -505,15 +463,10 @@ class EnhanceDataTable
       }
     });
 
-    // console.log(row_1)
-    // console.log(row_2)
-
     if (use_default_thead)
     {
       row_1.forEach((th, index) => {
         const colspan = $(th).attr('colspan');
-        // console.log(th)
-        // console.log(colspan)
 
         if (colspan > 0)
         {
@@ -551,7 +504,6 @@ class EnhanceDataTable
       });
     }
 
-    // console.log(row_result)
     return row_result;
   }
 
@@ -577,8 +529,6 @@ class EnhanceDataTable
     // internal must run initComplate > generate table-card view toggle
     this.#_props.initComplete = function (settings, json)
     {
-      // console.log('initComplete') // DEBUG
-
       // Setup checkbox event
       if (self.#_props.show_checkbox)
       {
@@ -590,7 +540,6 @@ class EnhanceDataTable
 
       // run user defined initComplete
       userDefinedInitComplete(settings, json);
-
     };
   }
 
@@ -615,14 +564,13 @@ class EnhanceDataTable
 
     if ($(wrapper).hasClass('dt-card'))
     {
+      // when turn into table view
       if (toggle_columns_visibility.length > 0)
       {
-        // when turn into table view
         show_toggle_columns = true;
       }
 
       $(`${wrapper} .cardview-col-header`).remove();
-
     }
     else
     {
@@ -694,8 +642,6 @@ class EnhanceDataTable
 
   #_setupCheckboxEvent(settings, json)
   {
-    // console.log('#_setupCheckboxEvent'); // DEBUG
-
     const self = this;
 
     // checkbox header event
@@ -705,9 +651,7 @@ class EnhanceDataTable
 
       if (this.checked)
       {
-        self.#_datatable
-          .rows()
-          .select();
+        self.#_datatable.rows().select();
       }
       else
       {
@@ -781,13 +725,6 @@ class EnhanceDataTable
           sortable  : false,
           className : 'column-row-number',
           width     : 30,
-          // render    : function (data, type, row, meta)
-          // {
-          //   console.log(data)
-          //   // console.log(type)
-          //   // console.log(row)
-          //   // console.log(meta)
-          // }
         });
       }
     }
@@ -800,8 +737,6 @@ class EnhanceDataTable
    */
   #_setupCheckboxColumn()
   {
-    const self = this;
-
     if (this.#_props.show_checkbox)
     {
       const hasCheckboxColumn = this.#_props.columns.find((column) => column.data == 'checkbox');
@@ -814,20 +749,6 @@ class EnhanceDataTable
         </th>`;
 
         const checkboxColumnElement = $(checkboxColumn);
-
-        /* checkboxColumnElement.on('click', 'input', function ()
-        {
-          if (this.checked)
-          {
-            self.#_datatable.rows().select();
-
-            $(`${self.#_id} tbody td .column-checkbox`);
-          }
-          else
-          {
-            self.#_datatable.rows().deselect();
-          }
-        }); */
 
         $(`${this.#_id} thead tr:first-child`).prepend(checkboxColumnElement);
 
@@ -939,22 +860,14 @@ class EnhanceDataTable
             let order = self.#_datatable.settings().order()[0];
             let th = $(`${self.#_id} th:eq(${columnMapping[order[0]]})`);
 
-            // console.log(order)
-            // console.log(th)
-            // console.log(th.attr('data-sort-next'))
-
             if (th.attr('data-sort-next') === 'false')
             {
-              // self.#_datatable.order([]).draw();
-
               /**
                * restore order
                *  https://datatables.net/plug-ins/api/order.neutral()
                */
               self.resetOrder();
-              // alert('3rd state reset') // DEBUG
 
-              // th.attr('data-sort-next', true);
               th.attr('data-sort-next', null);
             }
             else
@@ -1076,6 +989,9 @@ class EnhanceDataTable
     });
   }
 
+  /**
+   * Select/Select-to-Checkbox internal event
+   */
   #_selectDeselectEvent()
   {
     const self = this;
@@ -1118,7 +1034,7 @@ class EnhanceDataTable
         // update header checkbox
         if (!self.#_checkbox_header_triggered)
         {
-          self.#_checkboxHeaderTndeterminate();
+          self.#_checkboxHeaderIndeterminate();
         }
 
         self.#_checkbox_header_triggered = false;
@@ -1163,7 +1079,7 @@ class EnhanceDataTable
         // update header checkbox
         if (!self.#_checkbox_header_triggered)
         {
-          self.#_checkboxHeaderTndeterminate();
+          self.#_checkboxHeaderIndeterminate();
         }
 
         self.#_checkbox_header_triggered = false;
@@ -1171,7 +1087,10 @@ class EnhanceDataTable
     });
   }
 
-  #_checkboxHeaderTndeterminate()
+  /**
+   * Checkbox header 'Indeterminate' control
+   */
+  #_checkboxHeaderIndeterminate()
   {
     const totalRows = this.#_datatable.data().length;
     const selectedRows = this.#_datatable.rows('.selected').data().length;
@@ -1209,20 +1128,11 @@ class EnhanceDataTable
       delete args.id;
     }
 
-    /*/
-    // spread operator
-    this.#_props = {
-      ...this.#_props,
-      ...args,
-    };
-    /*/
-    // lodash
-    // https://betterprogramming.pub/how-to-merge-deeply-nested-objects-in-javascript-27e12107480e
+    // lodash - https://betterprogramming.pub/how-to-merge-deeply-nested-objects-in-javascript-27e12107480e
     this.#_props = _.merge(
       this.#_props,
       args
     );
-    //*/
 
     this.#_initDataTable();
     this.#_renderRowNumberEvent();
@@ -1232,20 +1142,6 @@ class EnhanceDataTable
   // end of constructor
 
   // NOTE: Public Methods ========== ========== ========== ========== ========== ========== ========== ==========
-
-  /**
-   * Gets DataTable object.
-   *
-   * @returns {Object} DataTable object.
-   *
-   * @example
-   * const dt = new EnhanceDataTable();
-   * dt.getDataTable();
-   */
-  /* getDataTable()
-  {
-    return this.#_datatable;
-  } */
 
   /**
    * Get DataTable ajax url.
@@ -1349,9 +1245,6 @@ class EnhanceDataTable
    */
   toggleView()
   {
-    // let length = $(`${this.#_id}_wrapper #dt_cardview`).length; // DEBUG
-    // console.log(`toggleView > ${this.#_id}_wrapper: ${length}`) // DEBUG
-
     const previousView = $(this.#_id).data('view-status');
 
     this.#_toggleView();
@@ -1539,6 +1432,26 @@ class EnhanceDataTable
       .order
       .neutral()
       .draw();
+  }
+
+  /**
+   * Select a row.
+   *
+   * @param {Number|String} rowIndex Row index.
+   */
+  select(rowIndex)
+  {
+    this.#_datatable.rows(rowIndex).select();
+  }
+
+  /**
+   * Deselect a row.
+   *
+   * @param {Number|String} rowIndex Row index.
+   */
+  deselect(rowIndex)
+  {
+    this.#_datatable.rows(rowIndex).deselect();
   }
 
 }

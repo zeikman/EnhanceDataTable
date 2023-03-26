@@ -1,6 +1,35 @@
 # EnhanceDataTable
 EnhanceDataTable is a DataTables plugin that provides a set of useful methods and functionalities to deal with data retrieving, updating, filtering, finding, and etc.
 
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>column_hide_in_card</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>three_states_sort</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>show_row_number</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>show_checkbox</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
 ## Methods
 
 <table>
@@ -11,10 +40,6 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>getDataTable</td>
-      <td>-</td>
-    </tr>
     <tr>
       <td>getAjaxUrl</td>
       <td>-</td>
@@ -73,6 +98,14 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
     </tr>
     <tr>
       <td>resetOrder</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>select</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>deselect</td>
       <td>-</td>
     </tr>
   </tbody>
