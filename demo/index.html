@@ -106,6 +106,51 @@
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3 sidebar-sticky">
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted text-uppercase">
+            <span>Property</span>
+            <a class="link-secondary" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle" class="align-text-bottom"></span>
+            </a>
+          </h6>
+          <ul>
+            <li>
+              buttons: [
+                'reload',
+                'cardview'
+              ]
+            </li>
+            <li>column_hide_in_card = []</li>
+            <li>three_states_sort = true</li>
+            <li>show_row_number = true</li>
+            <li>show_checkbox = false</li>
+          </ul>
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted text-uppercase">
+            <span>Method</span>
+            <a class="link-secondary" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle" class="align-text-bottom"></span>
+            </a>
+          </h6>
+          <ul>
+            <li>dataTable</li>
+            <li>getAjaxUrl</li>
+            <li>setAjaxUrl</li>
+            <li>getVie</li>
+            <li>setView</li>
+            <li>toggleVie</li>
+            <li>getRows</li>
+            <li>getRowData</li>
+            <li>getSelectedRowId</li>
+            <li>getSelectedRowData</li>
+            <li>refresh</li>
+            <li>on</li>
+            <li>search</li>
+            <li>updateData</li>
+            <li>clearDat</li>
+            <li>resetOrde</li>
+          </ul>
+
           <!-- <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
@@ -215,7 +260,7 @@
             </tfoot> -->
           </table>
 
-          <div class="text-end">
+          <div class="text-end border p-2 mt-2">
             <button type="button" id="btn_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
             <button type="button" id="btn_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
           </div>
@@ -239,7 +284,7 @@
             </thead>
           </table>
 
-          <div class="text-end">
+          <div class="text-end border p-2 mt-2">
             <button type="button" id="btn_update_data" class="btn btn-primary">Update Data</button>
           </div>
 
@@ -258,6 +303,11 @@
                 </tr>
               </thead>
             </table>
+
+            <div class="text-end border p-2 mt-2">
+              <button type="button" id="btn_simple_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
+              <button type="button" id="btn_simple_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
+            </div>
           </div>
 
         </div>
@@ -276,7 +326,14 @@
               </div>
             </li>
             <li>Cardview sometimes render Date-Format failed due to data changed with .cardview-col-header included, 24 Mar 2023</li>
-            <li>Column default invisible, 3 stated sorting failed on last column, 26 Mar 2023</li>
+            <li>
+              <div class="text-decoration-line-through">
+                Column default invisible, 3 stated sorting failed on last column, 26 Mar 2023
+              </div>
+              <div>
+                <i>Visible column mapping</i>
+              </div>
+            </li>
           </ol>
         </div>
 
@@ -313,7 +370,8 @@
         <div>
           <p>Available Methods:</p>
           <ul>
-            <li>getDataTable()</li>
+            <!-- <li>getDataTable()</li> -->
+            <li>dataTable &gt; get DataTable</li>
             <li>getAjaxUrl()</li>
             <li>setAjaxUrl(url, autoRefresh = true, callback = null, resetPaging = true)</li>
             <li>getView</li>
@@ -490,9 +548,9 @@
 
           $('#DataTable').on('click', '.column-checkbox-header input[type="checkbox"]', function(e) {
             if (this.checked) {
-              $DataTable.getDataTable().rows().select();
+              $DataTable.dataTable.rows().select();
 
-              $DataTable.getDataTable().cells(null, 1).every(function (cell)
+              $DataTable.dataTable.cells(null, 1).every(function (cell)
               {
                 this.data(true);
               });
@@ -501,9 +559,9 @@
               $('#DataTable tbody td .column-checkbox').attr('checked', true);
 
             } else {
-              $DataTable.getDataTable().rows().deselect();
+              $DataTable.dataTable.rows().deselect();
 
-              $DataTable.getDataTable().cells(null, 1).every(function (cell)
+              $DataTable.dataTable.cells(null, 1).every(function (cell)
               {
                 this.data(false);
               });
@@ -517,8 +575,10 @@
             // const dataId = $(this).data('id');
             // console.log(dataId)
 
-            const totalRows = $DataTable.getDataTable().data().length;
-            const selectedRows = $DataTable.getDataTable().rows('.selected').data().length;
+            console.log('ori.change.column-checkbox')
+
+            const totalRows = $DataTable.dataTable.data().length;
+            const selectedRows = $DataTable.dataTable.rows('.selected').data().length;
 
             // return;
             if (this.checked)
@@ -578,14 +638,14 @@
 
       //*/
       $DataTable
-        .getDataTable()
+        .dataTable
         .rows
         .add(data)
         .draw();
       //*/
 
       test = $DataTable;
-      dt = $DataTable.getDataTable();
+      dt = $DataTable.dataTable;
 
       $('#btn_getselectedrowdatas').on('click', function(e) {
         console.log($DataTable.getSelectedRowDatas());
@@ -729,7 +789,7 @@
       });
 
       test_custom = $DataTable_Custom;
-      dt_custom = $DataTable_Custom.getDataTable();
+      dt_custom = $DataTable_Custom.dataTable;
 
       $DataTable_Custom.on('toggleView', (e) => {
         console.log(e.detail.view)
@@ -741,7 +801,7 @@
        * Returns a random number between min (inclusive) and max (exclusive)
        */
       function getRandomArbitrary(min, max) {
-          return Math.random() * (max - min) + min;
+        return Math.random() * (max - min) + min;
       }
 
       /**
@@ -789,10 +849,12 @@
         show_checkbox: true,
         autoWidth: false,
         order: [],
-        // select: {
-        //   // style: 'api',
-        //   // selector: 'td:nth-child(3)',
-        // },
+        /*/
+        select: {
+          style: 'os',
+          selector: 'td, th',
+        },
+        //*/
         language: {
           lengthMenu: 'Items per page _MENU_',
           paginate: {
@@ -843,9 +905,17 @@
       });
 
       test_simple = $DataTable_Simple;
-      dt_simple = $DataTable_Simple.getDataTable();
+      dt_simple = $DataTable_Simple.dataTable;
 
       $DataTable_Simple.updateData(data);
+
+      $('#btn_simple_getselectedrowdatas').on('click', function(e) {
+        console.log($DataTable_Simple.getSelectedRowDatas());
+      });
+
+      $('#btn_simple_getselectedrowids').on('click', function(e) {
+        console.log($DataTable_Simple.getSelectedRowIds());
+      });
 
     });
   </script>

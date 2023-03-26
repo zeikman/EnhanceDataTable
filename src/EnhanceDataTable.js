@@ -3,7 +3,7 @@ $.fn.dataTable.ext.buttons.reload = {
   text      : '<i class="fa-solid fa-sync"></i>',
   titleAttr : 'Reload Data',
   className : 'buttons-reload',
-  action: function(e, dt, node, config)
+  action: function (e, dt, node, config)
   {
     // console.log(e)
     // console.log(dt)
@@ -34,7 +34,7 @@ $.fn.dataTable.ext.buttons.cardview = {
     <i class="fa-solid fa-id-card"></i>`,
   titleAttr : 'Toggle View',
   className : 'buttons-cardview',
-  action: function(e, dt, node, config)
+  action: function (e, dt, node, config)
   {
     // console.log(e)
     // console.log(dt)
@@ -193,6 +193,9 @@ class EnhanceDataTable
   #_id;
 
   /** @private */
+  #_checkbox_header_triggered;
+
+  /** @private */
   #_default_thead;
 
   /** @private */
@@ -291,6 +294,8 @@ class EnhanceDataTable
       const wrapper = `${datatable_id}_wrapper`;
 
       this.#_datatable = $(datatable_id).DataTable(props);
+
+      this.dataTable = this.#_datatable;
 
       $(wrapper).addClass('table-view');
     }
@@ -692,58 +697,21 @@ class EnhanceDataTable
     // console.log('#_setupCheckboxEvent'); // DEBUG
 
     const self = this;
-    const showRowNumber = this.#_props.show_row_number;
-    const checkboxColumnPosition = showRowNumber
-      ? 1
-      : 0;
 
     // checkbox header event
-    $(this.#_id).on('click', '.column-checkbox-header input[type="checkbox"]', function(e)
+    $(this.#_id).on('click', '.column-checkbox-header input[type="checkbox"]', function (e)
     {
+      self.#_checkbox_header_triggered = true;
+
       if (this.checked)
       {
         self.#_datatable
           .rows()
           .select();
-
-        self.#_datatable.cells(null, checkboxColumnPosition).every(function (cell)
-        {
-          this.data(true);
-        });
-
-        $(`${self.#_id} tbody td .column-checkbox`).attr('checked', true);
-
-      } else {
-        self.#_datatable.rows().deselect();
-
-        self.#_datatable.cells(null, checkboxColumnPosition).every(function (cell)
-        {
-          this.data(false);
-        });
-
-        $(`${self.#_id} tbody td .column-checkbox`).attr('checked', false);
-      }
-    });
-
-    // row checkbox event
-    $(self.#_id).on('change', '.column-checkbox', function(e)
-    {
-      const totalRows = self.#_datatable.data().length;
-      const selectedRows = self.#_datatable.rows('.selected').data().length;
-
-      if (this.checked)
-      {
-        if (selectedRows == totalRows)
-          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', false);
-        else
-          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', true);
       }
       else
       {
-        if (selectedRows == 0)
-          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', false);
-        else
-          $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).prop('indeterminate', true);
+        self.#_datatable.rows().deselect();
       }
     });
   }
@@ -847,7 +815,7 @@ class EnhanceDataTable
 
         const checkboxColumnElement = $(checkboxColumn);
 
-        checkboxColumnElement.on('click', 'input', function ()
+        /* checkboxColumnElement.on('click', 'input', function ()
         {
           if (this.checked)
           {
@@ -859,7 +827,7 @@ class EnhanceDataTable
           {
             self.#_datatable.rows().deselect();
           }
-        });
+        }); */
 
         $(`${this.#_id} thead tr:first-child`).prepend(checkboxColumnElement);
 
@@ -1108,6 +1076,115 @@ class EnhanceDataTable
     });
   }
 
+  #_selectDeselectEvent()
+  {
+    const self = this;
+
+    this.#_datatable.on('select', function (e, dt, type, indexes)
+    {
+      if (self.#_props.show_checkbox)
+      {
+        // update data
+        const checkbox_column = self.#_props.show_row_number
+          ? 1
+          : 0;
+
+        indexes.forEach((rowIndex, index) => {
+          dt.cell(rowIndex, checkbox_column).data(true)
+        });
+
+        // update DOM checkbox
+        if (self.#_checkbox_header_triggered)
+        {
+          $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', true);
+        }
+        else
+        {
+          const pageinfo    = self.#_datatable.page.info();
+          const pageLength  = pageinfo.length;
+          const rowStart    = pageinfo.start;
+          const rowEnd      = pageinfo.end;
+
+          indexes.forEach((rowIndex, index) => {
+            if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
+            {
+              const domRowIndex = rowIndex % pageLength;
+
+              $(`${self.#_id} tbody tr:eq(${domRowIndex}) td .column-checkbox`).attr('checked', true);
+            }
+          });
+        }
+
+        // update header checkbox
+        if (!self.#_checkbox_header_triggered)
+        {
+          self.#_checkboxHeaderTndeterminate();
+        }
+
+        self.#_checkbox_header_triggered = false;
+      }
+    });
+
+    this.#_datatable.on('deselect', function (e, dt, type, indexes)
+    {
+      if (self.#_props.show_checkbox)
+      {
+        // update data
+        const checkbox_column = self.#_props.show_row_number
+          ? 1
+          : 0;
+
+        indexes.forEach((rowIndex, index) => {
+          dt.cell(rowIndex, checkbox_column).data(false)
+        });
+
+        // update DOM checkbox
+        if (self.#_checkbox_header_triggered)
+        {
+          $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', false);
+        }
+        else
+        {
+          const pageinfo    = self.#_datatable.page.info();
+          const pageLength  = pageinfo.length;
+          const rowStart    = pageinfo.start;
+          const rowEnd      = pageinfo.end;
+
+          indexes.forEach((rowIndex, index) => {
+            if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
+            {
+              const domRowIndex = rowIndex % pageLength;
+
+              $(`${self.#_id} tbody tr:eq(${domRowIndex}) td .column-checkbox`).attr('checked', false);
+            }
+          });
+        }
+
+        // update header checkbox
+        if (!self.#_checkbox_header_triggered)
+        {
+          self.#_checkboxHeaderTndeterminate();
+        }
+
+        self.#_checkbox_header_triggered = false;
+      }
+    });
+  }
+
+  #_checkboxHeaderTndeterminate()
+  {
+    const totalRows = this.#_datatable.data().length;
+    const selectedRows = this.#_datatable.rows('.selected').data().length;
+
+    $(`${this.#_id} .column-checkbox-header input[type="checkbox"]`)
+      .prop(
+        'indeterminate',
+        selectedRows == 0 || selectedRows == totalRows
+          ? false
+          : true
+      );
+  }
+
   // NOTE: Constructor ========== ========== ========== ========== ========== ========== ========== ==========
 
   constructor()
@@ -1150,6 +1227,7 @@ class EnhanceDataTable
     this.#_initDataTable();
     this.#_renderRowNumberEvent();
     this.#_columnVisibilityEvent();
+    this.#_selectDeselectEvent();
   }
   // end of constructor
 
@@ -1164,10 +1242,10 @@ class EnhanceDataTable
    * const dt = new EnhanceDataTable();
    * dt.getDataTable();
    */
-  getDataTable()
+  /* getDataTable()
   {
     return this.#_datatable;
-  }
+  } */
 
   /**
    * Get DataTable ajax url.
