@@ -57,6 +57,7 @@ $.fn.dataTable.ext.buttons.cardview = {
     {
       // when turn into card view
       const theadRows = $(`${tableNodeId} thead tr`);
+      let labels = [];
 
       if (theadRows.length == 1)
       {
