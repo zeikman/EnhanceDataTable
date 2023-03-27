@@ -329,23 +329,7 @@
         <div>
           <p>Issue:</p>
           <ol>
-            <li>
-              <div class="text-decoration-line-through">
-                New button 'extend' position running when first manual button failed to render, 23 Mar 2023
-              </div>
-              <div>
-                <i>Custom button re-wrote into proper buttons extend way</i>
-              </div>
-            </li>
             <li>Cardview sometimes render Date-Format failed due to data changed with .cardview-col-header included, 24 Mar 2023</li>
-            <li>
-              <div class="text-decoration-line-through">
-                Column default invisible, 3 stated sorting failed on last column, 26 Mar 2023
-              </div>
-              <div>
-                <i>Visible column mapping</i>
-              </div>
-            </li>
           </ol>
         </div>
 
@@ -831,27 +815,33 @@
         columns: [
           {
             data: 'column1',
-            sortable: false,
-            width: '20%',
+            // sortable: false,
+            render: function(data, type, row, meta) {
+              return `<div class="d-flex align-items-center">
+                <div class="bg-primary rounded me-2" style="width: 35px; height: 35px;"></div>
+                <div>${data}</div>
+              </div>`;
+            },
           },
           {
             data: 'column2',
             sortable: false,
-            width: '20%',
+            width: '15%',
           },
           {
             data: 'column3',
             sortable: false,
-            width: '20%',
+            width: '15%',
           },
           {
             data: 'column4',
             sortable: false,
-            width: '20%',
+            width: '15%',
           },
           {
             data: 'column5',
             sortable: false,
+            width: '15%',
           },
         ],
         dom:
