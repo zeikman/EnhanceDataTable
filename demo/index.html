@@ -134,7 +134,7 @@
                 </a>
               </h6>
 
-              <a class="nav-link py-1 ms-3" href="#prop-1">buttons</a>
+              <a class="nav-link py-1 ms-3" href="#prop-buttons">buttons</a>
               <a class="nav-link py-1 ms-3" href="#prop-2">column_hide_in_card</a>
               <a class="nav-link py-1 ms-3" href="#prop-3">three_states_sort</a>
               <a class="nav-link py-1 ms-3" href="#prop-4">show_row_number</a>
@@ -292,7 +292,7 @@
 
           <h4 class="mb-4">Property</h4>
 
-          <!-- <div id="-prop-1" class="card mb-4">
+          <!-- <div id="-prop-buttons" class="card mb-4">
             <div class="card-header">
               buttons
             </div>
@@ -306,16 +306,32 @@
             </div>
           </div> -->
 
-          <div id="prop-1" class="accordion mb-4">
+          <div id="prop-buttons" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-1" aria-expanded="true" aria-controls="collapse-prop-1">
-                  <strong>button</strong>
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-buttons" aria-expanded="true" aria-controls="collapse-prop-buttons">
+                  <strong>buttons | New buttons : 'reload', 'cardview'</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-1" class="accordion-collapse collapse">
+              <div id="collapse-prop-buttons" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Two new buttons:
+                    <ol>
+                      <li>'reload' - Reload data button.</li>
+                      <li>'cardview' - Toggle view button. (Table view / Card vieww)</li>
+                    </ol>
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_prop_buttons" class="border">new EnhanceDataTable({
+  buttons: [
+    'reload',
+    'cardview',
+  ],
+});
+</div>
                 </div>
               </div>
             </div>
@@ -324,13 +340,32 @@
           <div id="prop-2" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-2" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-2" aria-expanded="true" aria-controls="collapse-prop-2">
                   <strong>column_hide_in_card</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-2" class="accordion-collapse collapse">
+              <div id="collapse-prop-2" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Columns which will be hide when turns into card view, and show again then turns into table view.
+                    Those hidden columns still able to show out by toggle the column visibilty.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Array</p>
+
+                  <h6>Default</h6>
+                  <p>[ ]</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_column_hide_in_card" class="border">new EnhanceDataTable({
+  column_hide_in_card: [
+    1, // index of column two
+    2, // index of column three
+  ],
+});
+</div>
                 </div>
               </div>
             </div>
@@ -339,13 +374,28 @@
           <div id="prop-3" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-3" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-3" aria-expanded="true" aria-controls="collapse-prop-3">
                   <strong>three_states_sort</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-3" class="accordion-collapse collapse">
+              <div id="collapse-prop-3" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Three states sorting. [ Ascending > Descending > Original ]
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Boolean</p>
+
+                  <h6>Default</h6>
+                  <p>true</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_three_states_sort" class="border">new EnhanceDataTable({
+  three_states_sort: true,
+});
+</div>
                 </div>
               </div>
             </div>
@@ -354,13 +404,28 @@
           <div id="prop-4" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-4" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-4" aria-expanded="true" aria-controls="collapse-prop-4">
                   <strong>show_row_number</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-4" class="accordion-collapse collapse">
+              <div id="collapse-prop-4" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Show row number column.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Boolean</p>
+
+                  <h6>Default</h6>
+                  <p>true</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_show_row_number" class="border">new EnhanceDataTable({
+  show_row_number: true,
+});
+</div>
                 </div>
               </div>
             </div>
@@ -369,13 +434,28 @@
           <div id="prop-5" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-5" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-5" aria-expanded="true" aria-controls="collapse-prop-5">
                   <strong>show_checkbox</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-5" class="accordion-collapse collapse">
+              <div id="collapse-prop-5" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Show checkbox column.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Boolean</p>
+
+                  <h6>Default</h6>
+                  <p>false</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_show_checkbox" class="border">new EnhanceDataTable({
+  show_checkbox: false,
+});
+</div>
                 </div>
               </div>
             </div>
@@ -389,13 +469,26 @@
           <div id="method-1" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-1" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-1" aria-expanded="true" aria-controls="collapse-method-1">
                   <strong>getAjaxUrl()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-1" class="accordion-collapse collapse">
+              <div id="collapse-method-1" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get Ajax URL of DataTables.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getAjaxUrl" class="border">const dt = new EnhanceDataTable({
+  ajax: {
+    url: 'data.php',
+  }
+});
+
+window.alert('Ajax URL:' + dt.getAjaxUrl());
+</div>
                 </div>
               </div>
             </div>
@@ -404,13 +497,44 @@
           <div id="method-2" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-2" aria-expanded="true" aria-controls="collapse-prop-1">
-                  <strong>setAjaxUrl()</strong>
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-2" aria-expanded="true" aria-controls="collapse-method-2">
+                  <strong>setAjaxUrl( <i>url</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-2" class="accordion-collapse collapse">
+              <div id="collapse-method-2" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get Ajax URL of DataTables.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>url</i></td>
+                      <td><code>string</code></td>
+                      <td>Yes</td>
+                      <td>New Ajax URL.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_setAjaxUrl" class="border">const dt = new EnhanceDataTable({
+  ajax: {
+    url: 'data.php',
+  }
+});
+
+dt.setAjaxUrl('new_data.php');
+</div>
                 </div>
               </div>
             </div>
@@ -419,11 +543,11 @@
           <div id="method-3" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-3" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-3" aria-expanded="true" aria-controls="collapse-method-3">
                   <strong>getView()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-3" class="accordion-collapse collapse">
+              <div id="collapse-method-3" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -434,11 +558,11 @@
           <div id="method-4" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-4" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-4" aria-expanded="true" aria-controls="collapse-method-4">
                   <strong>setView()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-4" class="accordion-collapse collapse">
+              <div id="collapse-method-4" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -449,11 +573,11 @@
           <div id="method-5" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-5" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-5" aria-expanded="true" aria-controls="collapse-method-5">
                   <strong>toggleView()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-5" class="accordion-collapse collapse">
+              <div id="collapse-method-5" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -464,11 +588,11 @@
           <div id="method-6" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-6" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-6" aria-expanded="true" aria-controls="collapse-method-6">
                   <strong>getRows()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-6" class="accordion-collapse collapse">
+              <div id="collapse-method-6" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -479,11 +603,11 @@
           <div id="method-7" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-7" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-7" aria-expanded="true" aria-controls="collapse-method-7">
                   <strong>getRowData()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-7" class="accordion-collapse collapse">
+              <div id="collapse-method-7" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -494,11 +618,11 @@
           <div id="method-8" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-8" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-8" aria-expanded="true" aria-controls="collapse-method-8">
                   <strong>getSelectedRowId()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-8" class="accordion-collapse collapse">
+              <div id="collapse-method-8" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -509,11 +633,11 @@
           <div id="method-9" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-9" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-9" aria-expanded="true" aria-controls="collapse-method-9">
                   <strong>getSelectedRowData()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-9" class="accordion-collapse collapse">
+              <div id="collapse-method-9" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -524,11 +648,11 @@
           <div id="method-10" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-10" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-10" aria-expanded="true" aria-controls="collapse-method-10">
                   <strong>refresh()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-10" class="accordion-collapse collapse">
+              <div id="collapse-method-10" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -539,11 +663,11 @@
           <div id="method-11" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-11" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-11" aria-expanded="true" aria-controls="collapse-method-11">
                   <strong>on()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-11" class="accordion-collapse collapse">
+              <div id="collapse-method-11" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -554,11 +678,11 @@
           <div id="method-12" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-12" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-12" aria-expanded="true" aria-controls="collapse-method-12">
                   <strong>search()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-12" class="accordion-collapse collapse">
+              <div id="collapse-method-12" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -569,11 +693,11 @@
           <div id="method-13" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-13" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-13" aria-expanded="true" aria-controls="collapse-method-13">
                   <strong>updateData()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-13" class="accordion-collapse collapse">
+              <div id="collapse-method-13" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -584,11 +708,11 @@
           <div id="method-14" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-14" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-14" aria-expanded="true" aria-controls="collapse-method-14">
                   <strong>clearData()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-14" class="accordion-collapse collapse">
+              <div id="collapse-method-14" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -599,11 +723,11 @@
           <div id="method-15" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-15" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-15" aria-expanded="true" aria-controls="collapse-method-15">
                   <strong>resetOrder()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-15" class="accordion-collapse collapse">
+              <div id="collapse-method-15" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -614,11 +738,11 @@
           <div id="method-16" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-16" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-16" aria-expanded="true" aria-controls="collapse-method-16">
                   <strong>select()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-16" class="accordion-collapse collapse">
+              <div id="collapse-method-16" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -629,11 +753,11 @@
           <div id="method-17" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-17" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-17" aria-expanded="true" aria-controls="collapse-method-17">
                   <strong>deselect()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-17" class="accordion-collapse collapse">
+              <div id="collapse-method-17" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -648,11 +772,11 @@
           <div id="event-1" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-1" aria-expanded="true" aria-controls="collapse-prop-1">
+                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-1" aria-expanded="true" aria-controls="collapse-event-1">
                   <strong>toggleView</strong>
                 </button>
               </h2>
-              <div id="collapse-event-1" class="accordion-collapse collapse">
+              <div id="collapse-event-1" class="accordion-collapse collapse show">
                 <div class="accordion-body">
                   content
                 </div>
@@ -707,8 +831,11 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script> -->
   <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script> -->
   <script type="text/javascript" src="../lib/Lodash/lodash.min.js"></script>
-  <script src="dashboard.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/mode-javascript.min.js"></script>
+
+  <script src="dashboard.js"></script>
   <script src="../lib/DataTables/datatables.min.js"></script>
   <script src="../lib/API/order.neutral().js"></script>
   <script src="../src/EnhanceDataTable.js"></script>
@@ -1059,16 +1186,11 @@
             }
           },
           //*/
-
-          /*/
-          'reload',
-          /*/
           {
             extend    : 'reload',
-            // text      : 'Reload',
+            text      : '<i class="fa-solid fa-sync"></i>',
             titleAttr : 'Reload',
           },
-          //*/
           {
             extend    : 'colvis',
             text      : 'Toggle Column',
@@ -1077,15 +1199,14 @@
             align     : 'button-right',
             postfixButtons: [ 'colvisRestore' ],
           },
-          /*/
-          'cardview',
-          /*/
           {
             extend    : 'cardview',
-            // text      : 'Card View',
+            text      :
+              `<i class="fa-solid fa-table"></i>
+              <i class="fa-solid fa-arrows-h fa-fw"></i>
+              <i class="fa-solid fa-id-card"></i>`,
             titleAttr : 'Toggle Table/Card',
           },
-          //*/
           // 'copy',
           // 'pdf',
         ],
@@ -1239,6 +1360,32 @@
       // $('[data-bs-spy="scroll"]').on('activate.bs.scrollspy', (e) => {
       //   console.log(e)
       // });
+
+      /**
+       * ========== ========== ========== ========== ========== ==========
+       *
+       * Ace Editor
+       */
+
+      const config_ace_javascript = {
+        mode    : 'ace/mode/javascript',
+        readOnly: true,
+        maxLines: Infinity,
+        fontSize: '11px',
+      };
+
+      // Property
+      ace.edit('example_prop_buttons', config_ace_javascript);
+      ace.edit('example_prop_column_hide_in_card', config_ace_javascript);
+      ace.edit('example_prop_three_states_sort', config_ace_javascript);
+      ace.edit('example_prop_show_row_number', config_ace_javascript);
+      ace.edit('example_prop_show_checkbox', config_ace_javascript);
+
+      // Method
+      ace.edit('example_method_getAjaxUrl', config_ace_javascript);
+      ace.edit('example_method_setAjaxUrl', config_ace_javascript);
+
+      // Event
 
     });
   </script>

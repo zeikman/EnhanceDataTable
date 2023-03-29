@@ -1,6 +1,7 @@
 /** Custom button - reload */
 $.fn.dataTable.ext.buttons.reload = {
-  text      : '<i class="fa-solid fa-sync"></i>',
+  // text      : '<i class="fa-solid fa-sync"></i>',
+  text      : 'Reload Data',
   titleAttr : 'Reload Data',
   className : 'buttons-reload',
   action: function (e, dt, node, config)
@@ -21,12 +22,13 @@ $.fn.dataTable.ext.buttons.reload = {
 
 /** Custom button - reload */
 $.fn.dataTable.ext.buttons.cardview = {
-  text:
-    `<i class="fa-solid fa-table"></i>
-    <i class="fa-solid fa-arrows-h fa-fw"></i>
-    <i class="fa-solid fa-id-card"></i>`,
-  titleAttr: 'Toggle View',
-  className: 'buttons-cardview',
+  // text:
+  //   `<i class="fa-solid fa-table"></i>
+  //   <i class="fa-solid fa-arrows-h fa-fw"></i>
+  //   <i class="fa-solid fa-id-card"></i>`,
+  text      : 'Toggle View',
+  titleAttr : 'Toggle View',
+  className : 'buttons-cardview',
   action: function (e, dt, node, config)
   {
     const tableNodeId         = `#${dt.table().node().id}`;
