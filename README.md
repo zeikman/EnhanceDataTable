@@ -12,20 +12,30 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
   </thead>
   <tbody>
     <tr>
+      <td>buttons</td>
+      <td>New buttons : 'reload', 'cardview'</td>
+    </tr>
+    <tr>
       <td>column_hide_in_card</td>
-      <td>-</td>
+      <td>
+        Columns which will be hide when turns into card view, and show again then turns into table view.
+        Those hidden columns still able to show out by toggle the column visibilty.
+      </td>
     </tr>
     <tr>
       <td>three_states_sort</td>
-      <td>-</td>
+      <td>
+        Three states sorting.<br />
+        [ Ascending > Descending > Original ]
+    </td>
     </tr>
     <tr>
       <td>show_row_number</td>
-      <td>-</td>
+      <td>Show row number column.</td>
     </tr>
     <tr>
       <td>show_checkbox</td>
-      <td>-</td>
+      <td>Show checkbox column.</td>
     </tr>
   </tbody>
 </table>
@@ -42,71 +52,91 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
   <tbody>
     <tr>
       <td>getAjaxUrl</td>
-      <td>-</td>
+      <td>Get Ajax URL of DataTables.</td>
     </tr>
     <tr>
       <td>setAjaxUrl</td>
-      <td>-</td>
+      <td>Set Ajax URL of DataTables.</td>
     </tr>
     <tr>
       <td>getView</td>
-      <td>-</td>
+      <td>Get current view of DataTables.</td>
     </tr>
     <tr>
       <td>setView</td>
-      <td>-</td>
+      <td>Set DataTables view.</td>
     </tr>
     <tr>
       <td>toggleView</td>
-      <td>-</td>
+      <td>Toggle between 'table' and 'card' view.</td>
     </tr>
     <tr>
       <td>getRows</td>
-      <td>-</td>
+      <td>Get all rows.</td>
     </tr>
     <tr>
       <td>getRowData</td>
-      <td>-</td>
+      <td>Get data of a row.</td>
     </tr>
     <tr>
       <td>getSelectedRowIds</td>
-      <td>-</td>
+      <td>Get ID of selected rows.</td>
     </tr>
     <tr>
       <td>getSelectedRowDatas</td>
-      <td>-</td>
+      <td>Get data of selected rows.</td>
     </tr>
     <tr>
       <td>refresh</td>
-      <td>-</td>
+      <td>Reload DataTables data.</td>
     </tr>
     <tr>
       <td>on</td>
-      <td>-</td>
+      <td>
+        Register DataTables events listener.<br />
+        Refer to <a href="https://datatables.net/reference/api/on()" target="_blank">on()</a>.
+      </td>
     </tr>
     <tr>
       <td>search</td>
-      <td>-</td>
+      <td>Filter data.</td>
     </tr>
     <tr>
       <td>updateData</td>
-      <td>-</td>
+      <td>Update data.</td>
     </tr>
     <tr>
       <td>clearData</td>
-      <td>-</td>
+      <td>Clear data.</td>
     </tr>
     <tr>
       <td>resetOrder</td>
-      <td>-</td>
+      <td>Restore the order in which data was read into a DataTable.</td>
     </tr>
     <tr>
       <td>select</td>
-      <td>-</td>
+      <td>Select a row.</td>
     </tr>
     <tr>
       <td>deselect</td>
-      <td>-</td>
+      <td>Deselect a row.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>toggleView</td>
+      <td>Toggle view event - fired when DataTables view changes.</td>
     </tr>
   </tbody>
 </table>
