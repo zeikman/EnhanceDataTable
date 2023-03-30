@@ -309,11 +309,11 @@
           <div id="prop-buttons" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-buttons" aria-expanded="true" aria-controls="collapse-prop-buttons">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-buttons" aria-expanded="true" aria-controls="collapse-prop-buttons">
                   <strong>buttons | New buttons : 'reload', 'cardview'</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-buttons" class="accordion-collapse collapse show">
+              <div id="collapse-prop-buttons" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
@@ -340,11 +340,11 @@
           <div id="prop-2" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-2" aria-expanded="true" aria-controls="collapse-prop-2">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-2" aria-expanded="true" aria-controls="collapse-prop-2">
                   <strong>column_hide_in_card</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-2" class="accordion-collapse collapse show">
+              <div id="collapse-prop-2" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
@@ -374,11 +374,11 @@
           <div id="prop-3" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-3" aria-expanded="true" aria-controls="collapse-prop-3">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-3" aria-expanded="true" aria-controls="collapse-prop-3">
                   <strong>three_states_sort</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-3" class="accordion-collapse collapse show">
+              <div id="collapse-prop-3" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
@@ -404,11 +404,11 @@
           <div id="prop-4" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-4" aria-expanded="true" aria-controls="collapse-prop-4">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-4" aria-expanded="true" aria-controls="collapse-prop-4">
                   <strong>show_row_number</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-4" class="accordion-collapse collapse show">
+              <div id="collapse-prop-4" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
@@ -434,11 +434,11 @@
           <div id="prop-5" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-5" aria-expanded="true" aria-controls="collapse-prop-5">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-5" aria-expanded="true" aria-controls="collapse-prop-5">
                   <strong>show_checkbox</strong>
                 </button>
               </h2>
-              <div id="collapse-prop-5" class="accordion-collapse collapse show">
+              <div id="collapse-prop-5" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
@@ -469,11 +469,11 @@
           <div id="method-1" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-1" aria-expanded="true" aria-controls="collapse-method-1">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-1" aria-expanded="true" aria-controls="collapse-method-1">
                   <strong>getAjaxUrl()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-1" class="accordion-collapse collapse show">
+              <div id="collapse-method-1" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
@@ -497,15 +497,15 @@ window.alert('Ajax URL:' + dt.getAjaxUrl());
           <div id="method-2" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-2" aria-expanded="true" aria-controls="collapse-method-2">
-                  <strong>setAjaxUrl( <i>url</i> )</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-2" aria-expanded="true" aria-controls="collapse-method-2">
+                  <strong>setAjaxUrl( <i class="fw-normal">url</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-2" class="accordion-collapse collapse show">
+              <div id="collapse-method-2" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
-                    Get Ajax URL of DataTables.
+                    Set Ajax URL of DataTables.
                   </p>
 
                   <h6>Parameter</h6>
@@ -543,13 +543,22 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-3" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-3" aria-expanded="true" aria-controls="collapse-method-3">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-3" aria-expanded="true" aria-controls="collapse-method-3">
                   <strong>getView()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-3" class="accordion-collapse collapse show">
+              <div id="collapse-method-3" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get DataTables current view.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getView" class="border">const dt = new EnhanceDataTable();
+
+window.alert('Current view:' + dt.getView());
+</div>
                 </div>
               </div>
             </div>
@@ -558,13 +567,42 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-4" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-4" aria-expanded="true" aria-controls="collapse-method-4">
-                  <strong>setView()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-4" aria-expanded="true" aria-controls="collapse-method-4">
+                  <strong>setView( <i class="fw-normal">view</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-4" class="accordion-collapse collapse show">
+              <div id="collapse-method-4" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Set DataTables view.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Default</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>view</i></td>
+                      <td><code>string</code></td>
+                      <td>'table'</td>
+                      <td>Yes</td>
+                      <td>View to set.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_setView" class="border">const dt = new EnhanceDataTable();
+
+dt.setView('card');
+</div>
                 </div>
               </div>
             </div>
@@ -573,13 +611,22 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-5" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-5" aria-expanded="true" aria-controls="collapse-method-5">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-5" aria-expanded="true" aria-controls="collapse-method-5">
                   <strong>toggleView()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-5" class="accordion-collapse collapse show">
+              <div id="collapse-method-5" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Toggle between 'table' and 'card' view.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_toggleView" class="border">const dt = new EnhanceDataTable();
+
+dt.toggleView();
+</div>
                 </div>
               </div>
             </div>
@@ -588,13 +635,27 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-6" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-6" aria-expanded="true" aria-controls="collapse-method-6">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-6" aria-expanded="true" aria-controls="collapse-method-6">
                   <strong>getRows()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-6" class="accordion-collapse collapse show">
+              <div id="collapse-method-6" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get all rows.
+                  </p>
+
+                  <h6>Returns</h6>
+                  <p>
+                    Array of all rows loaded in the DataTable. 'all' to get all rows; 'filtered' to get only filtered rows.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getRows" class="border">const dt = new EnhanceDataTable();
+
+dt.getRows();
+</div>
                 </div>
               </div>
             </div>
@@ -603,13 +664,44 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-7" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-7" aria-expanded="true" aria-controls="collapse-method-7">
-                  <strong>getRowData()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-7" aria-expanded="true" aria-controls="collapse-method-7">
+                  <strong>getRowData( <i class="fw-normal">rowIndex</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-7" class="accordion-collapse collapse show">
+              <div id="collapse-method-7" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get data of a row.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>view</i></td>
+                      <td><code>string|number</code></td>
+                      <td>Row index.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Returns</h6>
+                  <p>
+                    Data object specified by row index.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getRowData" class="border">const dt = new EnhanceDataTable();
+
+// get data of first row.
+dt.getRowData(0);
+</div>
                 </div>
               </div>
             </div>
@@ -618,13 +710,27 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-8" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-8" aria-expanded="true" aria-controls="collapse-method-8">
-                  <strong>getSelectedRowId()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-8" aria-expanded="true" aria-controls="collapse-method-8">
+                  <strong>getSelectedRowIds()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-8" class="accordion-collapse collapse show">
+              <div id="collapse-method-8" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get ID of selected rows.
+                  </p>
+
+                  <h6>Returns</h6>
+                  <p>
+                    Array of selected rows ID.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getSelectedRowIds" class="border">const dt = new EnhanceDataTable();
+
+dt.getSelectedRowIds();
+</div>
                 </div>
               </div>
             </div>
@@ -633,13 +739,27 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-9" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-9" aria-expanded="true" aria-controls="collapse-method-9">
-                  <strong>getSelectedRowData()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-9" aria-expanded="true" aria-controls="collapse-method-9">
+                  <strong>getSelectedRowDatas()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-9" class="accordion-collapse collapse show">
+              <div id="collapse-method-9" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Get data of selected rows.
+                  </p>
+
+                  <h6>Returns</h6>
+                  <p>
+                    Array of selected rows data.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getSelectedRowDatas" class="border">const dt = new EnhanceDataTable();
+
+dt.getSelectedRowDatas();
+</div>
                 </div>
               </div>
             </div>
@@ -648,13 +768,50 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-10" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-10" aria-expanded="true" aria-controls="collapse-method-10">
-                  <strong>refresh()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-10" aria-expanded="true" aria-controls="collapse-method-10">
+                  <strong>refresh( <i class="fw-normal">callback, resetPaging</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-10" class="accordion-collapse collapse show">
+              <div id="collapse-method-10" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Reload DataTable data.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Default</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>callback</i></td>
+                      <td><code>function</code></td>
+                      <td>null</td>
+                      <td>Yes</td>
+                      <td>Function which is executed when the data has been reloaded and the table fully redrawn.</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td><i>resetPaging</i></td>
+                      <td><code>boolean</code></td>
+                      <td>true</td>
+                      <td>Yes</td>
+                      <td>Reset or hold the current paging position.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_refresh" class="border">const dt = new EnhanceDataTable();
+
+dt.refresh();
+</div>
                 </div>
               </div>
             </div>
@@ -663,13 +820,23 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-11" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-11" aria-expanded="true" aria-controls="collapse-method-11">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-11" aria-expanded="true" aria-controls="collapse-method-11">
                   <strong>on()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-11" class="accordion-collapse collapse show">
+              <div id="collapse-method-11" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Register DataTable events listener.
+                    Refer to <a href="https://datatables.net/reference/api/on()" target="_blank">on()</a>.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_on" class="border">const dt = new EnhanceDataTable();
+
+dt.on();
+</div>
                 </div>
               </div>
             </div>
@@ -678,13 +845,42 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-12" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-12" aria-expanded="true" aria-controls="collapse-method-12">
-                  <strong>search()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-12" aria-expanded="true" aria-controls="collapse-method-12">
+                  <strong>search( <i class="fw-normal">input</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-12" class="accordion-collapse collapse show">
+              <div id="collapse-method-12" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Filter data.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Default</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>input</i></td>
+                      <td><code>string</code></td>
+                      <td>''</td>
+                      <td>Yes</td>
+                      <td>Search string to apply to the DataTables.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_search" class="border">const dt = new EnhanceDataTable();
+
+dt.search('wording');
+</div>
                 </div>
               </div>
             </div>
@@ -693,13 +889,42 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-13" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-13" aria-expanded="true" aria-controls="collapse-method-13">
-                  <strong>updateData()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-13" aria-expanded="true" aria-controls="collapse-method-13">
+                  <strong>updateData( <i class="fw-normal">data</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-13" class="accordion-collapse collapse show">
+              <div id="collapse-method-13" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Update data.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>data</i></td>
+                      <td><code>Array of object</code></td>
+                      <td>New data.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_updateData" class="border">const dt = new EnhanceDataTable();
+
+dt.updateData([
+  { /* 1st data object */ },
+  { /* 2nd data object */ },
+  { /* and so on */ },
+]);
+</div>
                 </div>
               </div>
             </div>
@@ -708,13 +933,22 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-14" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-14" aria-expanded="true" aria-controls="collapse-method-14">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-14" aria-expanded="true" aria-controls="collapse-method-14">
                   <strong>clearData()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-14" class="accordion-collapse collapse show">
+              <div id="collapse-method-14" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Clear data.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_clearData" class="border">const dt = new EnhanceDataTable();
+
+dt.clearData();
+</div>
                 </div>
               </div>
             </div>
@@ -723,13 +957,22 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-15" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-15" aria-expanded="true" aria-controls="collapse-method-15">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-15" aria-expanded="true" aria-controls="collapse-method-15">
                   <strong>resetOrder()</strong>
                 </button>
               </h2>
-              <div id="collapse-method-15" class="accordion-collapse collapse show">
+              <div id="collapse-method-15" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Restore the order in which data was read into a DataTable.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_resetOrder" class="border">const dt = new EnhanceDataTable();
+
+dt.resetOrder();
+</div>
                 </div>
               </div>
             </div>
@@ -738,13 +981,39 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-16" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-16" aria-expanded="true" aria-controls="collapse-method-16">
-                  <strong>select()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-16" aria-expanded="true" aria-controls="collapse-method-16">
+                  <strong>select( <i class="fw-normal">rowIndex</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-16" class="accordion-collapse collapse show">
+              <div id="collapse-method-16" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Select a row.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>view</i></td>
+                      <td><code>string|number</code></td>
+                      <td>Row index.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_select" class="border">const dt = new EnhanceDataTable();
+
+// select first row
+dt.select(0);
+</div>
                 </div>
               </div>
             </div>
@@ -753,13 +1022,39 @@ dt.setAjaxUrl('new_data.php');
           <div id="method-17" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-17" aria-expanded="true" aria-controls="collapse-method-17">
-                  <strong>deselect()</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-17" aria-expanded="true" aria-controls="collapse-method-17">
+                  <strong>deselect( <i class="fw-normal">rowIndex</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-17" class="accordion-collapse collapse show">
+              <div id="collapse-method-17" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Deselect a row.
+                  </p>
+
+                  <h6>Parameter</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>view</i></td>
+                      <td><code>string|number</code></td>
+                      <td>Row index.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_method_deselect" class="border">const dt = new EnhanceDataTable();
+
+// deselect first row
+dt.deselect(0);
+</div>
                 </div>
               </div>
             </div>
@@ -772,13 +1067,39 @@ dt.setAjaxUrl('new_data.php');
           <div id="event-1" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-1" aria-expanded="true" aria-controls="collapse-event-1">
-                  <strong>toggleView</strong>
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-1" aria-expanded="true" aria-controls="collapse-event-1">
+                  <strong>'toggleView', function( <i class="fw-normal">e</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-event-1" class="accordion-collapse collapse show">
+              <div id="collapse-event-1" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
-                  content
+                  <h6>Description</h6>
+                  <p>
+                    Toggle view event - fired when DataTables view changes.
+                  </p>
+
+                  <h6>Type</h6>
+                  <table class="table table-sm w-auto">
+                    <tr>
+                      <th></th>
+                      <th>Parameter</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td><i>e</i></td>
+                      <td>Custom event object.</td>
+                    </tr>
+                  </table>
+
+                  <h6>Example</h6>
+<div id="example_event_toggleview" class="border">const dt = new EnhanceDataTable();
+
+// deselect first row
+dt.on('toggleView', function(e) {
+  window.alert(`Current view: ${e.detail.view}`);
+});
+</div>
                 </div>
               </div>
             </div>
@@ -787,38 +1108,6 @@ dt.setAjaxUrl('new_data.php');
         </div>
         <!-- ./data-bs-spy="scroll" -->
 
-        <!-- <hr /> -->
-
-        <!-- <div data-bs-spy="scroll" data-bs-target="#navbar-edt" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
-          <div id="item-1">
-            <h4>Item 1</h4>
-            <p>...</p>
-          </div>
-          <div id="item-1-1">
-            <h5>Item 1-1</h5>
-            <p>...</p>
-          </div>
-          <div id="item-1-2">
-            <h5>Item 1-2</h5>
-            <p>...</p>
-          </div>
-          <div id="item-2">
-            <h4>Item 2</h4>
-            <p>...</p>
-          </div>
-          <div id="item-3">
-            <h4>Item 3</h4>
-            <p>...</p>
-          </div>
-          <div id="item-3-1">
-            <h5>Item 3-1</h5>
-            <p>...</p>
-          </div>
-          <div id="item-3-2">
-            <h5>Item 3-2</h5>
-            <p>...</p>
-          </div>
-        </div> -->
       </div>
 
       </main>
@@ -1354,7 +1643,7 @@ dt.setAjaxUrl('new_data.php');
       /**
        * ========== ========== ========== ========== ========== ==========
        *
-       * Scrollspy
+       * Scrollspy event
        */
 
       // $('[data-bs-spy="scroll"]').on('activate.bs.scrollspy', (e) => {
@@ -1384,8 +1673,24 @@ dt.setAjaxUrl('new_data.php');
       // Method
       ace.edit('example_method_getAjaxUrl', config_ace_javascript);
       ace.edit('example_method_setAjaxUrl', config_ace_javascript);
+      ace.edit('example_method_getView', config_ace_javascript);
+      ace.edit('example_method_setView', config_ace_javascript);
+      ace.edit('example_method_toggleView', config_ace_javascript);
+      ace.edit('example_method_getRows', config_ace_javascript);
+      ace.edit('example_method_getRowData', config_ace_javascript);
+      ace.edit('example_method_getSelectedRowIds', config_ace_javascript);
+      ace.edit('example_method_getSelectedRowDatas', config_ace_javascript);
+      ace.edit('example_method_refresh', config_ace_javascript);
+      ace.edit('example_method_on', config_ace_javascript);
+      ace.edit('example_method_search', config_ace_javascript);
+      ace.edit('example_method_updateData', config_ace_javascript);
+      ace.edit('example_method_clearData', config_ace_javascript);
+      ace.edit('example_method_resetOrder', config_ace_javascript);
+      ace.edit('example_method_select', config_ace_javascript);
+      ace.edit('example_method_deselect', config_ace_javascript);
 
       // Event
+      ace.edit('example_event_toggleview', config_ace_javascript);
 
     });
   </script>

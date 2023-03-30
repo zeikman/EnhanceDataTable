@@ -1307,7 +1307,7 @@ class EnhanceDataTable
   /**
    * Get ID of selected rows.
    *
-   * @returns {Array} Array of seleceted row ID.
+   * @returns {Array} Array of seleceted rows ID.
    */
   getSelectedRowIds()
   {
@@ -1325,7 +1325,7 @@ class EnhanceDataTable
   /**
    * Get data of selected rows.
    *
-   * @returns {Array} Array of selected row data.
+   * @returns {Array} Array of selected rows data.
    */
   getSelectedRowDatas()
   {
