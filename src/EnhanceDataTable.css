@@ -65,5 +65,6 @@
 .cardview-col-header {
   font-weight: bold;
   margin-right: 5px;
+  text-align: left;
   width: 11rem;
 }
