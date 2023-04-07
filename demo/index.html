@@ -235,7 +235,7 @@
                   <th colspan="2">Colspan2</th>
                 </tr>
                 <tr>
-                  <th>Column2</th>
+                  <th>Custom Date Format</th>
                   <th>Column3</th>
                   <th>Column4</th>
                   <th>Column5</th>
@@ -257,7 +257,7 @@
                 <thead class="table-light">
                   <tr class="text-secondary">
                     <th>Column1</th>
-                    <th>Column2</th>
+                    <th>Custom Date Format</th>
                     <th>Column3</th>
                     <th>Column4</th>
                     <th>Column5</th>
@@ -1124,9 +1124,12 @@ dt.on('toggleView', function(e) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/ace.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/mode-javascript.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
   <script src="dashboard.js"></script>
   <script src="../lib/DataTables/datatables.min.js"></script>
   <script src="../lib/API/order.neutral().js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.13.4/dataRender/datetime.js"></script>
   <script src="../src/EnhanceDataTable.js"></script>
 
   <script>
@@ -1422,6 +1425,15 @@ dt.on('toggleView', function(e) {
             data: 'column2',
             width: '20%',
             visible: false,
+            // render: DataTable.render.date('YYYY-MM-DD'),
+            // render: DataTable.render.moment('YYYY-MM-DD'),
+            render: function(data, type, row, meta) {
+              const process_date = moment(data).format('YYYY-MM-DD');
+
+              return $DataTable_Custom.getView() == 'card'
+                ? `<label class="cardview-col-header">Column2</label> ${process_date}`
+                : process_date;
+            },
           },
           {
             data: 'column3',
@@ -1512,7 +1524,20 @@ dt.on('toggleView', function(e) {
         console.log(e.detail.view)
       });
 
-      $DataTable_Custom.updateData(data);
+      const data_custom = [];
+      let today_date = moment().format('YYYY-MM-DD  hh:mm:ss');
+          today_date = new Date();
+
+      data.forEach(function(d, index) {
+        data_custom.push({
+          ...d,
+          ... {
+            column2: today_date,
+          }
+        });
+      });
+
+      $DataTable_Custom.updateData(data_custom);
 
       /**
        * Returns a random number between min (inclusive) and max (exclusive)
