@@ -172,6 +172,12 @@ $.fn.dataTable.ext.buttons.cardview = {
 /** En enhanced version of jQuery DataTable with various useful built-in methods and functionalities. */
 class EnhanceDataTable
 {
+  //*/
+  #_debug = true;
+  /*/
+  #_debug = false;
+  //*/
+
   // NOTE: Static Methods ========== ========== ========== ========== ========== ========== ========== ==========
 
   // NOTE: Private Properties ========== ========== ========== ========== ========== ========== ========== ==========
@@ -650,6 +656,11 @@ class EnhanceDataTable
     // checkbox header event
     $(this.#_id).on('click', '.column-checkbox-header input[type="checkbox"]', function (e)
     {
+      if (self.#_debug)
+      {
+        console.warn('click >>> .column-checkbox-header input[type="checkbox"]');
+      }
+
       self.#_checkbox_header_triggered = true;
 
       if (this.checked)
@@ -675,6 +686,11 @@ class EnhanceDataTable
 
     $(`${wrapper} .dataTables_filter input[type="search"]`).on('keyup', function (e)
     {
+      if (self.#_debug)
+      {
+        console.warn('keyup >>> .dataTables_filter input[type="search"]');
+      }
+
       // ESC to clear
       if (e.which == 27)
       {
@@ -817,6 +833,11 @@ class EnhanceDataTable
 
     this.#_datatable.on('order.dt search.dt', function (e)
     {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> order.dt search.dt');
+      }
+
       if (self.#_props.show_row_number)
       {
         let i = 1;
@@ -895,6 +916,11 @@ class EnhanceDataTable
 
     this.#_datatable.on('column-visibility.dt', function (e, settings, column, state)
     {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> column-visibility.dt');
+      }
+
       if ($(wrapper).hasClass('dt-card'))
       {
         if (state)
@@ -1001,6 +1027,11 @@ class EnhanceDataTable
 
     this.#_datatable.on('select', function (e, dt, type, indexes)
     {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> select');
+      }
+
       if (self.#_props.show_checkbox)
       {
         // update data
@@ -1046,6 +1077,11 @@ class EnhanceDataTable
 
     this.#_datatable.on('deselect', function (e, dt, type, indexes)
     {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> deselect');
+      }
+
       if (self.#_props.show_checkbox)
       {
         // update data
@@ -1316,7 +1352,25 @@ class EnhanceDataTable
 
     for (let index = 0; index < selectedData.length; index++)
     {
-      ids.push(selectedData[index].id);
+      const data = selectedData[index];
+
+      if (Array.isArray(data))
+      {
+        // support data insertion using row.add().draw()
+        data.forEach(element => {
+          if (element.indexOf('type="checkbox"') > -1)
+          {
+            const checkboxElement = $(element);
+            const id = checkboxElement.data('id');
+
+            ids.push(id);
+          }
+        });
+      }
+      else
+      {
+        ids.push(data.id);
+      }
     }
 
     return ids;
