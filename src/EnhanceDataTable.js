@@ -407,6 +407,33 @@ class EnhanceDataTable
         $(`${wrapper} .cardview-col-header`).remove();
       }
 
+      if (self.#_props.checked_visible_only)
+      {
+        if (self.#_debug)
+        {
+          console.warn('update .column-checkbox-header >>> input[type="checkbox"] state');
+        }
+
+        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible').length;
+        const visible_checked_checkbox = $(self.#_id).find('.column-checkbox:visible:checked').length;
+
+        console.log(`visible_checkbox : ${visible_checkbox}`);
+        console.log(`visible_checked_checkbox : ${visible_checked_checkbox}`);
+
+        $(self.#_id)
+          .find('.column-checkbox-header input[type="checkbox"]')
+          .prop(
+            'checked',
+            visible_checkbox == visible_checked_checkbox
+              ? true
+              : false
+          );
+
+        /* console.log('update column-checkbox-header state')
+
+        self.#_checkboxHeaderIndeterminate(); */
+      }
+
       userDefinedDrawCallback(settings);
     }
   }
@@ -668,11 +695,36 @@ class EnhanceDataTable
       if (self.#_props.checked_visible_only)
       {
         const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+        const info = self.#_datatable.page.info();
+        const page_number = info.page;
+        const page_length = info.length;
+        const page_start = info.start;
+        const page_end = info.end;
 
-        visible_checkbox.each((index, checkbox) => {
-          // $(checkbox).attr('checked', this.checked);
-          $(checkbox).trigger('click');
+        // console.log(info)
+
+        const visible_row_indexes = visible_checkbox.map((index, checkbox) => {
+          return index + (page_number * page_length);
         });
+
+        // console.log(visible_row_indexes)
+
+        if (this.checked)
+        {
+          self.select(visible_row_indexes);
+        }
+        else
+        {
+          self.deselect(visible_row_indexes);
+        }
+
+        // visible_checkbox.each((index, checkbox) => {
+        //   //*/
+        //   $(checkbox).attr('checked', this.checked);
+        //   /*/
+        //   $(checkbox).trigger('click');
+        //   //*/
+        // });
       }
       // checked/unchecked on all checkboxes
       else {
@@ -1046,23 +1098,23 @@ class EnhanceDataTable
         console.warn('datatable >>> select');
       }
 
-      // checked/unchecked on visible checkboxes only
-      if (self.#_props.checked_visible_only)
-      {
-        console.log('select >>> checked_visible_only');
+      // // checked/unchecked on visible checkboxes only
+      // if (self.#_props.checked_visible_only)
+      // {
+      //   console.log('select >>> checked_visible_only');
 
-        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+      //   const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
 
-        // update header checkbox
-        if (!self.#_checkbox_header_triggered)
-        {
-          self.#_checkboxHeaderIndeterminate();
-        }
+      //   // update header checkbox
+      //   if (!self.#_checkbox_header_triggered)
+      //   {
+      //     self.#_checkboxHeaderIndeterminate();
+      //   }
 
-        self.#_checkbox_header_triggered = false;
-      }
-      // checked/unchecked on all checkboxes
-      else {
+      //   self.#_checkbox_header_triggered = false;
+      // }
+      // // checked/unchecked on all checkboxes
+      // else {
         if (self.#_props.show_checkbox)
         {
           // update data
@@ -1104,7 +1156,7 @@ class EnhanceDataTable
 
           self.#_checkbox_header_triggered = false;
         }
-      }
+      // }
     });
 
     this.#_datatable.on('deselect', function (e, dt, type, indexes)
@@ -1114,23 +1166,23 @@ class EnhanceDataTable
         console.warn('datatable >>> deselect');
       }
 
-      // checked/unchecked on visible checkboxes only
-      if (self.#_props.checked_visible_only)
-      {
-        console.log('deselect >>> checked_visible_only');
+      // // checked/unchecked on visible checkboxes only
+      // if (self.#_props.checked_visible_only)
+      // {
+      //   console.log('deselect >>> checked_visible_only');
 
-        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+      //   const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
 
-        // update header checkbox
-        if (!self.#_checkbox_header_triggered)
-        {
-          self.#_checkboxHeaderIndeterminate();
-        }
+      //   // update header checkbox
+      //   if (!self.#_checkbox_header_triggered)
+      //   {
+      //     self.#_checkboxHeaderIndeterminate();
+      //   }
 
-        self.#_checkbox_header_triggered = false;
-      }
-      // checked/unchecked on all checkboxes
-      else {
+      //   self.#_checkbox_header_triggered = false;
+      // }
+      // // checked/unchecked on all checkboxes
+      // else {
         if (self.#_props.show_checkbox)
         {
           // update data
@@ -1172,7 +1224,7 @@ class EnhanceDataTable
 
           self.#_checkbox_header_triggered = false;
         }
-      }
+      // }
     });
   }
 
@@ -1195,7 +1247,7 @@ class EnhanceDataTable
     if (this.#_props.checked_visible_only)
     {
       totalRows = $(this.#_id).find('.column-checkbox:visible').length;
-      // selectedRows = $(self.#_id).find('.column-checkbox:visible');
+      selectedRows = $(this.#_id).find('.column-checkbox:visible:checked').length;
     }
     // checked/unchecked on all checkboxes
     else {
@@ -1235,9 +1287,28 @@ class EnhanceDataTable
 
       const info = self.#_datatable.page.info();
 
-      console.log(e)
-      console.log(settings)
-      console.log(info)
+      // console.log(e)
+      // console.log(settings)
+      // console.log(info)
+
+      /* const visible_checkbox = $(self.#_id).find('.column-checkbox:visible').length;
+      const visible_checked_checkbox = $(self.#_id).find('.column-checkbox:visible:checked').length;
+
+      console.log(`visible_checkbox : ${visible_checkbox}`);
+      console.log(`visible_checked_checkbox : ${visible_checked_checkbox}`);
+
+      $(self.#_id)
+        .find('.column-checkbox-header input[type="checkbox"]')
+        .prop(
+          'checked',
+          visible_checkbox == visible_checked_checkbox
+            ? true
+            : false
+        ); */
+
+      /* console.log('update column-checkbox-header state')
+
+      self.#_checkboxHeaderIndeterminate(); */
     });
   }
 
@@ -1262,9 +1333,25 @@ class EnhanceDataTable
       // console.log(len)
       // console.log(info)
 
-      console.log('update column-checkbox-header state')
+      /* // const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+      const visible_checkbox = len;
+      const visible_checked_checkbox = $(self.#_id).find('.column-checkbox:visible:checked').length;
 
-      self.#_checkboxHeaderIndeterminate(len);
+      console.log(`visible_checkbox : ${visible_checkbox}`);
+      console.log(`visible_checked_checkbox : ${visible_checked_checkbox}`);
+
+      $(self.#_id)
+        .find('.column-checkbox-header input[type="checkbox"]')
+        .prop(
+          'checked',
+          visible_checkbox == visible_checked_checkbox
+            ? true
+            : false
+        ); */
+
+      /* console.log('update column-checkbox-header state')
+
+      self.#_checkboxHeaderIndeterminate(len); */
     });
   }
 
