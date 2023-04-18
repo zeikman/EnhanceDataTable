@@ -1044,14 +1044,22 @@ class EnhanceDataTable
       if (self.#_debug)
       {
         console.warn('datatable >>> select');
-
-        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
       }
 
       // checked/unchecked on visible checkboxes only
       if (self.#_props.checked_visible_only)
       {
         console.log('select >>> checked_visible_only');
+
+        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+
+        // update header checkbox
+        if (!self.#_checkbox_header_triggered)
+        {
+          self.#_checkboxHeaderIndeterminate();
+        }
+
+        self.#_checkbox_header_triggered = false;
       }
       // checked/unchecked on all checkboxes
       else {
@@ -1104,14 +1112,22 @@ class EnhanceDataTable
       if (self.#_debug)
       {
         console.warn('datatable >>> deselect');
-
-        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
       }
 
       // checked/unchecked on visible checkboxes only
       if (self.#_props.checked_visible_only)
       {
         console.log('deselect >>> checked_visible_only');
+
+        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+
+        // update header checkbox
+        if (!self.#_checkbox_header_triggered)
+        {
+          self.#_checkboxHeaderIndeterminate();
+        }
+
+        self.#_checkbox_header_triggered = false;
       }
       // checked/unchecked on all checkboxes
       else {
@@ -1162,11 +1178,37 @@ class EnhanceDataTable
 
   /**
    * Checkbox header 'Indeterminate' control
+   *
+   * @param {Number|String} checkTotalRows Total rows.
    */
-  #_checkboxHeaderIndeterminate()
+  #_checkboxHeaderIndeterminate(checkTotalRows)
   {
-    const totalRows = this.#_datatable.data().length;
-    const selectedRows = this.#_datatable.rows('.selected').data().length;
+    if (this.#_debug)
+    {
+      console.warn('#_checkboxHeaderIndeterminate');
+    }
+
+    let totalRows = this.#_datatable.data().length;
+    let selectedRows = this.#_datatable.rows('.selected').data().length;
+
+    // checked/unchecked on visible checkboxes only
+    if (this.#_props.checked_visible_only)
+    {
+      totalRows = $(this.#_id).find('.column-checkbox:visible').length;
+      // selectedRows = $(self.#_id).find('.column-checkbox:visible');
+    }
+    // checked/unchecked on all checkboxes
+    else {
+      //
+    }
+
+    if (checkTotalRows > 0)
+    {
+      totalRows = checkTotalRows;
+    }
+
+    console.log(`totalRows : ${totalRows}`)
+    console.log(`selectedRows : ${selectedRows}`)
 
     $(`${this.#_id} .column-checkbox-header input[type="checkbox"]`)
       .prop(
@@ -1215,10 +1257,14 @@ class EnhanceDataTable
 
       const info = self.#_datatable.page.info();
 
-      console.log(e)
-      console.log(settings)
-      console.log(len)
-      console.log(info)
+      // console.log(e)
+      // console.log(settings)
+      // console.log(len)
+      // console.log(info)
+
+      console.log('update column-checkbox-header state')
+
+      self.#_checkboxHeaderIndeterminate(len);
     });
   }
 

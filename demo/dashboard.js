@@ -454,7 +454,7 @@ $(document).ready(function() {
     id: '#DataTable_Simple',
     show_row_number: false,
     show_checkbox: true,
-    // checked_visible_only: true,
+    checked_visible_only: true,
     autoWidth: false,
     order: [],
     /*/
