@@ -454,6 +454,7 @@ $(document).ready(function() {
     id: '#DataTable_Simple',
     show_row_number: false,
     show_checkbox: true,
+    // checked_visible_only: true,
     autoWidth: false,
     order: [],
     /*/
@@ -611,6 +612,9 @@ $(document).ready(function() {
       >`,
     // dom: 'rt<"bottom"lp><"clear">',
   });
+
+  test_draw = $DataTable_DrawData;
+  dt_draw = $DataTable_DrawData.dataTable;
 
   $('#btn_draw_getselectedrowdatas').on('click', function(e) {
     console.log($DataTable_DrawData.getSelectedRowDatas());

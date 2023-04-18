@@ -205,6 +205,7 @@ class EnhanceDataTable
     three_states_sort   : true,
     show_row_number     : true,
     show_checkbox       : false,
+    checked_visible_only: false,
 
     // DataTable original properties //
 
@@ -663,13 +664,26 @@ class EnhanceDataTable
 
       self.#_checkbox_header_triggered = true;
 
-      if (this.checked)
+      // checked/unchecked on visible checkboxes only
+      if (self.#_props.checked_visible_only)
       {
-        self.#_datatable.rows().select();
+        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
+
+        visible_checkbox.each((index, checkbox) => {
+          // $(checkbox).attr('checked', this.checked);
+          $(checkbox).trigger('click');
+        });
       }
-      else
-      {
-        self.#_datatable.rows().deselect();
+      // checked/unchecked on all checkboxes
+      else {
+        if (this.checked)
+        {
+          self.#_datatable.rows().select();
+        }
+        else
+        {
+          self.#_datatable.rows().deselect();
+        }
       }
     });
   }
@@ -1030,48 +1044,58 @@ class EnhanceDataTable
       if (self.#_debug)
       {
         console.warn('datatable >>> select');
+
+        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
       }
 
-      if (self.#_props.show_checkbox)
+      // checked/unchecked on visible checkboxes only
+      if (self.#_props.checked_visible_only)
       {
-        // update data
-        const checkbox_column = self.#_props.show_row_number
-          ? 1
-          : 0;
-
-        indexes.forEach((rowIndex, index) => {
-          dt.cell(rowIndex, checkbox_column).data(true)
-        });
-
-        // update DOM checkbox
-        if (self.#_checkbox_header_triggered)
+        console.log('select >>> checked_visible_only');
+      }
+      // checked/unchecked on all checkboxes
+      else {
+        if (self.#_props.show_checkbox)
         {
-          $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', true);
-        }
-        else
-        {
-          const pageinfo    = self.#_datatable.page.info();
-          const pageLength  = pageinfo.length;
-          const rowStart    = pageinfo.start;
-          const rowEnd      = pageinfo.end;
+          // update data
+          const checkbox_column = self.#_props.show_row_number
+            ? 1
+            : 0;
 
           indexes.forEach((rowIndex, index) => {
-            if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
-            {
-              const domRowIndex = rowIndex % pageLength;
-
-              $(`${self.#_id} tbody tr:eq(${domRowIndex}) td .column-checkbox`).attr('checked', true);
-            }
+            dt.cell(rowIndex, checkbox_column).data(true);
           });
-        }
 
-        // update header checkbox
-        if (!self.#_checkbox_header_triggered)
-        {
-          self.#_checkboxHeaderIndeterminate();
-        }
+          // update DOM checkbox
+          if (self.#_checkbox_header_triggered)
+          {
+            $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', true);
+          }
+          else
+          {
+            const pageinfo    = self.#_datatable.page.info();
+            const pageLength  = pageinfo.length;
+            const rowStart    = pageinfo.start;
+            const rowEnd      = pageinfo.end;
 
-        self.#_checkbox_header_triggered = false;
+            indexes.forEach((rowIndex, index) => {
+              if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
+              {
+                const domRowIndex = rowIndex % pageLength;
+
+                $(`${self.#_id} tbody tr:eq(${domRowIndex}) td .column-checkbox`).attr('checked', true);
+              }
+            });
+          }
+
+          // update header checkbox
+          if (!self.#_checkbox_header_triggered)
+          {
+            self.#_checkboxHeaderIndeterminate();
+          }
+
+          self.#_checkbox_header_triggered = false;
+        }
       }
     });
 
@@ -1080,48 +1104,58 @@ class EnhanceDataTable
       if (self.#_debug)
       {
         console.warn('datatable >>> deselect');
+
+        const visible_checkbox = $(self.#_id).find('.column-checkbox:visible');
       }
 
-      if (self.#_props.show_checkbox)
+      // checked/unchecked on visible checkboxes only
+      if (self.#_props.checked_visible_only)
       {
-        // update data
-        const checkbox_column = self.#_props.show_row_number
-          ? 1
-          : 0;
-
-        indexes.forEach((rowIndex, index) => {
-          dt.cell(rowIndex, checkbox_column).data(false)
-        });
-
-        // update DOM checkbox
-        if (self.#_checkbox_header_triggered)
+        console.log('deselect >>> checked_visible_only');
+      }
+      // checked/unchecked on all checkboxes
+      else {
+        if (self.#_props.show_checkbox)
         {
-          $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', false);
-        }
-        else
-        {
-          const pageinfo    = self.#_datatable.page.info();
-          const pageLength  = pageinfo.length;
-          const rowStart    = pageinfo.start;
-          const rowEnd      = pageinfo.end;
+          // update data
+          const checkbox_column = self.#_props.show_row_number
+            ? 1
+            : 0;
 
           indexes.forEach((rowIndex, index) => {
-            if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
-            {
-              const domRowIndex = rowIndex % pageLength;
-
-              $(`${self.#_id} tbody tr:eq(${domRowIndex}) td .column-checkbox`).attr('checked', false);
-            }
+            dt.cell(rowIndex, checkbox_column).data(false)
           });
-        }
 
-        // update header checkbox
-        if (!self.#_checkbox_header_triggered)
-        {
-          self.#_checkboxHeaderIndeterminate();
-        }
+          // update DOM checkbox
+          if (self.#_checkbox_header_triggered)
+          {
+            $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', false);
+          }
+          else
+          {
+            const pageinfo    = self.#_datatable.page.info();
+            const pageLength  = pageinfo.length;
+            const rowStart    = pageinfo.start;
+            const rowEnd      = pageinfo.end;
 
-        self.#_checkbox_header_triggered = false;
+            indexes.forEach((rowIndex, index) => {
+              if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
+              {
+                const domRowIndex = rowIndex % pageLength;
+
+                $(`${self.#_id} tbody tr:eq(${domRowIndex}) td .column-checkbox`).attr('checked', false);
+              }
+            });
+          }
+
+          // update header checkbox
+          if (!self.#_checkbox_header_triggered)
+          {
+            self.#_checkboxHeaderIndeterminate();
+          }
+
+          self.#_checkbox_header_triggered = false;
+        }
       }
     });
   }
@@ -1141,6 +1175,51 @@ class EnhanceDataTable
           ? false
           : true
       );
+  }
+
+  /**
+   * Page change internal event
+   */
+  #_pageChangeEvent()
+  {
+    const self = this;
+
+    this.#_datatable.on('page.dt', function(e, settings)
+    {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> page.dt');
+      }
+
+      const info = self.#_datatable.page.info();
+
+      console.log(e)
+      console.log(settings)
+      console.log(info)
+    });
+  }
+
+  /**
+   * Page length change internal event
+   */
+  #_pageLengthChangeEvent()
+  {
+    const self = this;
+
+    this.#_datatable.on('length.dt', function(e, settings, len)
+    {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> length.dt');
+      }
+
+      const info = self.#_datatable.page.info();
+
+      console.log(e)
+      console.log(settings)
+      console.log(len)
+      console.log(info)
+    });
   }
 
   // NOTE: Constructor ========== ========== ========== ========== ========== ========== ========== ==========
@@ -1177,6 +1256,8 @@ class EnhanceDataTable
     this.#_renderRowNumberEvent();
     this.#_columnVisibilityEvent();
     this.#_selectDeselectEvent();
+    this.#_pageChangeEvent();
+    this.#_pageLengthChangeEvent();
   }
   // end of constructor
 
@@ -1498,6 +1579,14 @@ class EnhanceDataTable
    */
   select(rowIndex)
   {
+    const row_data = this.#_datatable.rows(rowIndex).data();
+
+    if (Array.isArray(row_data[0]))
+    {
+      // support data insertion using row.add().draw()
+      $(`${this.#_id} tbody tr:eq(${rowIndex}) input[type="checkbox"]`).attr('checked', true);
+    }
+
     this.#_datatable.rows(rowIndex).select();
   }
 
@@ -1508,6 +1597,14 @@ class EnhanceDataTable
    */
   deselect(rowIndex)
   {
+    const row_data = this.#_datatable.rows(rowIndex).data();
+
+    if (Array.isArray(row_data[0]))
+    {
+      // support data insertion using row.add().draw()
+      $(`${this.#_id} tbody tr:eq(${rowIndex}) input[type="checkbox"]`).attr('checked', false);
+    }
+
     this.#_datatable.rows(rowIndex).deselect();
   }
 
