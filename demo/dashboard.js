@@ -604,7 +604,7 @@ $(document).ready(function() {
       <'row mt-2 mb-3'
         <'col-sm-12 col-md-2 _border'>
         <'col-sm-12 col-md-8 _border'
-          <'text-center'p>
+          <'d-flex align-items-center justify-content-center'p>
         >
         <'col-sm-12 col-md-2 pe-2 _border'
           <'h-100 d-flex align-items-center justify-content-end me-2'l>
@@ -680,6 +680,7 @@ $(document).ready(function() {
   ace.edit('example_prop_three_states_sort', config_ace_javascript);
   ace.edit('example_prop_show_row_number', config_ace_javascript);
   ace.edit('example_prop_show_checkbox', config_ace_javascript);
+  ace.edit('example_prop_checked_visible_only', config_ace_javascript);
 
   // Method
   ace.edit('example_method_getAjaxUrl', config_ace_javascript);

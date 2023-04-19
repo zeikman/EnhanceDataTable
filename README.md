@@ -37,6 +37,10 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
       <td>show_checkbox</td>
       <td>Show checkbox column.</td>
     </tr>
+    <tr>
+      <td>checked_visible_only</td>
+      <td>'Check/Un-Check All' only apply to visible checkboxes.</td>
+    </tr>
   </tbody>
 </table>
 
