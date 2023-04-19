@@ -141,6 +141,9 @@
               <a class="nav-link py-1 ms-3" href="#prop-show_row_number">show_row_number</a>
               <a class="nav-link py-1 ms-3" href="#prop-show_checkbox">show_checkbox</a>
               <a class="nav-link py-1 ms-3" href="#prop-checked_visible_only">checked_visible_only</a>
+              <a class="nav-link py-1 ms-3" href="#prop-enable_checkbox_event">enable_checkbox_event</a>
+              <a class="nav-link py-1 ms-3" href="#prop-checkbox_header_class">checkbox_header_class</a>
+              <a class="nav-link py-1 ms-3" href="#prop-checkbox_class">checkbox_class</a>
 
               <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
                 <span>Method</span>
@@ -277,12 +280,12 @@
           <hr />
 
           <div id="sample-draw" class="mb-4">
-            <h5>Simple Layout - Draw Data</h5>
+            <h5>Simple Layout - Draw Data (Using Template)</h5>
             <div class="card table-responsive">
               <table id="DataTable_DrawData" class="table" style="margin: 0 !important;">
                 <thead class="table-light">
                   <tr class="text-secondary">
-                    <th class="dt-center column-checkbox-header">
+                    <th class="dt-center my-checkbox-header __column-checkbox-header">
                       <input type="checkbox" class="form-check-input" />
                     </th>
                     <th>Column1</th>
@@ -513,6 +516,96 @@
                   <h6>Example</h6>
 <div id="example_prop_checked_visible_only" class="border">new EnhanceDataTable({
   checked_visible_only: false,
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="prop-enable_checkbox_event" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-enable_checkbox_event" aria-expanded="true" aria-controls="collapse-prop-enable_checkbox_event">
+                  <strong>enable_checkbox_event</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-enable_checkbox_event" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Enable built-in checkbox event listener on custom checkbox.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Boolean</p>
+
+                  <h6>Default</h6>
+                  <p>false</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_enable_checkbox_event" class="border">new EnhanceDataTable({
+  enable_checkbox_event: false,
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="prop-checkbox_header_class" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-checkbox_header_class" aria-expanded="true" aria-controls="collapse-prop-checkbox_header_class">
+                  <strong>checkbox_header_class</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-checkbox_header_class" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Checkbox header class.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>String</p>
+
+                  <h6>Default</h6>
+                  <p>'.column-checkbox-header'</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_checkbox_header_class" class="border">new EnhanceDataTable({
+  checkbox_header_class: '.column-checkbox-header',
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="prop-checkbox_class" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-checkbox_class" aria-expanded="true" aria-controls="collapse-prop-checkbox_class">
+                  <strong>checkbox_class</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-checkbox_class" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Checkbox class.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>String</p>
+
+                  <h6>Default</h6>
+                  <p>'.column-checkbox'</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_checkbox_class" class="border">new EnhanceDataTable({
+  checkbox_class: '.column-checkbox',
 });
 </div>
                 </div>
@@ -1194,7 +1287,7 @@ dt.on('toggleView', function(e) {
   <script type="text/html" id="dt_row_template">
     <tr>
       <td class="dt-center">
-        <input type="checkbox" class="form-check-input column-checkbox" data-id="{{ this.id }}" />
+        <input type="checkbox" class="form-check-input my-checkbox __column-checkbox" data-id="{{ this.id }}" />
       </td>
       <td>Column1 {{ this.id }}</td>
       <td>{{ this.custom_date }}</td>

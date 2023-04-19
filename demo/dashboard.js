@@ -247,20 +247,20 @@ $(document).ready(function() {
   });
 
   /**
-    * ========== ========== ========== ========== ========== ==========
-    *
-    * Custom Layout
-    */
+   * ========== ========== ========== ========== ========== ==========
+   *
+   * Custom Layout
+   */
 
   const $DataTable_Custom = new EnhanceDataTable({
     /**
-      * EnhanceDataTable property
-      */
+     * EnhanceDataTable property
+     */
     id: '#DataTable_Custom',
 
     /**
-      * DataTable original property
-      */
+     * DataTable original property
+     */
     autoWidth: false,
 
     // no default sorting
@@ -405,19 +405,19 @@ $(document).ready(function() {
   $DataTable_Custom.updateData(data_custom);
 
   /**
-    * Returns a random number between min (inclusive) and max (exclusive)
-    */
+   * Returns a random number between min (inclusive) and max (exclusive)
+   */
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
 
   /**
-    * Returns a random integer between min (inclusive) and max (inclusive).
-    * The value is no lower than min (or the next integer greater than min
-    * if min isn't an integer) and no greater than max (or the next integer
-    * lower than max if max isn't an integer).
-    * Using Math.round() will give you a non-uniform distribution!
-    */
+   * Returns a random integer between min (inclusive) and max (inclusive).
+   * The value is no lower than min (or the next integer greater than min
+   * if min isn't an integer) and no greater than max (or the next integer
+   * lower than max if max isn't an integer).
+   * Using Math.round() will give you a non-uniform distribution!
+   */
   function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -445,16 +445,16 @@ $(document).ready(function() {
   });
 
   /**
-    * ========== ========== ========== ========== ========== ==========
-    *
-    * Simple Layout
-    */
+   * ========== ========== ========== ========== ========== ==========
+   *
+   * Simple Layout
+   */
 
   const $DataTable_Simple = new EnhanceDataTable({
     id: '#DataTable_Simple',
     show_row_number: false,
     show_checkbox: true,
-    // checked_visible_only: true,
+    checked_visible_only: true,
     autoWidth: false,
     order: [],
     /*/
@@ -532,16 +532,19 @@ $(document).ready(function() {
   });
 
   /**
-    * ========== ========== ========== ========== ========== ==========
-    *
-    * Simple Layout - Draw Data
-    */
+   * ========== ========== ========== ========== ========== ==========
+   *
+   * Simple Layout - Draw Data
+   */
 
   const $DataTable_DrawData = new EnhanceDataTable({
     id: '#DataTable_DrawData',
     show_row_number: false,
     // show_checkbox: true,
+    checked_visible_only: true,
     enable_checkbox_event: true,
+    checkbox_header_class: '.my-checkbox-header',
+    checkbox_class: '.my-checkbox',
     autoWidth: false,
     order: [],
     //*/
@@ -639,38 +642,40 @@ $(document).ready(function() {
     return render(data);
   }
 
-  let draw_today_date = moment().format('YYYY-MM-DD');
+  if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
+    let draw_today_date = moment().format('YYYY-MM-DD');
 
-  for (let i = 0; i < 20; i++) {
-    let id = i + 1;
+    for (let i = 0; i < 20; i++) {
+      let id = i + 1;
 
-    $DataTable_DrawData
-      .dataTable
-      .row
-      .add($(renderHtml('#dt_row_template', {
-        id: `data-id-${id}`,
-        custom_date: draw_today_date,
-      })))
-      .draw();
+      $DataTable_DrawData
+        .dataTable
+        .row
+        .add($(renderHtml('#dt_row_template', {
+          id: `data-id-${id}`,
+          custom_date: draw_today_date,
+        })))
+        .draw();
 
-    draw_today_date = moment(draw_today_date).add(1, 'days').format('YYYY-MM-DD');
+      draw_today_date = moment(draw_today_date).add(1, 'days').format('YYYY-MM-DD');
+    }
   }
 
   /**
-    * ========== ========== ========== ========== ========== ==========
-    *
-    * Scrollspy event
-    */
+   * ========== ========== ========== ========== ========== ==========
+   *
+   * Scrollspy event
+   */
 
   // $('[data-bs-spy="scroll"]').on('activate.bs.scrollspy', (e) => {
   //   console.log(e)
   // });
 
   /**
-    * ========== ========== ========== ========== ========== ==========
-    *
-    * Ace Editor
-    */
+   * ========== ========== ========== ========== ========== ==========
+   *
+   * Ace Editor
+   */
 
   const config_ace_javascript = {
     mode    : 'ace/mode/javascript',
@@ -686,6 +691,9 @@ $(document).ready(function() {
   ace.edit('example_prop_show_row_number', config_ace_javascript);
   ace.edit('example_prop_show_checkbox', config_ace_javascript);
   ace.edit('example_prop_checked_visible_only', config_ace_javascript);
+  ace.edit('example_prop_enable_checkbox_event', config_ace_javascript);
+  ace.edit('example_prop_checkbox_header_class', config_ace_javascript);
+  ace.edit('example_prop_checkbox_class', config_ace_javascript);
 
   // Method
   ace.edit('example_method_getAjaxUrl', config_ace_javascript);
