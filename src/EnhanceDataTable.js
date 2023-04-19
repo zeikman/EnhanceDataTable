@@ -172,7 +172,7 @@ $.fn.dataTable.ext.buttons.cardview = {
 /** En enhanced version of jQuery DataTable with various useful built-in methods and functionalities. */
 class EnhanceDataTable
 {
-  /*/
+  //*/
   #_debug = true;
   /*/
   #_debug = false;
@@ -194,6 +194,12 @@ class EnhanceDataTable
   /** @private */
   #_default_thead;
 
+  /** @private */
+  #_default_checkbox_column_header_class = '.column-checkbox-header';
+
+  /** @private */
+  #_default_checkbox_column_class = '.column-checkbox';
+
   /**
    * Default properties
    *
@@ -201,11 +207,12 @@ class EnhanceDataTable
    */
   #_props = {
     // EnhanceDataTable properties
-    column_hide_in_card : [],
-    three_states_sort   : true,
-    show_row_number     : true,
-    show_checkbox       : false,
-    checked_visible_only: false,
+    column_hide_in_card   : [],
+    three_states_sort     : true,
+    show_row_number       : true,
+    show_checkbox         : false,
+    checked_visible_only  : false,
+    enable_checkbox_event : false,
 
     // DataTable original properties //
 
@@ -369,11 +376,32 @@ class EnhanceDataTable
       }
 
       // handle checkbox render
-      if (self.#_props.show_checkbox)
+      if (self.#_props.show_checkbox || self.#_props.enable_checkbox_event)
       {
-        $('input[type="checkbox"]', row).attr('checked', data.checkbox
-          ? true
-          : false);
+        if (Array.isArray(data))
+        {
+          // support data insertion using row.add().draw()
+          const isCheckboxHeaderChecked = $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).is(':checked');
+          const isCheckboxHeaderIndeterminate = $(`${self.#_id} .column-checkbox-header input[type="checkbox"]`).is(':indeterminate');
+
+          if (isCheckboxHeaderChecked)
+          {
+            $('input[type="checkbox"]', row).prop('checked', true);
+          }
+          else
+          {
+            if (!isCheckboxHeaderIndeterminate)
+            {
+              $('input[type="checkbox"]', row).prop('checked', false);
+            }
+          }
+        }
+        else
+        {
+          $('input[type="checkbox"]', row).prop('checked', data.checkbox
+            ? true
+            : false);
+        }
       }
 
       userDefinedRowCallback(row, data, displayNum, displayIndex, dataIndex);
@@ -553,9 +581,9 @@ class EnhanceDataTable
     this.#_props.initComplete = function (settings, json)
     {
       // Setup checkbox event
-      if (self.#_props.show_checkbox)
+      if (self.#_props.show_checkbox || self.#_props.enable_checkbox_event)
       {
-        self.#_setupCheckboxEvent(settings, json);
+        self.#_setupCheckboxHeaderEvent(settings, json);
       }
 
       // Input search ESC-key event
@@ -663,7 +691,7 @@ class EnhanceDataTable
       .dispatchEvent(toggleView);
   }
 
-  #_setupCheckboxEvent(settings, json)
+  #_setupCheckboxHeaderEvent(settings, json)
   {
     const self = this;
 
@@ -1061,37 +1089,52 @@ class EnhanceDataTable
    */
   #_selectDeselectEvent()
   {
-    const self = this;
-
-    this.#_datatable.on('select', function (e, dt, type, indexes)
+    if (this.#_props.show_checkbox || this.#_props.enable_checkbox_event)
     {
-      if (self.#_debug)
-      {
-        console.warn('datatable >>> select');
-      }
+      const self = this;
 
-      if (self.#_props.show_checkbox)
+      this.#_datatable.on('select', function (e, dt, type, indexes)
       {
+        if (self.#_debug)
+        {
+          console.warn('datatable >>> select');
+        }
+
         // update data
         const checkbox_column = self.#_props.show_row_number
           ? 1
           : 0;
 
         indexes.forEach((rowIndex, index) => {
-          dt.cell(rowIndex, checkbox_column).data(true);
+          const currentData = dt.cell(rowIndex, checkbox_column).data();
+
+          if (currentData.toString() == 'true' || currentData.toString() == 'false')
+          {
+            dt.cell(rowIndex, checkbox_column).data(true);
+          }
         });
 
         // update DOM checkbox
         if (self.#_checkbox_header_triggered)
         {
-          $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', true);
+          if (self.#_debug)
+          {
+            console.warn('#_checkbox_header_triggered >>> update DOM checkbox');
+          }
+
+          $(`${self.#_id} tbody .column-checkbox:visible`).prop('checked', true);
         }
         else
         {
-          const pageinfo    = self.#_datatable.page.info();
-          const pageLength  = pageinfo.length;
-          const rowStart    = pageinfo.start;
-          const rowEnd      = pageinfo.end;
+          if (self.#_debug)
+          {
+            console.warn('row_checkbox_triggered >>> update DOM checkbox');
+          }
+
+          const pageInfo    = self.#_datatable.page.info();
+          const pageLength  = pageInfo.length;
+          const rowStart    = pageInfo.start;
+          const rowEnd      = pageInfo.end;
 
           indexes.forEach((rowIndex, index) => {
             if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
@@ -1112,38 +1155,50 @@ class EnhanceDataTable
         }
 
         self.#_checkbox_header_triggered = false;
-      }
-    });
+      });
 
-    this.#_datatable.on('deselect', function (e, dt, type, indexes)
-    {
-      if (self.#_debug)
+      this.#_datatable.on('deselect', function (e, dt, type, indexes)
       {
-        console.warn('datatable >>> deselect');
-      }
+        if (self.#_debug)
+        {
+          console.warn('datatable >>> deselect');
+        }
 
-      if (self.#_props.show_checkbox)
-      {
         // update data
         const checkbox_column = self.#_props.show_row_number
           ? 1
           : 0;
 
         indexes.forEach((rowIndex, index) => {
-          dt.cell(rowIndex, checkbox_column).data(false)
+          const currentData = dt.cell(rowIndex, checkbox_column).data();
+
+          if (currentData.toString() == 'true' || currentData.toString() == 'false')
+          {
+            dt.cell(rowIndex, checkbox_column).data(false)
+          }
         });
 
         // update DOM checkbox
         if (self.#_checkbox_header_triggered)
         {
-          $(`${self.#_id} tbody .column-checkbox:visible`).attr('checked', false);
+          if (self.#_debug)
+          {
+            console.warn('#_checkbox_header_triggered >>> update DOM checkbox');
+          }
+
+          $(`${self.#_id} tbody .column-checkbox:visible`).prop('checked', false);
         }
         else
         {
-          const pageinfo    = self.#_datatable.page.info();
-          const pageLength  = pageinfo.length;
-          const rowStart    = pageinfo.start;
-          const rowEnd      = pageinfo.end;
+          if (self.#_debug)
+          {
+            console.warn('row_checkbox_triggered >>> update DOM checkbox');
+          }
+
+          const pageInfo    = self.#_datatable.page.info();
+          const pageLength  = pageInfo.length;
+          const rowStart    = pageInfo.start;
+          const rowEnd      = pageInfo.end;
 
           indexes.forEach((rowIndex, index) => {
             if (rowStart <= rowIndex && rowIndex <= (rowEnd - 1))
@@ -1164,8 +1219,8 @@ class EnhanceDataTable
         }
 
         self.#_checkbox_header_triggered = false;
-      }
-    });
+      });
+    }
   }
 
   /**
@@ -1642,7 +1697,7 @@ class EnhanceDataTable
     if (Array.isArray(row_data[0]))
     {
       // support data insertion using row.add().draw()
-      $(`${this.#_id} tbody tr:eq(${rowIndex}) input[type="checkbox"]`).attr('checked', true);
+      $(`${this.#_id} tbody tr:eq(${rowIndex}) input[type="checkbox"]`).prop('checked', true);
     }
 
     this.#_datatable.rows(rowIndex).select();
@@ -1660,7 +1715,7 @@ class EnhanceDataTable
     if (Array.isArray(row_data[0]))
     {
       // support data insertion using row.add().draw()
-      $(`${this.#_id} tbody tr:eq(${rowIndex}) input[type="checkbox"]`).attr('checked', false);
+      $(`${this.#_id} tbody tr:eq(${rowIndex}) input[type="checkbox"]`).prop('checked', false);
     }
 
     this.#_datatable.rows(rowIndex).deselect();

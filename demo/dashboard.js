@@ -454,7 +454,7 @@ $(document).ready(function() {
     id: '#DataTable_Simple',
     show_row_number: false,
     show_checkbox: true,
-    checked_visible_only: true,
+    // checked_visible_only: true,
     autoWidth: false,
     order: [],
     /*/
@@ -541,6 +541,7 @@ $(document).ready(function() {
     id: '#DataTable_DrawData',
     show_row_number: false,
     // show_checkbox: true,
+    enable_checkbox_event: true,
     autoWidth: false,
     order: [],
     //*/
@@ -638,6 +639,8 @@ $(document).ready(function() {
     return render(data);
   }
 
+  let draw_today_date = moment().format('YYYY-MM-DD');
+
   for (let i = 0; i < 20; i++) {
     let id = i + 1;
 
@@ -646,9 +649,11 @@ $(document).ready(function() {
       .row
       .add($(renderHtml('#dt_row_template', {
         id: `data-id-${id}`,
-        custom_date: moment().format('YYYY-MM-DD'),
+        custom_date: draw_today_date,
       })))
       .draw();
+
+    draw_today_date = moment(draw_today_date).add(1, 'days').format('YYYY-MM-DD');
   }
 
   /**

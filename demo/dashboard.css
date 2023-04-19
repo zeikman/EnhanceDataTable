@@ -195,3 +195,12 @@ body {
   box-shadow: inherit;
   color: inherit;
 }
+
+/*
+ * Draw Data
+ */
+
+#DataTable_DrawData.dataTable > tbody > tr.selected > * {
+  box-shadow: inherit;
+  color: inherit;
+}
