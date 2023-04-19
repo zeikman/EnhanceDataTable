@@ -200,6 +200,31 @@ body {
  * Draw Data
  */
 
+#DataTable_DrawData_wrapper .page-item {
+  margin: 0 5px;
+}
+
+#DataTable_DrawData_wrapper .page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0px;
+  border-radius: 50%;
+  color: lightslategray;
+  height: 40px;
+  width: 40px;
+  padding: 0px;
+}
+
+#DataTable_DrawData_wrapper .active > .page-link {
+  color: var(--bs-pagination-active-color);
+}
+
+#DataTable_DrawData_wrapper .disabled {
+  cursor: not-allowed;
+}
+
 #DataTable_DrawData.dataTable > tbody > tr.selected > * {
   box-shadow: inherit;
   color: inherit;

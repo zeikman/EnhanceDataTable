@@ -172,7 +172,7 @@ $.fn.dataTable.ext.buttons.cardview = {
 /** En enhanced version of jQuery DataTable with various useful built-in methods and functionalities. */
 class EnhanceDataTable
 {
-  //*/
+  /*/
   #_debug = true;
   /*/
   #_debug = false;
@@ -266,7 +266,10 @@ class EnhanceDataTable
       return proceed_init;
     }
 
-    console.error(`init : ${this.#_id}`);
+    if (this.#_debug)
+    {
+      console.error(`init : ${this.#_id}`);
+    }
 
     this.#_retainDefaultTheadStructure();
     this.#_setupRowCallback();
@@ -429,25 +432,46 @@ class EnhanceDataTable
       {
         if (Array.isArray(data))
         {
-          // support data insertion using row.add().draw()
-          const checkboxHeaderClass           = self.#_default_checkbox_column_header_class;
-          const isCheckboxHeaderChecked       = $(`${self.#_id} ${checkboxHeaderClass} input[type="checkbox"]`).is(':checked');
-          const isCheckboxHeaderIndeterminate = $(`${self.#_id} ${checkboxHeaderClass} input[type="checkbox"]`).is(':indeterminate');
-
-          if (isCheckboxHeaderChecked)
+          /*/
+          if (self.#_debug)
           {
-            $('input[type="checkbox"]', row).prop('checked', true);
+            console.warn('draw() type data >>> handle checkbox render');
+          }
+          //*/
+
+          // support data insertion using row.add().draw()
+          if (self.#_props.checked_visible_only)
+          {
+            //
           }
           else
           {
-            if (!isCheckboxHeaderIndeterminate)
+            const checkboxHeaderClass           = self.#_default_checkbox_column_header_class;
+            const isCheckboxHeaderChecked       = $(`${self.#_id} ${checkboxHeaderClass} input[type="checkbox"]`).is(':checked');
+            const isCheckboxHeaderIndeterminate = $(`${self.#_id} ${checkboxHeaderClass} input[type="checkbox"]`).is(':indeterminate');
+
+            if (isCheckboxHeaderChecked)
             {
-              $('input[type="checkbox"]', row).prop('checked', false);
+              $('input[type="checkbox"]', row).prop('checked', true);
+            }
+            else
+            {
+              if (!isCheckboxHeaderIndeterminate)
+              {
+                $('input[type="checkbox"]', row).prop('checked', false);
+              }
             }
           }
         }
         else
         {
+          /*/
+          if (self.#_debug)
+          {
+            console.warn('object type data >>> handle checkbox render');
+          }
+          //*/
+
           $('input[type="checkbox"]', row).prop('checked', data.checkbox
             ? true
             : false);
@@ -490,7 +514,7 @@ class EnhanceDataTable
         // Handle 'page.dt' and 'length.dt' events
         if (self.#_debug)
         {
-          console.warn(`update ${self.#_default_checkbox_column_header_class} >>> input[type="checkbox"] state`);
+          console.warn(`drawCallback() update ${self.#_default_checkbox_column_header_class} >>> input[type="checkbox"] state`);
         }
 
         self.#_checkboxHeaderUpdateStatus();

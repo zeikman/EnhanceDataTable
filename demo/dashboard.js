@@ -645,7 +645,7 @@ $(document).ready(function() {
   if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
     let draw_today_date = moment().format('YYYY-MM-DD');
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
       let id = i + 1;
 
       $DataTable_DrawData
