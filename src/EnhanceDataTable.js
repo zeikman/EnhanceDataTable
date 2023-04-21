@@ -1113,8 +1113,8 @@ class EnhanceDataTable
                   const labels = self.#_getColumnWithoutColspan(true/* use_default_thead */);
 
                   nth_column_text = labels[column];
-                  // console.log(labels)
-                  // console.log(column)
+                  // console.log(labels);
+                  // console.log(column);
                 }
 
                 if (nth_column_text == undefined)
@@ -1146,11 +1146,11 @@ class EnhanceDataTable
                 }
 
                 /*/
-                // console.log(this.column().visible())
-                // console.log(this.data())
-                console.log(column)
-                console.log(nth_column_text)
-                // console.log(original_content)
+                // console.log(this.column().visible());
+                // console.log(this.data());
+                console.log(column);
+                console.log(nth_column_text);
+                // console.log(original_content);
                 //*/
 
                 this.data(changedData);
@@ -1359,8 +1359,8 @@ class EnhanceDataTable
 
     if (this.#_debug)
     {
-      console.log(`totalRows : ${totalRows}`)
-      console.log(`selectedRows : ${selectedRows}`)
+      console.log(`totalRows : ${totalRows}`);
+      console.log(`selectedRows : ${selectedRows}`);
     }
 
     const checkboxHeaderClass = this.#_default_checkbox_column_header_class;
@@ -1419,8 +1419,8 @@ class EnhanceDataTable
 
     if (this.#_debug)
     {
-      console.log(`totalRows : ${totalRows}`)
-      console.log(`selectedRows : ${selectedRows}`)
+      console.log(`totalRows : ${totalRows}`);
+      console.log(`selectedRows : ${selectedRows}`);
     }
 
     const checkboxHeaderClass = this.#_default_checkbox_column_header_class;

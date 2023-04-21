@@ -11,3 +11,4 @@ images/
 demo-*
 src/app.css
 src/guest-complaint.php
+vendor/

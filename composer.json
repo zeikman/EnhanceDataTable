@@ -1,0 +1,13 @@
+{
+    "name": "zeikman/enhancedatatable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tan Yong Xiang",
+            "email": "zeikxiang@gmail.com"
+        }
+    ],
+    "require": {
+        "matthiasmullie/minify": "^1.3"
+    }
+}
