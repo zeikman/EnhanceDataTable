@@ -1,4 +1,4 @@
-# EnhanceDataTable
+# EnhanceDataTable (Beta v0.2.0)
 EnhanceDataTable is a DataTables plugin that provides a set of useful methods and functionalities to deal with data retrieving, updating, filtering, finding, and etc.
 
 ## Properties

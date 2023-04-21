@@ -80,10 +80,10 @@
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <input class="form-control form-control-dark w-100 rounded-0 border-0 global-search" type="search" placeholder="Search" aria-label="Search">
+    <input class="form-control form-control-dark w-100 rounded-0 border-0 global-search d-none" type="search" placeholder="Search" aria-label="Search">
     <div class="navbar-nav pe-none">
       <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="#">Documentation v0.1.0</a>
+        <a class="nav-link px-3" href="#">Documentation v0.2.0</a>
       </div>
     </div>
   </header>
@@ -96,6 +96,13 @@
           <nav id="navbar-edt" class="flex-column align-items-stretch pe-4 border-end mb-5">
             <nav class="nav nav-pills flex-column">
 
+              <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
+                <span class="text-primary fw-bold">Sample</span>
+                <a class="link-secondary" href="#" aria-label="Add a new report">
+                  <span data-feather="plus-circle" class="align-text-bottom"></span>
+                </a>
+              </h6>
+
               <a class="nav-link py-1 ms-1" href="#sample-default">Default Layout</a>
               <a class="nav-link py-1 ms-1" href="#sample-custom">Custom Layout</a>
               <a class="nav-link py-1 ms-1" href="#sample-simple">Simple Layout</a>
@@ -104,7 +111,7 @@
               <hr class="ms-3" />
 
               <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
-                <span>Property</span>
+                <span class="text-primary fw-bold">Property</span>
                 <a class="link-secondary" href="#" aria-label="Add a new report">
                   <span data-feather="plus-circle" class="align-text-bottom"></span>
                 </a>
@@ -120,8 +127,10 @@
               <a class="nav-link py-1 ms-3" href="#prop-checkbox_header_class">checkbox_header_class</a>
               <a class="nav-link py-1 ms-3" href="#prop-checkbox_class">checkbox_class</a>
 
+              <hr class="ms-3" />
+
               <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
-                <span>Method</span>
+                <span class="text-primary fw-bold">Method</span>
                 <a class="link-secondary" href="#" aria-label="Add a new report">
                   <span data-feather="plus-circle" class="align-text-bottom"></span>
                 </a>
@@ -147,8 +156,10 @@
               <a class="nav-link py-1 ms-3" href="#method-select">select()</a>
               <a class="nav-link py-1 ms-3" href="#method-deselect">deselect()</a>
 
+              <hr class="ms-3" />
+
               <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
-                <span>Event</span>
+                <span class="text-primary fw-bold">Event</span>
                 <a class="link-secondary" href="#" aria-label="Add a new report">
                   <span data-feather="plus-circle" class="align-text-bottom"></span>
                 </a>
@@ -164,6 +175,8 @@
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
         <div data-bs-spy="scroll" data-bs-target="#navbar-edt" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
+
+          <h4 class="my-4 text-danger text-uppercase">Sample</h4>
 
           <!-- DataTable -->
           <div id="sample-default" class="my-4">
@@ -185,6 +198,68 @@
               <button type="button" id="btn_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
               <button type="button" id="btn_getvisibleselectedrowdatas" class="btn btn-primary">Selected:Visible Row Datas</button>
               <button type="button" id="btn_getvisibleselectedrowids" class="btn btn-primary">Selected:Visible Row Ids</button>
+            </div>
+          </div>
+
+          <div class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sample-default-layout" aria-expanded="true" aria-controls="collapse-sample-default-layout">
+                  <strong>View Code</strong>
+                </button>
+              </h2>
+              <div id="collapse-sample-default-layout" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+<div id="sample_default_layout" class="border">// Init EnhanceDataTable
+const $DataTable = new EnhanceDataTable({
+  id: '#DataTable',
+  show_checkbox: true,
+  autoWidth: false,
+  order: [],
+  columns: [
+    {
+      data: 'column1',
+      width: '20%',
+    },
+    {
+      data: 'column2',
+      width: '20%',
+    },
+    {
+      data: 'column3',
+      width: '20%',
+    },
+    {
+      data: 'column4',
+      width: '20%',
+    },
+    {
+      data: 'column5',
+    },
+  ],
+});
+
+// Insert data
+const data = [];
+
+for (let index = 0; index < 1000; index++) {
+  data.push({
+    // NOTE: must provide 'rowNumber' if 'show_row_number = true'
+    rowNumber : '',
+    checkbox  : false,
+    id        : index + 1,
+    column1   : `data column1 ${index + 1}`,
+    column2   : `data column2 ${index + 1}`,
+    column3   : `data column3 ${index + 1}`,
+    column4   : `data column4 ${index + 1}`,
+    column5   : `data column5 ${index + 1}`,
+  });
+}
+
+$DataTable.updateData(data);
+</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -213,6 +288,116 @@
             </div>
           </div>
 
+          <div class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sample-custom-layout-bootstrap5" aria-expanded="true" aria-controls="collapse-sample-custom-layout-bootstrap5">
+                  <strong>View Code</strong>
+                </button>
+              </h2>
+              <div id="collapse-sample-custom-layout-bootstrap5" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+<div id="sample_custom_layout_bootstrap5" class="border">// Init EnhanceDataTable
+new EnhanceDataTable({
+  id: '#DataTable_Custom',
+  autoWidth: false,
+  order: [],
+  language: {
+    info        : 'Showing _START_ to _END_ of _TOTAL_ rows',
+    infoFiltered: '',
+    lengthMenu  : '_MENU_ rows per page',
+    paginate: {
+      previous: '<i class="fa-solid fa-arrow-left"></i>',
+      next    : '<i class="fa-solid fa-arrow-right"></i>',
+    }
+  },
+  lengthMenu: [
+    [10, 25, 50, -1],
+    [10, 25, 50, 'All'],
+  ],
+  columns: [
+    {
+      data: 'column1',
+      width: '20%',
+    },
+    {
+      data: 'column2',
+      width: '20%',
+      render: function(data, type, row, meta) {
+        const process_date = moment(data).format('YYYY-MM-DD');
+
+        return $DataTable_Custom.getView() == 'card'
+          ? `<label class="cardview-col-header">Column2</label> ${process_date}`
+          : process_date;
+      },
+    },
+    {
+      data: 'column3',
+      width: '20%',
+    },
+    {
+      data: 'column4',
+      width: '20%',
+    },
+    {
+      data: 'column5',
+    },
+  ],
+
+  column_hide_in_card: [
+    2, // Column2
+    3, // Column3
+  ],
+
+  dom:
+    `<'row'
+      <'col-sm-6'
+        <'dt-custom-search'f>
+      >
+      <'col-sm-6'
+        <'dt-custom-buttons'B>
+      >
+    >
+    <'row'
+      <'col-sm-12'tr>
+    >
+    <'row'
+      <'col-sm-5'
+        <'dt-custom-paging'il>
+      >
+      <'col-sm-7'p>
+    >`,
+
+  buttons: [
+    {
+      extend    : 'reload',
+      text      : '<i class="fa-solid fa-sync"></i>',
+      titleAttr : 'Reload',
+    },
+    {
+      extend    : 'colvis',
+      text      : 'Toggle Column',
+      titleAttr : 'Show/Hide Column',
+      columns   : ':not(.column-row-number)',
+      align     : 'button-right',
+      postfixButtons: [ 'colvisRestore' ],
+    },
+    {
+      extend    : 'cardview',
+      text      :
+        `<i class="fa-solid fa-table"></i>
+        <i class="fa-solid fa-arrows-h fa-fw"></i>
+        <i class="fa-solid fa-id-card"></i>`,
+      titleAttr : 'Toggle Table/Card',
+    },
+  ],
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <hr />
 
           <div id="sample-simple" class="mb-4">
@@ -236,6 +421,81 @@
               <button type="button" id="btn_simple_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
               <button type="button" id="btn_simple_getvisibleselectedrowdatas" class="btn btn-primary">Selected:Visble Row Datas</button>
               <button type="button" id="btn_simple_getvisibleselectedrowids" class="btn btn-primary">Selected:Visble Row Ids</button>
+            </div>
+          </div>
+
+          <div class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sample-simple-layout-bootstrap5" aria-expanded="true" aria-controls="collapse-sample-simple-layout-bootstrap5">
+                  <strong>View Code</strong>
+                </button>
+              </h2>
+              <div id="collapse-sample-simple-layout-bootstrap5" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+<div id="sample_simple_layout_bootstrap5" class="border">// Init EnhanceDataTable
+new EnhanceDataTable({
+  id: '#DataTable_Simple',
+  show_row_number: false,
+  show_checkbox: true,
+  checked_visible_only: true,
+  autoWidth: false,
+  order: [],
+  language: {
+    lengthMenu: 'Items per page _MENU_',
+    paginate: {
+      previous: '<i class="fa-solid fa-arrow-left"></i>',
+      next    : '<i class="fa-solid fa-arrow-right"></i>',
+    }
+  },
+  columns: [
+    {
+      data: 'column1',
+      render: function(data, type, row, meta) {
+        return `<div class="d-flex align-items-center">
+          <div class="bg-primary rounded me-2" style="width: 35px; height: 35px;"></div>
+          <div>${data}</div>
+        </div>`;
+      },
+    },
+    {
+      data: 'column2',
+      sortable: false,
+      width: '15%',
+    },
+    {
+      data: 'column3',
+      sortable: false,
+      width: '15%',
+    },
+    {
+      data: 'column4',
+      sortable: false,
+      width: '15%',
+    },
+    {
+      data: 'column5',
+      sortable: false,
+      width: '15%',
+    },
+  ],
+  dom:
+    `<'row'
+      <'col-sm-12'tr>
+    >
+    <'row mt-2 mb-3'
+      <'col-sm-12 col-md-2 _border'>
+      <'col-sm-12 col-md-8 _border'
+        <'text-center'p>
+      >
+      <'col-sm-12 col-md-2 pe-2 _border'
+        <'h-100 d-flex align-items-center justify-content-end me-2'l>
+      >
+    >`,
+});
+</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -288,25 +548,132 @@
             </div>
           </div>
 
-          <hr />
+          <div class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sample-simple-layout-draw-snippet" aria-expanded="true" aria-controls="collapse-sample-simple-layout-draw-snippet">
+                  <strong>View Code</strong>
+                </button>
+              </h2>
+              <div id="collapse-sample-simple-layout-draw-snippet" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+<div id="sample_simple_layout_draw_snippet" class="border">// Init EnhanceDataTable
+const $DataTable_DrawData = new EnhanceDataTable({
+  id: '#DataTable_DrawData',
+  show_row_number: false,
+  checked_visible_only: true,
+  enable_checkbox_event: true,
+  checkbox_header_class: '.my-checkbox-header',
+  checkbox_class: '.my-checkbox',
+  autoWidth: false,
+  order: [],
+  select: {
+    style: 'multiple',
+    selector: 'td:first-child  input[type="checkbox"]'
+  },
+  language: {
+    lengthMenu: 'Items per page _MENU_',
+    paginate: {
+      previous: '<i class="fa-solid fa-arrow-left"></i>',
+      next    : '<i class="fa-solid fa-arrow-right"></i>',
+    }
+  },
+  columns: [
+    {
+      searchable: false,
+      orderable : false,
+      sortable  : false,
+      width     : 21,
+    },
+    {
+      width: 'auto',
+    },
+    {
+      width: '15%',
+    },
+    {
+      width: '15%',
+    },
+    {
+      width: '15%',
+    },
+    {
+      width: '15%',
+    },
+  ],
+  dom:
+    `<'row d-none'
+      <'col-sm-12'B>
+    >
+    <'row'
+      <'col-sm-12'tr>
+    >
+    <'row mt-2 mb-3'
+      <'col-sm-12 col-md-2 _border'>
+      <'col-sm-12 col-md-8 _border'
+        <'d-flex align-items-center justify-content-center'p>
+      >
+      <'col-sm-12 col-md-2 pe-2 _border'
+        <'h-100 d-flex align-items-center justify-content-end me-2'l>
+      >
+    >`,
+});
 
-          <div>
-            <p>Issue:</p>
-            <ol>
-              <li>Cardview sometimes render Date-Format failed due to data changed with .cardview-col-header included, 24 Mar 2023</li>
-            </ol>
+// Render HTML template with data variables.
+const renderHtml = function (selector, data) {
+  // Initialize template parser
+  var render = TemplateSnippet($(selector).html());
+
+  // Return rendered data
+  return render(data);
+}
+
+// Draw data using template-snippet
+if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
+  let draw_today_date = moment().format('YYYY-MM-DD');
+
+  for (let i = 0; i < 100; i++) {
+    let id = i + 1;
+
+    $DataTable_DrawData
+      .dataTable
+      .row
+      .add($(renderHtml('#dt_row_template', {
+        id: `data-id-${id}`,
+        custom_date: draw_today_date,
+      })))
+      .draw();
+
+    draw_today_date = moment(draw_today_date).add(1, 'days').format('YYYY-MM-DD');
+  }
+}
+</div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <p>Milestone:</p>
-            <ul>
-              <li>-</li>
-            </ul>
+          <div class="d-none">
+            <hr />
+
+            <div>
+              <p>Issue:</p>
+              <ol>
+                <li>Cardview sometimes render Date-Format failed due to data changed with .cardview-col-header included, 24 Mar 2023</li>
+              </ol>
+            </div>
+
+            <div>
+              <p>Milestone:</p>
+              <ul>
+                <li>-</li>
+              </ul>
+            </div>
           </div>
 
           <hr />
 
-          <h4 class="mb-4">Property</h4>
+          <h4 class="mb-4 text-danger text-uppercase">Property</h4>
 
           <div id="prop-buttons" class="accordion mb-4">
             <div class="accordion-item rounded">
@@ -586,7 +953,7 @@
 
           <hr />
 
-          <h4 class="mb-4">Method</h4>
+          <h4 class="mb-4 text-danger text-uppercase">Method</h4>
 
           <div id="method-getAjaxUrl" class="accordion mb-4">
             <div class="accordion-item rounded">
@@ -1242,7 +1609,7 @@ dt.deselect(0);
 
           <hr />
 
-          <h4 class="mb-4">Event</h4>
+          <h4 class="mb-4 text-danger text-uppercase">Event</h4>
 
           <div id="event-toggleView" class="accordion mb-4">
             <div class="accordion-item rounded">

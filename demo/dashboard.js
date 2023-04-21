@@ -12,6 +12,7 @@ $(document).ready(function() {
 
   // NOTE: test lodash merge - https://lodash.com/
   // https://datatables.net/examples/api/select_row.html
+  // https://gist.github.com/sujeetkv/252480d39ae52e92c380b9317cea00b5
 
   /**
    * ========== ========== ========== ========== ========== ==========
@@ -24,6 +25,7 @@ $(document).ready(function() {
      * EnhanceDataTable property
      */
     id: '#DataTable',
+    show_checkbox: true,
 
     /**
      * DataTable original property
@@ -73,12 +75,14 @@ $(document).ready(function() {
   }
   // console.log(data);
 
-  //*/
+  /*/
   $DataTable
     .dataTable
     .rows
     .add(data)
     .draw();
+  /*/
+  $DataTable.updateData(data);
   //*/
 
   test = $DataTable;
@@ -552,6 +556,12 @@ $(document).ready(function() {
     maxLines: Infinity,
     fontSize: '11px',
   };
+
+  // Sample
+  ace.edit('sample_default_layout', config_ace_javascript);
+  ace.edit('sample_custom_layout_bootstrap5', config_ace_javascript);
+  ace.edit('sample_simple_layout_bootstrap5', config_ace_javascript);
+  ace.edit('sample_simple_layout_draw_snippet', config_ace_javascript);
 
   // Property
   ace.edit('example_prop_buttons', config_ace_javascript);
