@@ -200,6 +200,10 @@ body {
  * Draw Data
  */
 
+#sample-draw .dropdown-toggle::after {
+  content: none;
+}
+
 #DataTable_DrawData_wrapper .page-item {
   margin: 0 5px;
 }

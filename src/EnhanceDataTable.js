@@ -1633,9 +1633,14 @@ class EnhanceDataTable
    * const dt = new EnhanceDataTable();
    * dt.getRowData(0);
    */
-  getRowData(rowIndex)
+  getRowData(rowIndex = -1)
   {
-    return this.#_datatable.row(rowIndex).data();
+    if (rowIndex > -1)
+    {
+      return this.#_datatable.row(rowIndex).data();
+    }
+
+    return [];
   }
 
   /**

@@ -1,6 +1,17 @@
-let test, dt;
+let test,
+    dt,
+    test_custom,
+    dt_custom,
+    test_simple,
+    dt_simple,
+    test_draw,
+    dt_draw;
 
 $(document).ready(function() {
+  'use strict'
+
+  // NOTE: test lodash merge - https://lodash.com/
+  // https://datatables.net/examples/api/select_row.html
 
   /**
    * ========== ========== ========== ========== ========== ==========
@@ -14,18 +25,6 @@ $(document).ready(function() {
      */
     id: '#DataTable',
 
-    // column to auto-hide during card view
-    // column_hide_in_card: [],
-
-    // 3 states sort: asc, desc, original
-    // three_states_sort: false,
-
-    // show row number
-    // show_row_number: false,
-
-    // show checkbox
-    show_checkbox: true,
-
     /**
      * DataTable original property
      */
@@ -34,53 +33,7 @@ $(document).ready(function() {
     // no default sorting
     order: [],
 
-    // NOTE: test lodash merge - https://lodash.com/
-    language: {
-      // searchPlaceholder: 'test',
-      // paginate: {
-      //   // feather
-      //   // previous: '<i data-feather="arrow-left"></i>',
-      //   // fontawesome
-      //   previous: '<i class="fa-solid fa-arrow-left"></i>',
-      //   next    : '<i class="fa-solid fa-arrow-right"></i>',
-      //   // previous: '<i class="fa-solid fa-chevron-left"></i>',
-      //   // next    : '<i class="fa-solid fa-chevron-right"></i>',
-      // }
-    },
-    lengthMenu:
-      /*/
-      [10, 25, 50, 75, 100],
-      /*/
-      [
-        [10, 25, 50, -1],
-        [10, 25, 50, 'All'],
-      ],
-      //*/
     columns: [
-      // //*/
-      // {
-      //   data: 'checkbox',
-      //   /*/
-      //   // DataTable default checkbox className
-      //   // className: 'select-checkbox',
-      //   /*/
-      //   // customize checkbox
-      //   sortable: false,
-      //   className: 'dt-center',
-      //   render: function (data, type, row, meta)
-      //   {
-      //     // console.warn('====')
-      //     // console.log(data)
-      //     // console.log(type)
-      //     // console.log(row)
-      //     // console.log(meta)
-
-      //     // return `<input type="checkbox" class="form-check-input column-checkbox" data-id="${row.id}" />`;
-      //     return `<input type="checkbox" class="form-check-input column-checkbox" />`;
-      //   },
-      //   //*/
-      // },
-      // //*/
       {
         data: 'column1',
         width: '20%',
@@ -101,113 +54,6 @@ $(document).ready(function() {
         data: 'column5',
       },
     ],
-
-    // https://datatables.net/examples/api/select_row.html
-    // /*/
-    // select: true,
-    // /*/
-    // select: {
-    //   style: 'multiple', // api | single | multi | os | multi-shift
-    //   selector: 'td:nth-child(2) input[type="checkbox"]',
-    //   // selector: 'td:first-child',
-    // },
-    // //*/
-
-    /*/
-    ajax: {
-      url: 'data.txt',
-      dataSrc: function(data) {
-        data.map(function(d) {
-          d.rowNumber = '';
-
-          return d;
-        });
-
-        return data;
-
-      },
-    },
-    //*/
-
-    /* createdRow: function (row, data, dataIndex)
-    {
-      $(row).attr('data-id', data.id);
-    }, */
-
-    /* initComplete: function(settings, json) {
-      // feather.replace({ 'aria-hidden': 'true' });
-
-      $('#DataTable').on('click', '.column-checkbox-header input[type="checkbox"]', function(e) {
-        if (this.checked) {
-          $DataTable.dataTable.rows().select();
-
-          $DataTable.dataTable.cells(null, 1).every(function (cell)
-          {
-            this.data(true);
-          });
-
-          // $('#DataTable tbody tr').addClass('selected');
-          $('#DataTable tbody td .column-checkbox').attr('checked', true);
-
-        } else {
-          $DataTable.dataTable.rows().deselect();
-
-          $DataTable.dataTable.cells(null, 1).every(function (cell)
-          {
-            this.data(false);
-          });
-
-          // $('#DataTable tbody tr').removeClass('selected');
-          $('#DataTable tbody td .column-checkbox').attr('checked', false);
-        }
-      });
-
-      $('#DataTable').on('change', '.column-checkbox', function(e) {
-        // const dataId = $(this).data('id');
-        // console.log(dataId)
-
-        console.log('ori.change.column-checkbox')
-
-        const totalRows = $DataTable.dataTable.data().length;
-        const selectedRows = $DataTable.dataTable.rows('.selected').data().length;
-
-        // return;
-        if (this.checked)
-        {
-          if (selectedRows == totalRows)
-            $('.column-checkbox-header input[type="checkbox"]').prop('indeterminate', false);
-          else
-            $('.column-checkbox-header input[type="checkbox"]').prop('indeterminate', true);
-        }
-        else
-        {
-          if (selectedRows == 0)
-            $('.column-checkbox-header input[type="checkbox"]').prop('indeterminate', false);
-          else
-            $('.column-checkbox-header input[type="checkbox"]').prop('indeterminate', true);
-        }
-      });
-    }, */
-
-    /* rowCallback: function(row, data, displayNum, displayIndex, dataIndex) {
-      // console.log(row)
-      // console.log(data)
-      // console.log(displayNum)
-      // console.log(displayIndex)
-      // console.log(dataIndex)
-
-      if (data.checkbox)
-      {
-        $('input[type="checkbox"]', row).attr('checked', true);
-        // $(row).addClass('selected');
-      }
-      else
-      {
-        $('input[type="checkbox"]', row).attr('checked', false);
-        // $(row).removeClass('selected');
-      }
-    }, */
-
   });
 
   const data = [];
@@ -297,7 +143,7 @@ $(document).ready(function() {
       {
         data: 'column2',
         width: '20%',
-        visible: false,
+        // visible: false,
         // render: DataTable.render.date('YYYY-MM-DD'),
         // render: DataTable.render.moment('YYYY-MM-DD'),
         render: function(data, type, row, meta) {
@@ -311,7 +157,7 @@ $(document).ready(function() {
       {
         data: 'column3',
         width: '20%',
-        visible: false,
+        // visible: false,
       },
       {
         data: 'column4',
@@ -360,6 +206,8 @@ $(document).ready(function() {
         }
       },
       //*/
+      // 'copy',
+      // 'pdf',
       {
         extend    : 'reload',
         text      : '<i class="fa-solid fa-sync"></i>',
@@ -381,13 +229,7 @@ $(document).ready(function() {
           <i class="fa-solid fa-id-card"></i>`,
         titleAttr : 'Toggle Table/Card',
       },
-      // 'copy',
-      // 'pdf',
     ],
-
-    initComplete: function(settings, json) {
-      /* $('.dt-reload-button, .dt-toggle-view-button').addClass('btn-secondary'); */
-    },
   });
 
   test_custom = $DataTable_Custom;
@@ -442,7 +284,7 @@ $(document).ready(function() {
         checkbox  : false,
         id        : i + 1,
         column1   : `data ${getRandomArbitrary(0, 100)}`,
-        column2   : `data ${getRandomArbitrary(0, 100)}`,
+        column2   : today_date,
         column3   : `data ${getRandomArbitrary(0, 100)}`,
         column4   : `data ${getRandomArbitrary(0, 100)}`,
         column5   : `data ${getRandomArbitrary(0, 100)}`,
@@ -586,39 +428,26 @@ $(document).ready(function() {
         width     : 21,
       },
       {
-        // data: 'column1',
-        // // sortable: false,
-        // render: function(data, type, row, meta) {
-        //   return `<div class="d-flex align-items-center">
-        //     <div class="bg-primary rounded me-2" style="width: 35px; height: 35px;"></div>
-        //     <div>${data}</div>
-        //   </div>`;
-        // },
         width: 'auto',
       },
       {
-        // data: 'column2',
-        // sortable: false,
         width: '15%',
       },
       {
-        // data: 'column3',
-        // sortable: false,
         width: '15%',
       },
       {
-        // data: 'column4',
-        // sortable: false,
         width: '15%',
       },
       {
-        // data: 'column5',
-        // sortable: false,
         width: '15%',
       },
     ],
     dom:
-      `<'row'
+      `<'row d-none'
+        <'col-sm-12'B>
+      >
+      <'row'
         <'col-sm-12'tr>
       >
       <'row mt-2 mb-3'
@@ -638,6 +467,14 @@ $(document).ready(function() {
 
   document.getElementById('input_draw_search').addEventListener('search', function (e) {
     $DataTable_DrawData.search(this.value.trim());
+  });
+
+  $('#btn_draw_Export').on('click', 'a', function(e) {
+    e.preventDefault();
+
+    const buttonIndex = $(this).attr('href').slice(1);
+
+    $DataTable_DrawData.dataTable.button(buttonIndex).trigger()
   });
 
   $('#btn_draw_toggleview').on('click', function(e) {
@@ -752,59 +589,3 @@ $(document).ready(function() {
   ace.edit('example_event_toggleview', config_ace_javascript);
 
 });
-
-// ==================================================================
-
-/* globals Chart:false, feather:false */
-
-(() => {
-  'use strict'
-
-  // feather.replace({ 'aria-hidden': 'true' })
-
-  // Graphs
-  const ctx = document.getElementById('myChart')
-  // eslint-disable-next-line no-unused-vars
-  /* const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      },
-      legend: {
-        display: false
-      }
-    }
-  }) */
-})()
