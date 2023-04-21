@@ -636,6 +636,14 @@ $(document).ready(function() {
   test_draw = $DataTable_DrawData;
   dt_draw = $DataTable_DrawData.dataTable;
 
+  document.getElementById('input_draw_search').addEventListener('search', function (e) {
+    $DataTable_DrawData.search(this.value.trim());
+  });
+
+  $('#btn_draw_toggleview').on('click', function(e) {
+    $DataTable_DrawData.toggleView();
+  });
+
   $('#btn_draw_getselectedrowdatas').on('click', function(e) {
     console.log($DataTable_DrawData.getSelectedRowDatas());
   });

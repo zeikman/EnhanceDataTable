@@ -179,7 +179,7 @@
                 </a>
               </h6>
 
-              <a class="nav-link py-1 ms-3" href="#method-toggleView">toggleView</a>
+              <a class="nav-link py-1 ms-3" href="#event-toggleView">toggleView</a>
 
             </nav>
           </nav>
@@ -287,7 +287,14 @@
 
           <div id="sample-draw" class="mb-4">
             <h5>Simple Layout - Draw Data (Using Template Snippet)</h5>
-            <div class="card table-responsive">
+            <div class="d-flex">
+              <div>
+                <input type="search" id="input_draw_search" class="form-control" placeholder="Search" />
+              </div>
+              <div class="flex-grow-1"></div>
+              <button type="button" id="btn_draw_toggleview" class="btn btn-outline-secondary">Toggle Card View</button>
+            </div>
+            <div class="card table-responsive mt-3">
               <table id="DataTable_DrawData" class="table" style="margin: 0 !important;">
                 <thead class="table-light">
                   <tr class="text-secondary">
@@ -1282,14 +1289,14 @@ dt.deselect(0);
 
           <h4 class="mb-4">Event</h4>
 
-          <div id="method-toggleView" class="accordion mb-4">
+          <div id="event-toggleView" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-toggleView" aria-expanded="true" aria-controls="collapse-method-toggleView">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-event-toggleView" aria-expanded="true" aria-controls="collapse-event-toggleView">
                   <strong>'toggleView', function( <i class="fw-normal">e</i> )</strong>
                 </button>
               </h2>
-              <div id="collapse-method-toggleView" class="accordion-collapse collapse _show">
+              <div id="collapse-event-toggleView" class="accordion-collapse collapse _show">
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
