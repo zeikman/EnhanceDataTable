@@ -161,6 +161,8 @@
               <a class="nav-link py-1 ms-3" href="#method-getRowData">getRowData()</a>
               <a class="nav-link py-1 ms-3" href="#method-getSelectedRowIds">getSelectedRowIds()</a>
               <a class="nav-link py-1 ms-3" href="#method-getSelectedRowDatas">getSelectedRowDatas()</a>
+              <a class="nav-link py-1 ms-3" href="#method-getVisibleSelectedRowIds">getVisibleSelectedRowIds()</a>
+              <a class="nav-link py-1 ms-3" href="#method-getVisibleSelectedRowDatas">getVisibleSelectedRowDatas()</a>
               <a class="nav-link py-1 ms-3" href="#method-refresh">refresh()</a>
               <a class="nav-link py-1 ms-3" href="#method-on">on()</a>
               <a class="nav-link py-1 ms-3" href="#method-search">search()</a>
@@ -198,9 +200,9 @@
                   <!-- NOTE: render row number -->
                   <!-- <th>#</th> -->
                   <!-- NOTE: render checkbox -->
-                  <th class="_align-middle _row-edit column-checkbox-header dt-center">
+                  <!-- <th class="_align-middle _row-edit column-checkbox-header dt-center">
                     <input type="checkbox" class="form-check-input" />
-                  </th>
+                  </th> -->
                   <!-- NOTE: normal columns -->
                   <th>Column1</th>
                   <th>Column2</th>
@@ -225,6 +227,8 @@
             <div class="text-end border p-2 mt-2">
               <button type="button" id="btn_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
               <button type="button" id="btn_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
+              <button type="button" id="btn_getvisibleselectedrowdatas" class="btn btn-primary">Selected:Visible Row Datas</button>
+              <button type="button" id="btn_getvisibleselectedrowids" class="btn btn-primary">Selected:Visible Row Ids</button>
             </div>
           </div>
 
@@ -274,6 +278,8 @@
             <div class="text-end border p-2 mt-2">
               <button type="button" id="btn_simple_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
               <button type="button" id="btn_simple_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
+              <button type="button" id="btn_simple_getvisibleselectedrowdatas" class="btn btn-primary">Selected:Visble Row Datas</button>
+              <button type="button" id="btn_simple_getvisibleselectedrowids" class="btn btn-primary">Selected:Visble Row Ids</button>
             </div>
           </div>
 
@@ -301,6 +307,8 @@
             <div class="text-end border p-2 mt-2">
               <button type="button" id="btn_draw_getselectedrowdatas" class="btn btn-primary">Selected Row Datas</button>
               <button type="button" id="btn_draw_getselectedrowids" class="btn btn-primary">Selected Row Ids</button>
+              <button type="button" id="btn_draw_getvisibleselectedrowdatas" class="btn btn-primary">Selected:Visible Row Datas</button>
+              <button type="button" id="btn_draw_getvisibleselectedrowids" class="btn btn-primary">Selected:Visible Row Ids</button>
             </div>
           </div>
 
@@ -316,7 +324,7 @@
           <div>
             <p>Milestone:</p>
             <ul>
-              <li>Check All on visible records only</li>
+              <li>-</li>
             </ul>
           </div>
 
@@ -911,6 +919,64 @@ dt.getSelectedRowIds();
 <div id="example_method_getSelectedRowDatas" class="border">const dt = new EnhanceDataTable();
 
 dt.getSelectedRowDatas();
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="method-getVisibleSelectedRowIds" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-getVisibleSelectedRowIds" aria-expanded="true" aria-controls="collapse-method-getVisibleSelectedRowIds">
+                  <strong>getVisibleSelectedRowIds()</strong>
+                </button>
+              </h2>
+              <div id="collapse-method-getVisibleSelectedRowIds" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Get ID of visible and selected rows.
+                  </p>
+
+                  <h6>Returns</h6>
+                  <p>
+                    Array of visible and selected rows ID.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getVisibleSelectedRowIds" class="border">const dt = new EnhanceDataTable();
+
+dt.getVisibleSelectedRowIds();
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="method-getVisibleSelectedRowDatas" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-method-getVisibleSelectedRowDatas" aria-expanded="true" aria-controls="collapse-method-getVisibleSelectedRowDatas">
+                  <strong>getVisibleSelectedRowDatas()</strong>
+                </button>
+              </h2>
+              <div id="collapse-method-getVisibleSelectedRowDatas" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Get data of visible and selected rows.
+                  </p>
+
+                  <h6>Returns</h6>
+                  <p>
+                    Array of visible and selected rows data.
+                  </p>
+
+                  <h6>Example</h6>
+<div id="example_method_getVisibleSelectedRowDatas" class="border">const dt = new EnhanceDataTable();
+
+dt.getVisibleSelectedRowDatas();
 </div>
                 </div>
               </div>

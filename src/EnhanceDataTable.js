@@ -955,7 +955,7 @@ class EnhanceDataTable
       }
       else
       {
-        default_select_prop.selector = 'td:first-child  input[type="checkbox"]';
+        default_select_prop.selector = 'td:first-child input[type="checkbox"]';
       }
 
       const hasSelectProperty = this.#_props.hasOwnProperty('select');
@@ -1641,17 +1641,18 @@ class EnhanceDataTable
   /**
    * Get ID of selected rows.
    *
+   * @param {String} condition Condition to select data.
+   *
    * @returns {Array} Array of seleceted rows ID.
    */
-  getSelectedRowIds()
+  getSelectedRowIds(condition = '.selected')
   {
     const ids = [];
-    const selectedData = this.#_datatable.rows('.selected').data();
+    const selectedData = this.#_datatable.rows(condition).data();
 
     for (let index = 0; index < selectedData.length; index++)
     {
       const data = selectedData[index];
-
       if (Array.isArray(data))
       {
         // support data insertion using row.add().draw()
@@ -1675,14 +1676,26 @@ class EnhanceDataTable
   }
 
   /**
+   * Get ID of visible and selected rows.
+   *
+   * @returns {Array} Array of visible and selected rows ID.
+   */
+  getVisibleSelectedRowIds()
+  {
+    return this.getSelectedRowIds('.selected:visible');
+  }
+
+  /**
    * Get data of selected rows.
+   *
+   * @param {String} condition Condition to select data.
    *
    * @returns {Array} Array of selected rows data.
    */
-  getSelectedRowDatas()
+  getSelectedRowDatas(condition = '.selected')
   {
     const datas = [];
-    const selectedData = this.#_datatable.rows('.selected').data();
+    const selectedData = this.#_datatable.rows(condition).data();
 
     for (let index = 0; index < selectedData.length; index++)
     {
@@ -1690,6 +1703,16 @@ class EnhanceDataTable
     }
 
     return datas;
+  }
+
+  /**
+   * Get data of visible and selected rows.
+   *
+   * @returns {Array} Array of visible and selected rows data.
+   */
+  getVisibleSelectedRowDatas()
+  {
+    return this.getSelectedRowDatas('.selected:visible');
   }
 
   /**
@@ -1740,6 +1763,7 @@ class EnhanceDataTable
 
   /**
    * Filter data.
+   *
    * @param {String} input  Search string to apply to the DataTable.
    *
    * @example
@@ -1754,7 +1778,7 @@ class EnhanceDataTable
   /**
    * Update Data.
    *
-   * @param {Object[]} data
+   * @param {Object[]} data New Data.
    */
   updateData(data)
   {
