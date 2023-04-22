@@ -288,7 +288,7 @@ $(document).ready(function() {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    $('#btn_update_data').on('click', function(e) {
+    $('#btn_update_data, #btn_update_data_page').on('click', function(e) {
       const updateData = [];
 
       for (let i = 0; i < getRandomInt(50, 100); i++) {
@@ -305,7 +305,7 @@ $(document).ready(function() {
         });
       }
 
-      $DataTable_Custom.updateData(updateData, false);
+      $DataTable_Custom.updateData(updateData, this.id == 'btn_update_data' ? true : false);
     });
   }
 
