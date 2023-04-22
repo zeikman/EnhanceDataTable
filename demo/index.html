@@ -98,6 +98,19 @@
             <nav class="nav nav-pills flex-column">
 
               <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
+                <span class="text-primary fw-bold">Introduction</span>
+                <a class="link-secondary" href="#" aria-label="Add a new report">
+                  <span data-feather="plus-circle" class="align-text-bottom"></span>
+                </a>
+              </h6>
+
+              <a class="nav-link py-1 ms-1" href="#intro-feature">Features</a>
+              <a class="nav-link py-1 ms-1" href="#intro-dependencies">Dependencies</a>
+              <a class="nav-link py-1 ms-1" href="#intro-plugins">Recommended Plugins</a>
+
+              <hr class="ms-3" />
+
+              <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 text-muted text-uppercase">
                 <span class="text-primary fw-bold">Sample</span>
                 <a class="link-secondary" href="#" aria-label="Add a new report">
                   <span data-feather="plus-circle" class="align-text-bottom"></span>
@@ -177,7 +190,61 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
         <div data-bs-spy="scroll" data-bs-target="#navbar-edt" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
 
-          <h4 class="my-4 text-danger text-uppercase">Sample</h4>
+          <h4 class="my-4 text-danger text-uppercase">Introduction</h4>
+
+          <div class="mb-4">
+            EnhanceDataTable (EDT) is a <a target="_blank" href="https://datatables.net/">DataTables</a> plugin that provides a set of useful methods and functionalities to deal with data retrieving, updating, filtering, finding, and etc.
+            EDT inherits all the properties from DataTables.
+            <br />
+            <br />
+            Version : Beta v0.2.0
+          </div>
+
+          <h5 id="intro-feature">Features</h5>
+
+          <ul class="mb-4">
+            <li>New Buttons <i class="fa-solid fa-chevron-right"></i> 'reload', 'cardview'</li>
+            <li>Three states sort <i class="fa-solid fa-chevron-right"></i> Ascending > Descending > Original</li>
+            <li>Built-In Functions <i class="fa-solid fa-chevron-right"></i> Show Row Number, Show Checkbox</li>
+            <li>Useful Methods <i class="fa-solid fa-chevron-right"></i> getSelectedRowIds(), getVisibleSelectedRowIds(), and etc</li>
+          </ul>
+
+          <h5 id="intro-dependencies">Dependencies</h5>
+
+          <ul class="mb-4">
+            <li>
+              <a target="_blank" href="https://datatables.net/download/">DataTables</a> - With following extensions included <small class="text-success"><i>( Warmly Reminder : It is encouraged to include all extensions in the sake of missing any functionalities. )</i></small>
+              <ul>
+                <li>Buttons</li>
+                <li>Column Visibilty</li>
+                <li>HTML5 Export</li>
+                <li>HTML5 JSZip</li>
+                <li>pdfmake</li>
+                <li>Print View</li>
+                <li>DateTime</li>
+                <li>Scroller</li>
+                <li>SearchBuilder</li>
+                <li>SearchPanes</li>
+                <li>Select</li>
+              </ul>
+            </li>
+            <li><a target="_blank" href="https://datatables.net/plug-ins/api/order.neutral()">order.neutral()</a> - DataTables Plug-ins</li>
+            <li><a target="_blank" href="https://datatables.net/plug-ins/dataRender/datetime">datetime</a> - DataTables Plug-ins</li>
+            <li><a target="_blank" href="https://jquery.com/">jQuery</a> - Version 3.+</li>
+            <li><a target="_blank" href="https://lodash.com/">Lodash</a></li>
+            <li><a target="_blank" href="https://momentjs.com/">Moment.js</a></li>
+          </ul>
+
+          <h5 id="intro-plugins">Recommended Plugins</h5>
+
+          <ul class="mb-4">
+            <li><a target="_blank" href="https://fontawesome.com/">Font Awesome</a></li>
+            <li><a target="_blank" href="https://getbootstrap.com/">Bootstrap</a></li>
+          </ul>
+
+          <hr />
+
+          <h4 class="mb-4 text-danger text-uppercase">Sample</h4>
 
           <!-- DataTable -->
           <div id="sample-default" class="my-4">
@@ -440,7 +507,6 @@ new EnhanceDataTable({
   id: '#DataTable_Simple',
   show_row_number: false,
   show_checkbox: true,
-  checked_visible_only: true,
   autoWidth: false,
   order: [],
   language: {
@@ -567,8 +633,12 @@ const $DataTable_DrawData = new EnhanceDataTable({
   enable_checkbox_event: true,
   checkbox_header_class: '.my-checkbox-header',
   checkbox_class: '.my-checkbox',
+  bInfo: false,
   autoWidth: false,
   order: [],
+  columnDefs: [
+    { orderable: false, targets: [0, 3, 4, 5] },
+  ],
   select: {
     style: 'multiple',
     selector: 'td:first-child  input[type="checkbox"]'
@@ -603,22 +673,7 @@ const $DataTable_DrawData = new EnhanceDataTable({
       width: '15%',
     },
   ],
-  dom:
-    `<'row d-none'
-      <'col-sm-12'B>
-    >
-    <'row'
-      <'col-sm-12'tr>
-    >
-    <'row mt-2 mb-3'
-      <'col-sm-12 col-md-2 _border'>
-      <'col-sm-12 col-md-8 _border'
-        <'d-flex align-items-center justify-content-center'p>
-      >
-      <'col-sm-12 col-md-2 pe-2 _border'
-        <'h-100 d-flex align-items-center justify-content-end me-2'l>
-      >
-    >`,
+  dom: 'rt<"bottom"lp><"clear">',
 });
 
 // Render HTML template with data variables.
@@ -633,21 +688,22 @@ const renderHtml = function (selector, data) {
 // Draw data using template-snippet
 if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
   let draw_today_date = moment().format('YYYY-MM-DD');
+  let template_array = [];
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     let id = i + 1;
 
-    $DataTable_DrawData
-      .dataTable
-      .row
-      .add($(renderHtml('#dt_row_template', {
-        id: `data-id-${id}`,
-        custom_date: draw_today_date,
-      })))
-      .draw();
+    const template = $(renderHtml('#dt_row_template', {
+      id: `data-id-${id}`,
+      custom_date: draw_today_date,
+    }));
+
+    template_array.push(template[0]);
 
     draw_today_date = moment(draw_today_date).add(1, 'days').format('YYYY-MM-DD');
   }
+
+  $DataTable_DrawData.updateData(template_array);
 }
 </div>
                 </div>
@@ -1685,8 +1741,8 @@ dt.on('toggleView', function(e) {
   <script type="text/javascript" src="../lib/DataTables/datatables.min.js"></script>
   <script type="text/javascript" src="../lib/API/order.neutral().js"></script>
   <script type="text/javascript" src="../lib/DataRender/datetime.js"></script>
-  <!-- <script type="text/javascript" src="../src/EnhanceDataTable.js"></script> -->
-  <script type="text/javascript" src="../src/EnhanceDataTable.min.js"></script>
+  <script type="text/javascript" src="../src/EnhanceDataTable.js"></script>
+  <!-- <script type="text/javascript" src="../src/EnhanceDataTable.min.js"></script> -->
 
   <script type="text/html" id="dt_row_template">
     <tr>

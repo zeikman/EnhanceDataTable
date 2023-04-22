@@ -351,6 +351,9 @@ $(document).ready(function() {
           data: 'column2',
           sortable: false,
           width: '15%',
+          render: function(data, type, row, meta) {
+            return moment(data).format('YYYY-MM-DD');
+          },
         },
         {
           data: 'column3',
@@ -387,7 +390,20 @@ $(document).ready(function() {
     test_simple = $DataTable_Simple;
     dt_simple = $DataTable_Simple.dataTable;
 
-    $DataTable_Simple.updateData(data);
+    const data_simple = [];
+    let today_date = moment().format('YYYY-MM-DD  hh:mm:ss');
+        today_date = new Date();
+
+    data.forEach(function(d, index) {
+      data_simple.push({
+        ...d,
+        ... {
+          column2: today_date,
+        }
+      });
+    });
+
+    $DataTable_Simple.updateData(data_simple);
 
     $('#btn_simple_getselectedrowdatas').on('click', function(e) {
       console.log($DataTable_Simple.getSelectedRowDatas());
@@ -421,8 +437,12 @@ $(document).ready(function() {
       enable_checkbox_event: true,
       checkbox_header_class: '.my-checkbox-header',
       checkbox_class: '.my-checkbox',
+      bInfo: false,
       autoWidth: false,
       order: [],
+      columnDefs: [
+        { orderable: false, targets: [0, 3, 4, 5] },
+      ],
       //*/
       select: {
         // style: 'os',
@@ -461,23 +481,23 @@ $(document).ready(function() {
           width: '15%',
         },
       ],
-      dom:
-        `<'row d-none'
-          <'col-sm-12'B>
-        >
-        <'row'
-          <'col-sm-12'tr>
-        >
-        <'row mt-2 mb-3'
-          <'col-sm-12 col-md-2 _border'>
-          <'col-sm-12 col-md-8 _border'
-            <'d-flex align-items-center justify-content-center'p>
-          >
-          <'col-sm-12 col-md-2 pe-2 _border'
-            <'h-100 d-flex align-items-center justify-content-end me-2'l>
-          >
-        >`,
-      // dom: 'rt<"bottom"lp><"clear">',
+      // dom:
+      //   `<'row d-none'
+      //     <'col-sm-12'B>
+      //   >
+      //   <'row'
+      //     <'col-sm-12'tr>
+      //   >
+      //   <'row mt-2 mb-3'
+      //     <'col-sm-12 col-md-2 _border'>
+      //     <'col-sm-12 col-md-8 _border'
+      //       <'d-flex align-items-center justify-content-center'p>
+      //     >
+      //     <'col-sm-12 col-md-2 pe-2 _border'
+      //       <'h-100 d-flex align-items-center justify-content-end me-2'l>
+      //     >
+      //   >`,
+      dom: 'rt<"bottom"lp><"clear">',
     });
 
     test_draw = $DataTable_DrawData;

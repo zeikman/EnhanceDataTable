@@ -19,6 +19,10 @@ body {
   min-height: 500px;
 } */
 
+.accordion-button {
+  padding: 0.5rem 0.75rem;
+}
+
 /*
  * Sidebar
  */
@@ -232,4 +236,26 @@ body {
 #DataTable_DrawData.dataTable > tbody > tr.selected > * {
   box-shadow: inherit;
   color: inherit;
+}
+
+#DataTable_DrawData_wrapper .dataTables_length {
+  position: absolute;
+  right: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+}
+
+#DataTable_DrawData_wrapper .dataTables_length label .form-select {
+  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.375rem;
+}
+
+#DataTable_DrawData_wrapper .dataTables_paginate {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
