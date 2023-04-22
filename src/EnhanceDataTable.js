@@ -200,6 +200,9 @@ class EnhanceDataTable
   /** @private */
   #_default_checkbox_column_class = '.column-checkbox';
 
+  /** @private */
+  #_current_page = 0;
+
   /**
    * Default properties
    *
@@ -1497,10 +1500,10 @@ class EnhanceDataTable
   /**
    * Set DataTable ajax url.
    *
-   * @param {String}    url           Ajax URL.
-   * @param {Boolean}   autoRefresh   If True, ajax will reload after URL updated.
-   * @param {Function}  callback      Function which is executed when the data has been reloaded and the table fully redrawn.
-   * @param {Boolean}   resetPaging   Reset or hold the current paging position.
+   * @param {String}    url         Ajax URL.
+   * @param {Boolean}   autoRefresh If True, ajax will reload after URL updated.
+   * @param {Function}  callback    Function which is executed when the data has been reloaded and the table fully redrawn.
+   * @param {Boolean}   resetPaging Reset or hold the current paging position.
    *
    * @example
    * const dt = new EnhanceDataTable();
@@ -1723,8 +1726,8 @@ class EnhanceDataTable
   /**
    * Reload DataTable data from Ajax data source.
    *
-   * @param {Function}  callback      Function which is executed when the data has been reloaded and the table fully redrawn.
-   * @param {Boolean}   resetPaging   Reset or hold the current paging position.
+   * @param {Function}  callback    Function which is executed when the data has been reloaded and the table fully redrawn.
+   * @param {Boolean}   resetPaging Reset or hold the current paging position.
    *
    * @example
    * const dt = new EnhanceDataTable();
@@ -1783,10 +1786,21 @@ class EnhanceDataTable
   /**
    * Update Data.
    *
-   * @param {Object[]} data New Data.
+   * @param {Object[]}  data        New Data.
+   * @param {Boolean}   resetPaging Reset or hold the current paging position.
    */
-  updateData(data)
+  updateData(data, resetPaging = true)
   {
+    if (!resetPaging)
+    {
+      // current page info
+      const page        = this.#_datatable.page.info();
+      const page_number = page.page;
+      // console.log(page)
+
+      this.#_current_page = page_number;
+    }
+
     this.resetOrder();
 
     this.clearData();
@@ -1795,6 +1809,26 @@ class EnhanceDataTable
       .rows
       .add(data)
       .draw();
+
+    // remain page
+    if (!resetPaging)
+    {
+      // new page info
+      const new_page        = this.#_datatable.page.info();
+      const new_page_total  = new_page.pages - 1;
+
+      // console.log(this.#_current_page)
+      // console.log(new_page_total)
+
+      this.#_current_page = this.#_current_page <= new_page_total
+        ? this.#_current_page
+        : new_page_total;
+
+      // console.log(this.#_current_page)
+      this.#_datatable
+        .page(this.#_current_page)
+        .draw(false);
+    }
   }
 
   /**
