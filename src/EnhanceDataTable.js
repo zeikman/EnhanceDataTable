@@ -1649,14 +1649,14 @@ class EnhanceDataTable
   /**
    * Get ID of selected rows.
    *
-   * @param {String} condition Condition to select data.
+   * @param {String} rowSelector Row selector.
    *
    * @returns {Array} Array of seleceted rows ID.
    */
-  getSelectedRowIds(condition = '.selected')
+  getSelectedRowIds(rowSelector = '.selected')
   {
     const ids = [];
-    const selectedData = this.#_datatable.rows(condition).data();
+    const selectedData = this.#_datatable.rows(rowSelector).data();
 
     for (let index = 0; index < selectedData.length; index++)
     {
@@ -1688,22 +1688,22 @@ class EnhanceDataTable
    *
    * @returns {Array} Array of visible and selected rows ID.
    */
-  getVisibleSelectedRowIds()
-  {
-    return this.getSelectedRowIds('.selected:visible');
-  }
+  // getVisibleSelectedRowIds()
+  // {
+  //   return this.getSelectedRowIds('.selected:visible');
+  // }
 
   /**
    * Get data of selected rows.
    *
-   * @param {String} condition Condition to select data.
+   * @param {String} rowSelector Row selector.
    *
    * @returns {Array} Array of selected rows data.
    */
-  getSelectedRowDatas(condition = '.selected')
+  getSelectedRowDatas(rowSelector = '.selected')
   {
     const datas = [];
-    const selectedData = this.#_datatable.rows(condition).data();
+    const selectedData = this.#_datatable.rows(rowSelector).data();
 
     for (let index = 0; index < selectedData.length; index++)
     {
@@ -1718,10 +1718,10 @@ class EnhanceDataTable
    *
    * @returns {Array} Array of visible and selected rows data.
    */
-  getVisibleSelectedRowDatas()
-  {
-    return this.getSelectedRowDatas('.selected:visible');
-  }
+  // getVisibleSelectedRowDatas()
+  // {
+  //   return this.getSelectedRowDatas('.selected:visible');
+  // }
 
   /**
    * Reload DataTable data from Ajax data source.

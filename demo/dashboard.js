@@ -105,11 +105,13 @@ $(document).ready(function() {
     });
 
     $('#btn_getvisibleselectedrowdatas').on('click', function(e) {
-      console.log($DataTable.getVisibleSelectedRowDatas());
+      // console.log($DataTable.getVisibleSelectedRowDatas());
+      console.log($DataTable.getSelectedRowDatas('.selected:visible'));
     });
 
     $('#btn_getvisibleselectedrowids').on('click', function(e) {
-      console.log($DataTable.getVisibleSelectedRowIds());
+      // console.log($DataTable.getVisibleSelectedRowIds());
+      console.log($DataTable.getSelectedRowIds('.selected:visible'));
     });
   }
 
@@ -414,11 +416,13 @@ $(document).ready(function() {
     });
 
     $('#btn_simple_getvisibleselectedrowdatas').on('click', function(e) {
-      console.log($DataTable_Simple.getVisibleSelectedRowDatas());
+      // console.log($DataTable_Simple.getVisibleSelectedRowDatas());
+      console.log($DataTable_Simple.getSelectedRowDatas('.selected:visible'));
     });
 
     $('#btn_simple_getvisibleselectedrowids').on('click', function(e) {
-      console.log($DataTable_Simple.getVisibleSelectedRowIds());
+      // console.log($DataTable_Simple.getVisibleSelectedRowIds());
+      console.log($DataTable_Simple.getSelectedRowIds('.selected:visible'));
     });
   }
 
@@ -528,11 +532,13 @@ $(document).ready(function() {
     });
 
     $('#btn_draw_getvisibleselectedrowdatas').on('click', function(e) {
-      console.log($DataTable_DrawData.getVisibleSelectedRowDatas());
+      // console.log($DataTable_DrawData.getVisibleSelectedRowDatas());
+      console.log($DataTable_DrawData.getSelectedRowDatas('.selected:visible'));
     });
 
     $('#btn_draw_getvisibleselectedrowids').on('click', function(e) {
-      console.log($DataTable_DrawData.getVisibleSelectedRowIds());
+      // console.log($DataTable_DrawData.getVisibleSelectedRowIds());
+      console.log($DataTable_DrawData.getSelectedRowIds('.selected:visible'));
     });
 
     /**
@@ -631,8 +637,8 @@ $(document).ready(function() {
   ace.edit('example_method_getRowData', config_ace_javascript);
   ace.edit('example_method_getSelectedRowIds', config_ace_javascript);
   ace.edit('example_method_getSelectedRowDatas', config_ace_javascript);
-  ace.edit('example_method_getVisibleSelectedRowIds', config_ace_javascript);
-  ace.edit('example_method_getVisibleSelectedRowDatas', config_ace_javascript);
+  // ace.edit('example_method_getVisibleSelectedRowIds', config_ace_javascript);
+  // ace.edit('example_method_getVisibleSelectedRowDatas', config_ace_javascript);
   ace.edit('example_method_refresh', config_ace_javascript);
   ace.edit('example_method_on', config_ace_javascript);
   ace.edit('example_method_search', config_ace_javascript);

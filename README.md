@@ -98,18 +98,18 @@ EnhanceDataTable is a DataTables plugin that provides a set of useful methods an
       <td>getSelectedRowIds</td>
       <td>Get ID of selected rows.</td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>getVisibleSelectedRowIds</td>
       <td>Get ID of visible and selected rows.</td>
-    </tr>
+    </tr> -->
     <tr>
       <td>getSelectedRowDatas</td>
       <td>Get data of selected rows.</td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>getVisibleSelectedRowDatas</td>
       <td>Get data of visible and selected rows.</td>
-    </tr>
+    </tr> -->
     <tr>
       <td>refresh</td>
       <td>Reload DataTables data.</td>

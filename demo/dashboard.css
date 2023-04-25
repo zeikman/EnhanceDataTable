@@ -58,6 +58,11 @@ body {
   color: #333;
 }
 
+.sidebar .nav-link:hover {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+}
+
 .sidebar .nav-link.active {
   background-color: inherit;
   color: inherit;
