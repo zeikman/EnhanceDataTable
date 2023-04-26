@@ -1,5 +1,44 @@
-# EnhanceDataTable (Beta v0.2.0)
+# [EnhanceDataTable](https://www.rightpristine.com/zeikman/EnhanceDataTable/demo/) (Beta v0.2.0)
 EnhanceDataTable is a DataTables plugin that provides a set of useful methods and functionalities to deal with data retrieving, updating, filtering, finding, and etc.
+
+## Get Started
+
+Include EnhanceDataTable library after DataTables library.
+
+```sh
+<link rel="stylesheet" href="path-to-DataTables/datatables.min.css" type="text/css" />
+<script type="text/javascript" src="path-to-DataTables/datatables.min.js"></script>
+<!-- ## Remember to include all DataTables related libraries and other necessary dependency libraries ## -->
+
+<link rel="stylesheet" href="path-to-EnhanceDataTable/EnhanceDataTable.css" type="text/css" />
+<script type="text/javascript" src="path-to-EnhanceDataTable/EnhanceDataTable.js"></script>
+```
+
+### How to use
+
+Full documentation and the demonstration is over [here](https://www.rightpristine.com/zeikman/EnhanceDataTable/demo/).
+
+```html
+<!-- HTML Syntax -->
+<table id="DataTable" class="table">
+  <thead>
+    <tr>
+      <th>Column1</th>
+      <th>Column2</th>
+      <th>Column3</th>
+      <th>Column4</th>
+      <th>Column5</th>
+    </tr>
+  </thead>
+</table>
+```
+
+```javascript
+/* JavaScript Syntax */
+const $DataTable = new EnhanceDataTable({
+  id: '#DataTable',
+});
+```
 
 ## Properties
 
