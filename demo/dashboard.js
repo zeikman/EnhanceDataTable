@@ -665,6 +665,7 @@ $(document).ready(function() {
   ace.edit('sample_custom_layout_bootstrap5', config_ace_javascript);
   ace.edit('sample_simple_layout_bootstrap5', config_ace_javascript);
   ace.edit('sample_simple_layout_draw_snippet', config_ace_javascript);
+  ace.edit('sample_sticky_header', config_ace_javascript);
 
   // Property
   ace.edit('example_prop_buttons', config_ace_javascript);

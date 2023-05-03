@@ -747,6 +747,52 @@ if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
             </div>
           </div>
 
+          <div class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sample-sticky-header" aria-expanded="true" aria-controls="collapse-sample-sticky-header">
+                  <strong>View Code</strong>
+                </button>
+              </h2>
+              <div id="collapse-sample-sticky-header" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+<div id="sample_sticky_header" class="border">// Init EnhanceDataTable
+new EnhanceDataTable({
+  id: '#DataTable_StickyHeader',
+  show_row_number: false,
+  autoWidth: false,
+  paging: false,
+  sticky_header: true,
+  columns: [
+    {
+      data: 'column1',
+      width: 'auto',
+    },
+    {
+      data: 'column2',
+      width: '15%',
+    },
+    {
+      data: 'column3',
+      width: '15%',
+    },
+    {
+      data: 'column4',
+      width: '15%',
+    },
+    {
+      data: 'column5',
+      width: '15%',
+    },
+  ],
+  dom: 'tr',
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="d-none">
             <hr />
 
