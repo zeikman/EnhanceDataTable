@@ -98,21 +98,35 @@ $(document).ready(function() {
     dt = $DataTable.dataTable;
 
     $('#btn_getselectedrowdatas').on('click', function(e) {
-      console.log($DataTable.getSelectedRowDatas());
+      const datas = $DataTable.getSelectedRowDatas();
+
+      console.log(datas);
+
+      $('#result_default').text(JSON.stringify(datas));
     });
 
     $('#btn_getselectedrowids').on('click', function(e) {
-      console.log($DataTable.getSelectedRowIds());
+      const ids = $DataTable.getSelectedRowIds();
+
+      console.log(ids);
+
+      $('#result_default').text(JSON.stringify(ids));
     });
 
     $('#btn_getvisibleselectedrowdatas').on('click', function(e) {
-      // console.log($DataTable.getVisibleSelectedRowDatas());
-      console.log($DataTable.getSelectedRowDatas('.selected:visible'));
+      const datas = $DataTable.getSelectedRowDatas('.selected:visible');
+
+      console.log(datas);
+
+      $('#result_default').text(JSON.stringify(datas));
     });
 
     $('#btn_getvisibleselectedrowids').on('click', function(e) {
-      // console.log($DataTable.getVisibleSelectedRowIds());
-      console.log($DataTable.getSelectedRowIds('.selected:visible'));
+      const ids = $DataTable.getSelectedRowIds('.selected:visible');
+
+      console.log(ids);
+
+      $('#result_default').text(JSON.stringify(ids));
     });
   }
 
@@ -409,21 +423,35 @@ $(document).ready(function() {
     $DataTable_Simple.updateData(data_simple);
 
     $('#btn_simple_getselectedrowdatas').on('click', function(e) {
-      console.log($DataTable_Simple.getSelectedRowDatas());
+      const datas = $DataTable_Simple.getSelectedRowDatas();
+
+      console.log(datas);
+
+      $('#result_simple').text(JSON.stringify(datas));
     });
 
     $('#btn_simple_getselectedrowids').on('click', function(e) {
-      console.log($DataTable_Simple.getSelectedRowIds());
+      const ids = $DataTable_Simple.getSelectedRowIds();
+
+      console.log(ids);
+
+      $('#result_simple').text(JSON.stringify(ids));
     });
 
     $('#btn_simple_getvisibleselectedrowdatas').on('click', function(e) {
-      // console.log($DataTable_Simple.getVisibleSelectedRowDatas());
-      console.log($DataTable_Simple.getSelectedRowDatas('.selected:visible'));
+      const datas = $DataTable_Simple.getSelectedRowDatas('.selected:visible');
+
+      console.log(datas);
+
+      $('#result_simple').text(JSON.stringify(datas));
     });
 
     $('#btn_simple_getvisibleselectedrowids').on('click', function(e) {
-      // console.log($DataTable_Simple.getVisibleSelectedRowIds());
-      console.log($DataTable_Simple.getSelectedRowIds('.selected:visible'));
+      const ids = $DataTable_Simple.getSelectedRowIds('.selected:visible');
+
+      console.log(ids);
+
+      $('#result_simple').text(JSON.stringify(ids));
     });
   }
 
@@ -525,21 +553,35 @@ $(document).ready(function() {
     });
 
     $('#btn_draw_getselectedrowdatas').on('click', function(e) {
-      console.log($DataTable_DrawData.getSelectedRowDatas());
+      const datas = $DataTable_DrawData.getSelectedRowDatas();
+
+      console.log(datas);
+
+      $('#result_draw').text(JSON.stringify(datas));
     });
 
     $('#btn_draw_getselectedrowids').on('click', function(e) {
-      console.log($DataTable_DrawData.getSelectedRowIds());
+      const ids = $DataTable_DrawData.getSelectedRowIds();
+
+      console.log(ids);
+
+      $('#result_draw').text(JSON.stringify(ids));
     });
 
     $('#btn_draw_getvisibleselectedrowdatas').on('click', function(e) {
-      // console.log($DataTable_DrawData.getVisibleSelectedRowDatas());
-      console.log($DataTable_DrawData.getSelectedRowDatas('.selected:visible'));
+      const datas = $DataTable_DrawData.getSelectedRowDatas('.selected:visible');
+
+      console.log(datas);
+
+      $('#result_draw').text(JSON.stringify(datas));
     });
 
     $('#btn_draw_getvisibleselectedrowids').on('click', function(e) {
-      // console.log($DataTable_DrawData.getVisibleSelectedRowIds());
-      console.log($DataTable_DrawData.getSelectedRowIds('.selected:visible'));
+      const ids = $DataTable_DrawData.getSelectedRowIds('.selected:visible');
+
+      console.log(ids);
+
+      $('#result_draw').text(JSON.stringify(ids));
     });
 
     /**
