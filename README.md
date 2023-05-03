@@ -85,6 +85,10 @@ const $DataTable = new EnhanceDataTable({
       <td>Enable built-in checkbox event listener on custom checkbox.</td>
     </tr>
     <tr>
+      <td>sticky_header</td>
+      <td>Make the thead become 'position: sticky;' with default 'top: 0px;'.</td>
+    </tr>
+    <tr>
       <td>checkbox_header_class</td>
       <td>Checkbox header class.</td>
     </tr>

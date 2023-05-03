@@ -216,6 +216,7 @@ class EnhanceDataTable
     show_checkbox         : false,
     checked_visible_only  : false,
     enable_checkbox_event : false,
+    sticky_header         : false,
 
     // DataTable original properties //
 
@@ -302,6 +303,12 @@ class EnhanceDataTable
       this.dataTable = this.#_datatable;
 
       $(wrapper).addClass('table-view');
+
+      // Setup sticky header
+      if (props.sticky_header)
+      {
+        $(`${wrapper} thead`).addClass('dt-sticky-header');
+      }
 
       return true;
     }

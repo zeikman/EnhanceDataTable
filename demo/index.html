@@ -107,7 +107,7 @@
 
               <a class="nav-link py-0 ms-3" href="#intro-feature">Features</a>
               <a class="nav-link py-0 ms-3" href="#intro-dependencies">Dependencies</a>
-              <a class="nav-link py-0 ms-3" href="#intro-plugins">Recommended Plugins</a>
+              <a class="nav-link py-0 ms-3" href="#intro-plugins">Plugins</a>
               <a class="nav-link py-0 ms-3" href="#intro-get-started">Get Started</a>
 
               <hr class="ms-3 mt-2 mb-1" />
@@ -123,6 +123,7 @@
               <a class="nav-link py-0 ms-3" href="#sample-custom">Custom Layout</a>
               <a class="nav-link py-0 ms-3" href="#sample-simple">Simple Layout</a>
               <a class="nav-link py-0 ms-3" href="#sample-draw">Draw Data</a>
+              <a class="nav-link py-0 ms-3" href="#sticky-header">Sticky Header</a>
 
               <hr class="ms-3 mt-2 mb-1" />
 
@@ -140,6 +141,7 @@
               <a class="nav-link py-0 ms-3" href="#prop-show_checkbox">show_checkbox</a>
               <a class="nav-link py-0 ms-3" href="#prop-checked_visible_only">checked_visible_only</a>
               <a class="nav-link py-0 ms-3" href="#prop-enable_checkbox_event">enable_checkbox_event</a>
+              <a class="nav-link py-0 ms-3" href="#prop-sticky_header">sticky_header</a>
               <a class="nav-link py-0 ms-3" href="#prop-checkbox_header_class">checkbox_header_class</a>
               <a class="nav-link py-0 ms-3" href="#prop-checkbox_class">checkbox_class</a>
 
@@ -726,6 +728,25 @@ if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
             </div>
           </div>
 
+          <hr />
+
+          <div id="sticky-header" class="mb-4">
+            <h5>Sticky Header</h5>
+            <div class="card table-responsive mt-3" style="max-height: 400px;">
+              <table id="DataTable_StickyHeader" class="table" style="margin: 0 !important;">
+                <thead class="table-light">
+                  <tr class="text-secondary">
+                    <th>Column1</th>
+                    <th>Column2</th>
+                    <th>Column3</th>
+                    <th>Column4</th>
+                    <th>Column5</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+
           <div class="d-none">
             <hr />
 
@@ -956,6 +977,36 @@ if ($DataTable_DrawData.hasOwnProperty('dataTable')) {
                   <h6>Example</h6>
 <div id="example_prop_enable_checkbox_event" class="border">new EnhanceDataTable({
   enable_checkbox_event: false,
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="prop-sticky_header" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-sticky_header" aria-expanded="true" aria-controls="collapse-prop-sticky_header">
+                  <strong>sticky_header</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-sticky_header" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Make the thead become 'position: sticky;' with default 'top: 0px;'.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Boolean</p>
+
+                  <h6>Default</h6>
+                  <p>false</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_sticky_header" class="border">new EnhanceDataTable({
+  sticky_header: false,
 });
 </div>
                 </div>

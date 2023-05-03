@@ -19,6 +19,7 @@ $(document).ready(function() {
     sample_custom: true,
     sample_simple: true,
     sample_draw: true,
+    sticky_header: true,
   };
 
   const data = [];
@@ -590,6 +591,55 @@ $(document).ready(function() {
   /**
    * ========== ========== ========== ========== ========== ==========
    *
+   * Sticky Header
+   */
+
+  if (control.sticky_header) {
+    const $DataTable_StickyHeader = new EnhanceDataTable({
+      id: '#DataTable_StickyHeader',
+      show_row_number: false,
+      autoWidth: false,
+      paging: false,
+      sticky_header: true,
+      columns: [
+        {
+          data: 'column1',
+          width: 'auto',
+        },
+        {
+          data: 'column2',
+          width: '15%',
+        },
+        {
+          data: 'column3',
+          width: '15%',
+        },
+        {
+          data: 'column4',
+          width: '15%',
+        },
+        {
+          data: 'column5',
+          width: '15%',
+        },
+      ],
+      dom: 'tr',
+    });
+
+    const data_sticky = [];
+
+    data.forEach(function(d, index) {
+      data_sticky.push({
+        ...d,
+      });
+    });
+
+    $DataTable_StickyHeader.updateData(data_sticky);
+  }
+
+  /**
+   * ========== ========== ========== ========== ========== ==========
+   *
    * Scrollspy event
    */
 
@@ -624,6 +674,7 @@ $(document).ready(function() {
   ace.edit('example_prop_show_checkbox', config_ace_javascript);
   ace.edit('example_prop_checked_visible_only', config_ace_javascript);
   ace.edit('example_prop_enable_checkbox_event', config_ace_javascript);
+  ace.edit('example_prop_sticky_header', config_ace_javascript);
   ace.edit('example_prop_checkbox_header_class', config_ace_javascript);
   ace.edit('example_prop_checkbox_class', config_ace_javascript);
 

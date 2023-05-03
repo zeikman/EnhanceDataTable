@@ -8,6 +8,12 @@
   min-width: 200px;
 }
 
+/** Sticky Header */
+.dt-sticky-header {
+  position: sticky;
+  top: 0px;
+}
+
 /** Card View */
 .dt-card .dataTable {
   border-right-width: 1px !important;
