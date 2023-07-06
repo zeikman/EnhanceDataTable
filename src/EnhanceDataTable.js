@@ -201,6 +201,12 @@ class EnhanceDataTable
   #_default_checkbox_column_class = '.column-checkbox';
 
   /** @private */
+  #_default_rowreorder_column_header_class = '.column-rowReorder-header';
+
+  /** @private */
+  #_default_rowreorder_column_class = '.column-rowReorder';
+
+  /** @private */
   #_current_page = 0;
 
   /**
@@ -263,7 +269,12 @@ class EnhanceDataTable
    */
   #_initDataTable()
   {
-    const proceed_init = this.#_setupCheckboxClasses();
+    let proceed_init = this.#_setupCheckboxClasses();
+
+    if (proceed_init)
+    {
+      proceed_init = this.#_setupRowReorderClasses();
+    }
 
     if (!proceed_init)
     {
@@ -279,8 +290,9 @@ class EnhanceDataTable
     this.#_setupRowCallback();
     this.#_setupDrawCallback();
     this.#_setupInitComplete();
-    this.#_setupCheckboxColumn();
-    this.#_setupRowNumber();
+    this.#_setupCheckboxColumn();   // column sequence - 3
+    this.#_setupRowReorderColumn(); // column sequence - 2
+    this.#_setupRowNumber();        // column sequence - 1
 
     // setup default DataTableNode[data-]
     $(this.#_id).data('view-status', 'table');
@@ -351,6 +363,26 @@ class EnhanceDataTable
 
         return false;
       }
+    }
+
+    return true;
+  }
+
+  /**
+   * Setup rowReorder classes.
+   */
+  #_setupRowReorderClasses()
+  {
+    // setup default rowReorder classes
+    if (this.#_props.hasOwnProperty('rowreorder_header_class'))
+    {
+      //
+    }
+
+    // check custom rowReorder header element existency if not using built-in checkbox
+    if (this.#_props.hasOwnProperty('rowreorder_class'))
+    {
+      //
     }
 
     return true;
@@ -928,8 +960,24 @@ class EnhanceDataTable
 
       if (!hasCheckboxColumn)
       {
+        // Find maximum rowspan
+        let maxRowSpan = 1;
+
+        $(`${this.#_id} thead th`).each((index, th) => {
+          const thRowSpan = $(th).attr('rowspan');
+
+          if (thRowSpan > maxRowSpan)
+          {
+            maxRowSpan = thRowSpan;
+          }
+        });
+
         // Auto append checkbox DOM
-        const checkboxColumn = `<th class="column-checkbox-header dt-center">
+        const checkbox_header_class = this.#_default_checkbox_column_header_class[0] == '.'
+          ? this.#_default_checkbox_column_header_class.slice(1)
+          : this.#_default_checkbox_column_header_class;
+
+        const checkboxColumn = `<th rowspan="${maxRowSpan}" class="${checkbox_header_class} dt-center">
           <input type="checkbox" class="form-check-input" />
         </th>`;
 
@@ -938,6 +986,10 @@ class EnhanceDataTable
         $(`${this.#_id} thead tr:first-child`).prepend(checkboxColumnElement);
 
         // Auto append checkbox column data
+        const checkbox_class = this.#_default_checkbox_column_class[0] == '.'
+          ? this.#_default_checkbox_column_class.slice(1)
+          : this.#_default_checkbox_column_class;
+
         this.#_props.columns.unshift({
           data      : 'checkbox',
           searchable: false,
@@ -947,25 +999,33 @@ class EnhanceDataTable
           width     : 21,
           render    : function (data, type, row, meta)
           {
-            return `<input type="checkbox" class="form-check-input column-checkbox" />`;
+            return `<input type="checkbox" class="form-check-input ${checkbox_class}" />`;
           }
         });
       }
 
       // Config 'select' property
       const showRowNumber = this.#_props.show_row_number;
+      const rowReorder = this.#_props.rowReorder;
 
       let default_select_prop = {
         style: 'multiple', // api | single | multi | os | multi-shift
       };
 
-      if (showRowNumber)
+      if (showRowNumber && rowReorder)
       {
-        default_select_prop.selector = 'td:nth-child(2) input[type="checkbox"]';
+        default_select_prop.selector = 'td:nth-child(3) input[type="checkbox"]';
       }
       else
       {
-        default_select_prop.selector = 'td:first-child input[type="checkbox"]';
+        if (showRowNumber)
+        {
+          default_select_prop.selector = 'td:nth-child(2) input[type="checkbox"]';
+        }
+        else
+        {
+          default_select_prop.selector = 'td:first-child input[type="checkbox"]';
+        }
       }
 
       const hasSelectProperty = this.#_props.hasOwnProperty('select');
@@ -985,12 +1045,129 @@ class EnhanceDataTable
     }
   }
 
+  #_setupRowReorderColumn()
+  {
+    if (this.#_props.hasOwnProperty('rowReorder'))
+    {
+      const hasRowReorderColumn = this.#_props.columns.find((column) => column.data == 'rowReorder');
+
+      if (!hasRowReorderColumn)
+      {
+        // Find maximum rowspan
+        let maxRowSpan = 1;
+
+        $(`${this.#_id} thead th`).each((index, th) => {
+          const thRowSpan = $(th).attr('rowspan');
+
+          if (thRowSpan > maxRowSpan)
+          {
+            maxRowSpan = thRowSpan;
+          }
+        });
+
+        // Auto append rowReorder DOM
+        const rowReorderColumn = `<th rowspan="${maxRowSpan}" class="column-rowReorder-header dt-center"></th>`;
+
+        const rowReorderColumnElement = $(rowReorderColumn);
+
+        $(`${this.#_id} thead tr:first-child`).prepend(rowReorderColumnElement);
+
+        // Auto append checkbox column data
+        this.#_props.columns.unshift({
+          data      : 'rowReorder',
+          searchable: false,
+          orderable : true,
+          sortable  : false,
+          className : 'dt-center reorder',
+          width     : 20,
+          render    : function (data, type, row, meta)
+          {
+            return `≡`;
+          }
+        });
+
+        // Config 'rowReorder' property
+        const rowReorder = this.#_props.rowReorder;
+
+        let default_rowReorder_prop = {
+          selector: 'td.reorder',
+          // dataSrc : '.column-row-number',
+          update  : false,
+        };
+
+        if (typeof rowReorder == 'boolean')
+        {
+          this.#_props.rowReorder = default_rowReorder_prop;
+        }
+        else
+        {
+          this.#_props.rowReorder = _.merge(
+            default_rowReorder_prop,
+            this.#_props.rowReorder
+          );
+        }
+      }
+    }
+  }
+
+  #_rowReorderEvent()
+  {
+    const self = this;
+    const wrapper = `${this.#_id}_wrapper`;
+
+    // https://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
+    this.#_datatable.on('row-reorder', function (e, diff, edit)
+    {
+      if (self.#_debug)
+      {
+        console.warn('datatable >>> row-reorder');
+      }
+
+      // store old data
+      const temp_data_arr = {};
+
+      diff.forEach(info => temp_data_arr[info.oldPosition] = self.#_datatable.row(info.oldPosition).data());
+
+      // update to new data
+      diff.forEach(info => self.#_datatable.row(info.newPosition).data(temp_data_arr[info.oldPosition]));
+
+      self.#_datatable.draw();
+    });
+  }
+
   /**
    * Render row index.
    *
    * @private
    *
    * @see [counter_columns]{@link https://datatables.net/examples/api/counter_columns.html} - https://datatables.net/examples/api/counter_columns.html
+   */
+  #_renderRowNumber()
+  {
+    const self = this;
+    const wrapper = `${this.#_id}_wrapper`;
+
+    let i = 1;
+
+    this.#_datatable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell)
+    {
+      // handle reload during card view
+      if ($(wrapper).hasClass('dt-card'))
+      {
+        const first_column_text = $(`${self.#_id} thead th:first`).text();
+
+        // console.log('cardview-col-header > DEBUG-3'); // DEBUG
+        this.data(`<label class='cardview-col-header'>${first_column_text}</label>${(i++).toString()}`);
+      }
+      else
+      {
+        this.data(i++);
+      }
+    });
+  }
+
+  /**
+   * Column order event.
    */
   #_renderRowNumberEvent()
   {
@@ -1006,28 +1183,22 @@ class EnhanceDataTable
 
       if (self.#_props.show_row_number)
       {
-        let i = 1;
-
-        self.#_datatable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell)
+        if (self.#_debug)
         {
-          // handle reload during card view
-          if ($(wrapper).hasClass('dt-card'))
-          {
-            const first_column_text = $(`${self.#_id} thead th:first`).text();
+          console.warn('datatable >>> order.dt search.dt >>> show_row_number');
+        }
 
-            // console.log('cardview-col-header > DEBUG-3'); // DEBUG
-            this.data(`<label class='cardview-col-header'>${first_column_text}</label>${(i++).toString()}`);
-          }
-          else
-          {
-            this.data(i++);
-          }
-        });
+        self.#_renderRowNumber();
       }
 
       // three_states_sort
       if (self.#_props.three_states_sort)
       {
+        if (self.#_debug)
+        {
+          console.warn('datatable >>> order.dt search.dt >>> three_states_sort');
+        }
+
         if (e.type == 'order')
         {
           /**
@@ -1484,6 +1655,7 @@ class EnhanceDataTable
       this.#_renderRowNumberEvent();
       this.#_columnVisibilityEvent();
       this.#_selectDeselectEvent();
+      this.#_rowReorderEvent();
     }
   }
   // end of constructor

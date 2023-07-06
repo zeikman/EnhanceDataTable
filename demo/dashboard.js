@@ -26,6 +26,8 @@ $(document).ready(function() {
 
   for (let index = 0; index < 1000; index++) {
     data.push({
+      // NOTE: must provide 'rowReorder' if 'rowReorder = true'
+      rowReorder : '',
       // NOTE: must provide 'rowNumber' if 'show_row_number = true'
       rowNumber : '',
       checkbox  : false,
@@ -52,6 +54,7 @@ $(document).ready(function() {
        */
       id: '#DataTable',
       show_checkbox: true,
+      rowReorder: true,
 
       /**
        * DataTable original property
