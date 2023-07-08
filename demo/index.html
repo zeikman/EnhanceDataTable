@@ -85,7 +85,7 @@
     <!-- <div class="navbar-nav pe-none"> -->
     <div class="navbar-nav pe-none me-auto">
       <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="#">Documentation v0.2.0</a>
+        <a class="nav-link px-3" href="#">Documentation v0.2.1</a>
       </div>
     </div>
   </header>
@@ -138,12 +138,15 @@
               <a class="nav-link py-0 ms-3" href="#prop-column_hide_in_card">column_hide_in_card</a>
               <a class="nav-link py-0 ms-3" href="#prop-three_states_sort">three_states_sort</a>
               <a class="nav-link py-0 ms-3" href="#prop-show_row_number">show_row_number</a>
+              <a class="nav-link py-0 ms-3" href="#prop-show_row_reorder">show_row_reorder</a>
               <a class="nav-link py-0 ms-3" href="#prop-show_checkbox">show_checkbox</a>
               <a class="nav-link py-0 ms-3" href="#prop-checked_visible_only">checked_visible_only</a>
               <a class="nav-link py-0 ms-3" href="#prop-enable_checkbox_event">enable_checkbox_event</a>
               <a class="nav-link py-0 ms-3" href="#prop-sticky_header">sticky_header</a>
               <a class="nav-link py-0 ms-3" href="#prop-checkbox_header_class">checkbox_header_class</a>
               <a class="nav-link py-0 ms-3" href="#prop-checkbox_class">checkbox_class</a>
+              <a class="nav-link py-0 ms-3" href="#prop-rowreorder_header_class">rowreorder_header_class</a>
+              <a class="nav-link py-0 ms-3" href="#prop-rowreorder_class">rowreorder_class</a>
 
               <hr class="ms-3 mt-2 mb-1" />
 
@@ -201,7 +204,7 @@
             EDT inherits all the properties from DataTables.
             <br />
             <br />
-            Version : Beta v0.2.0
+            Version : Beta v0.2.1
           </div>
 
           <h5 id="intro-feature">Features</h5>
@@ -301,6 +304,7 @@
 const $DataTable = new EnhanceDataTable({
   id: '#DataTable',
   show_checkbox: true,
+  rowReorder: true,
   autoWidth: false,
   order: [],
   columns: [
@@ -927,7 +931,7 @@ new EnhanceDataTable({
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
-                    Show row number column.
+                    Show built-in row number column.
                   </p>
 
                   <h6>Types</h6>
@@ -946,6 +950,36 @@ new EnhanceDataTable({
             </div>
           </div>
 
+          <div id="prop-show_row_reorder" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-show_row_reorder" aria-expanded="true" aria-controls="collapse-prop-show_row_reorder">
+                  <strong>show_row_reorder</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-show_row_reorder" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Show built-in row reorder column.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>Boolean</p>
+
+                  <h6>Default</h6>
+                  <p>false</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_show_row_reorder" class="border">new EnhanceDataTable({
+  show_row_reorder: false,
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div id="prop-show_checkbox" class="accordion mb-4">
             <div class="accordion-item rounded">
               <h2 class="accordion-header">
@@ -957,7 +991,7 @@ new EnhanceDataTable({
                 <div class="accordion-body">
                   <h6>Description</h6>
                   <p>
-                    Show checkbox column.
+                    Show built-in checkbox column.
                   </p>
 
                   <h6>Types</h6>
@@ -1119,6 +1153,66 @@ new EnhanceDataTable({
                   <h6>Example</h6>
 <div id="example_prop_checkbox_class" class="border">new EnhanceDataTable({
   checkbox_class: '.column-checkbox',
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="prop-rowreorder_header_class" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-rowreorder_header_class" aria-expanded="true" aria-controls="collapse-prop-rowreorder_header_class">
+                  <strong>rowreorder_header_class</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-rowreorder_header_class" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Row Reorder header class.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>String</p>
+
+                  <h6>Default</h6>
+                  <p>'.column-rowReorder-header'</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_rowreorder_header_class" class="border">new EnhanceDataTable({
+  rowreorder_header_class: '.column-rowReorder-header',
+});
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="prop-rowreorder_class" class="accordion mb-4">
+            <div class="accordion-item rounded">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-prop-rowreorder_class" aria-expanded="true" aria-controls="collapse-prop-rowreorder_class">
+                  <strong>rowreorder_class</strong>
+                </button>
+              </h2>
+              <div id="collapse-prop-rowreorder_class" class="accordion-collapse collapse _show">
+                <div class="accordion-body">
+                  <h6>Description</h6>
+                  <p>
+                    Row Reorder class.
+                  </p>
+
+                  <h6>Types</h6>
+                  <p>String</p>
+
+                  <h6>Default</h6>
+                  <p>'.column-rowReorder'</p>
+
+                  <h6>Example</h6>
+<div id="example_prop_rowreorder_class" class="border">new EnhanceDataTable({
+  rowreorder_class: '.column-rowReorder',
 });
 </div>
                 </div>

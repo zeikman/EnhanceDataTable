@@ -38,7 +38,7 @@ $.fn.dataTable.ext.buttons.cardview = {
 
     // hide in card view, but can re-open using column toggle
     const toggle_columns_visibility =
-      column_hide_in_card && typeof column_hide_in_card == 'object'
+      column_hide_in_card && typeof column_hide_in_card === 'object'
         ? column_hide_in_card
         : [];
 
@@ -219,6 +219,7 @@ class EnhanceDataTable
     column_hide_in_card   : [],
     three_states_sort     : true,
     show_row_number       : true,
+    show_row_reorder      : false,
     show_checkbox         : false,
     checked_visible_only  : false,
     enable_checkbox_event : false,
@@ -445,7 +446,7 @@ class EnhanceDataTable
     let userDefinedRowCallback = function () {};
 
     // store user defined rowCallback
-    if (this.#_props.rowCallback && typeof this.#_props.rowCallback == 'function')
+    if (this.#_props.rowCallback && typeof this.#_props.rowCallback === 'function')
     {
       userDefinedRowCallback = this.#_props.rowCallback;
 
@@ -537,7 +538,7 @@ class EnhanceDataTable
     let userDefinedDrawCallback = function () {};
 
     // store user defined drawCallback
-    if (this.#_props.drawCallback && typeof this.#_props.drawCallback == 'function')
+    if (this.#_props.drawCallback && typeof this.#_props.drawCallback === 'function')
     {
       userDefinedDrawCallback = this.#_props.drawCallback;
 
@@ -686,7 +687,7 @@ class EnhanceDataTable
     let userDefinedInitComplete = function () {};
 
     // store user defined initComplete
-    if (this.#_props.initComplete && typeof this.#_props.initComplete == 'function')
+    if (this.#_props.initComplete && typeof this.#_props.initComplete === 'function')
     {
       userDefinedInitComplete = this.#_props.initComplete;
 
@@ -722,7 +723,7 @@ class EnhanceDataTable
 
     // hide in card view, but can re-open using column toggle
     const toggle_columns_visibility =
-      column_hide_in_card && typeof column_hide_in_card == 'object'
+      column_hide_in_card && typeof column_hide_in_card === 'object'
         ? column_hide_in_card
         : [];
 
@@ -906,7 +907,7 @@ class EnhanceDataTable
    */
   #_setupRowNumber()
   {
-    if (this.#_props.show_row_number)
+    if (typeof this.#_props.show_row_number === 'boolean' && this.#_props.show_row_number)
     {
       const hasIndexColumn = this.#_props.columns.find((column) => column.data == 'rowNumber');
 
@@ -954,7 +955,7 @@ class EnhanceDataTable
    */
   #_setupCheckboxColumn()
   {
-    if (this.#_props.show_checkbox)
+    if (typeof this.#_props.show_checkbox === 'boolean' && this.#_props.show_checkbox)
     {
       const hasCheckboxColumn = this.#_props.columns.find((column) => column.data == 'checkbox');
 
@@ -1006,13 +1007,13 @@ class EnhanceDataTable
 
       // Config 'select' property
       const showRowNumber = this.#_props.show_row_number;
-      const rowReorder = this.#_props.rowReorder;
+      const showRowReorder = this.#_props.show_row_reorder;
 
       let default_select_prop = {
         style: 'multiple', // api | single | multi | os | multi-shift
       };
 
-      if (showRowNumber && rowReorder)
+      if (showRowNumber && showRowReorder)
       {
         default_select_prop.selector = 'td:nth-child(3) input[type="checkbox"]';
       }
@@ -1047,7 +1048,7 @@ class EnhanceDataTable
 
   #_setupRowReorderColumn()
   {
-    if (this.#_props.hasOwnProperty('rowReorder'))
+    if (typeof this.#_props.show_row_reorder === 'boolean' && this.#_props.show_row_reorder)
     {
       const hasRowReorderColumn = this.#_props.columns.find((column) => column.data == 'rowReorder');
 
@@ -1066,19 +1067,27 @@ class EnhanceDataTable
         });
 
         // Auto append rowReorder DOM
-        const rowReorderColumn = `<th rowspan="${maxRowSpan}" class="column-rowReorder-header dt-center"></th>`;
+        const rowReorder_header_class = this.#_default_rowreorder_column_header_class[0] == '.'
+          ? this.#_default_rowreorder_column_header_class.slice(1)
+          : this.#_default_rowreorder_column_header_class;
+
+        const rowReorderColumn = `<th rowspan="${maxRowSpan}" class="${rowReorder_header_class} dt-center"></th>`;
 
         const rowReorderColumnElement = $(rowReorderColumn);
 
         $(`${this.#_id} thead tr:first-child`).prepend(rowReorderColumnElement);
 
         // Auto append checkbox column data
+        const rowReorder_class = this.#_default_rowreorder_column_class[0] == '.'
+          ? this.#_default_rowreorder_column_class.slice(1)
+          : this.#_default_rowreorder_column_class;
+
         this.#_props.columns.unshift({
           data      : 'rowReorder',
           searchable: false,
           orderable : true,
           sortable  : false,
-          className : 'dt-center reorder',
+          className : `dt-center reorder ${rowReorder_class}`,
           width     : 20,
           render    : function (data, type, row, meta)
           {
@@ -1095,7 +1104,7 @@ class EnhanceDataTable
           update  : false,
         };
 
-        if (typeof rowReorder == 'boolean')
+        if (typeof rowReorder === 'boolean')
         {
           this.#_props.rowReorder = default_rowReorder_prop;
         }
@@ -1205,7 +1214,7 @@ class EnhanceDataTable
            * 3 states sort : asc | desc | no_sort
            *  https://stackoverflow.com/a/43125208/4679429
            */
-          if (self.#_datatable.settings().order().length === 1)
+          if (self.#_datatable.settings().order().length == 1)
           {
             const visibleColumns = self.#_datatable.settings().columns().visible();
             const columnMapping = {};
@@ -1311,7 +1320,7 @@ class EnhanceDataTable
                 let changedData = original_content;
 
                 // do not perform data changing when data type is not string
-                if (typeof this.data() == 'object')
+                if (typeof this.data() === 'object')
                 {
                   changedData = this.data();
                 }

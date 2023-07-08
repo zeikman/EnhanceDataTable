@@ -54,7 +54,7 @@ $(document).ready(function() {
        */
       id: '#DataTable',
       show_checkbox: true,
-      rowReorder: true,
+      show_row_reorder: true,
 
       /**
        * DataTable original property
@@ -717,12 +717,15 @@ $(document).ready(function() {
   ace.edit('example_prop_column_hide_in_card', config_ace_javascript);
   ace.edit('example_prop_three_states_sort', config_ace_javascript);
   ace.edit('example_prop_show_row_number', config_ace_javascript);
+  ace.edit('example_prop_show_row_reorder', config_ace_javascript);
   ace.edit('example_prop_show_checkbox', config_ace_javascript);
   ace.edit('example_prop_checked_visible_only', config_ace_javascript);
   ace.edit('example_prop_enable_checkbox_event', config_ace_javascript);
   ace.edit('example_prop_sticky_header', config_ace_javascript);
   ace.edit('example_prop_checkbox_header_class', config_ace_javascript);
   ace.edit('example_prop_checkbox_class', config_ace_javascript);
+  ace.edit('example_prop_rowreorder_header_class', config_ace_javascript);
+  ace.edit('example_prop_rowreorder_class', config_ace_javascript);
 
   // Method
   ace.edit('example_method_getAjaxUrl', config_ace_javascript);

@@ -1,4 +1,4 @@
-# [EnhanceDataTable](https://www.rightpristine.com/zeikman/EnhanceDataTable/demo/) (Beta v0.2.0)
+# [EnhanceDataTable](https://www.rightpristine.com/zeikman/EnhanceDataTable/demo/) (Beta v0.2.1)
 EnhanceDataTable is a DataTables plugin that provides a set of useful methods and functionalities to deal with data retrieving, updating, filtering, finding, and etc.
 
 ## Get Started
@@ -70,11 +70,15 @@ const $DataTable = new EnhanceDataTable({
     </tr>
     <tr>
       <td>show_row_number</td>
-      <td>Show row number column.</td>
+      <td>Show built-in row number column.</td>
+    </tr>
+    <tr>
+      <td>show_row_reorder</td>
+      <td>Show built-in row reorder column.</td>
     </tr>
     <tr>
       <td>show_checkbox</td>
-      <td>Show checkbox column.</td>
+      <td>Show built-in checkbox column.</td>
     </tr>
     <tr>
       <td>checked_visible_only</td>
@@ -95,6 +99,14 @@ const $DataTable = new EnhanceDataTable({
     <tr>
       <td>checkbox_class</td>
       <td>Checkbox class.</td>
+    </tr>
+    <tr>
+      <td>rowreorder_header_class</td>
+      <td>Row reorder header class.</td>
+    </tr>
+    <tr>
+      <td>rowreorder_class</td>
+      <td>Row reorder class.</td>
     </tr>
   </tbody>
 </table>
